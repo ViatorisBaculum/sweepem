@@ -1,0 +1,19 @@
+{
+	"name": "dungeonsweeper",
+	"version": "0.0.0",
+	"main": "app.js",
+	"scripts": {
+		"dev": "webpack-dev-server",
+		"build": "webpack --config webpack.config.prod.js"
+	},
+	"author": "Waldemar Stab",
+	"devDependencies": {
+		"clean-webpack-plugin": "^4.0.0",
+		"lite-server": "^2.5.4",
+		"ts-loader": "^9.4.2",
+		"typescript": "^5.2.2",
+		"webpack": "^5.75.0",
+		"webpack-cli": "^5.0.1",
+		"webpack-dev-server": "^4.11.1"
+	}
+}
