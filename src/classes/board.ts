@@ -14,6 +14,7 @@ export class Board {
 
 		this.determineCellValues();
 		this.DBG_printCellValues();
+		this.addHTMLElements();
 	}
 
 	determineCellType(frequency: number): CellType {
@@ -48,6 +49,18 @@ export class Board {
 
 	getCellType(i: number, j: number): CellType {
 		return this.cells[i] && this.cells[i][j] ? this.cells[i][j].type : CellType.Empty;
+	}
+
+	addHTMLElements() {
+		const app = document.getElementById("app");
+
+		this.cells.forEach((row) => {
+			row.forEach((cell) => {
+				const HTMLElement = document.createElement("button");
+				HTMLElement.addEventListener("click", () => console.log(cell));
+				app?.appendChild(HTMLElement);
+			});
+		});
 	}
 
 	private DBG_printCellValues(): void {

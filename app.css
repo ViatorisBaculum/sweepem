@@ -1,0 +1,10 @@
+#app {
+	display: grid;
+	grid-template-columns: repeat(20, 1fr);
+	grid-template-rows: repeat(10, 1fr);
+	width: fit-content;
+}
+#app button {
+	width: 2em;
+	height: 2em;
+}
