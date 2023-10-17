@@ -13,6 +13,7 @@ export class Board {
         }
 
         this.determineCellValues();
+        this.DBG_printCellValues();
     }
 
     determineCellType(frequency:number):CellType {
@@ -48,4 +49,16 @@ export class Board {
     getCellType(i:number, j:number):CellType {
         return this.cells[i] && this.cells[i][j]?this.cells[i][j].type:CellType.Empty;
     }
+
+	private DBG_printCellValues(): void {
+		let result = "";
+		this.cells.forEach((row) => {
+			let line = "";
+			row.forEach((cell) => {
+				if (cell.type === CellType.Empty) line += cell.value + "\t";
+				else line += "M\t";
+			});
+			result += line.trim() + "\n";
+		});
+		console.log(result.trim());
 }
