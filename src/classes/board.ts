@@ -8,7 +8,7 @@ export class Board {
 			this.cells.push([]);
 
 			for (let j = 0; j < width; j++) {
-				this.cells[i].push(new Cell(this.determineCellType(minesFreq)));
+				this.cells[i].push(new Cell(this.determineCellType(minesFreq), this, i, j));
 			}
 		}
 
@@ -48,7 +48,7 @@ export class Board {
 	}
 
 	getCellType(i: number, j: number): CellType {
-		return this.cells[i] && this.cells[i][j] ? this.cells[i][j].type : CellType.Empty;
+		return this.getCell(i, j) ? this.cells[i][j].type : CellType.Empty;
 	}
 
 	addHTMLElements() {
@@ -57,10 +57,19 @@ export class Board {
 		this.cells.forEach((row) => {
 			row.forEach((cell) => {
 				const HTMLElement = document.createElement("button");
-				HTMLElement.addEventListener("click", () => console.log(cell));
+				cell.addHTMLElement(HTMLElement);
+				HTMLElement.addEventListener("click", () => cell.click());
 				app?.appendChild(HTMLElement);
 			});
 		});
+	}
+
+	getCell(x: number, y: number): Cell | undefined {
+		if (this.cells[x] && this.cells[x][y]) {
+			return this.cells[x][y];
+		} else {
+			return undefined;
+		}
 	}
 
 	private DBG_printCellValues(): void {
