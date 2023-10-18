@@ -28,5 +28,28 @@ export class Player {
 				throw new Error("Class not defined!");
 				break;
 		}
+
+		this.updateStatsheet();
+	}
+
+	updateStatsheet() {
+		//const statSheet = document.getElementById("statSheet");
+
+		const classText = document.getElementById("playerClass");
+		if (classText) {
+			classText.innerText = "Class " + this.playerClass.toString();
+		}
+		const level = document.getElementById("playerLevel");
+		if (level) {
+			level.innerText = "Level " + this.level.toString();
+		}
+		const health = document.getElementById("health");
+		if (health) {
+			health.innerText = "Health " + this.health.toString();
+		}
+		const experience = document.getElementById("experience");
+		if (experience) {
+			experience.innerText = "Experience " + this.experience.toString();
+		}
 	}
 }

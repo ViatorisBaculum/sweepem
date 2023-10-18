@@ -8,3 +8,15 @@
 	width: 2em;
 	height: 2em;
 }
+#statSheet {
+	width: 6em;
+	height: 8em;
+	background-color: aquamarine;
+	margin-right: 2em;
+	padding: 2em;
+
+	float: left;
+}
+#statSheet p:first-child {
+	margin-top: 0;
+}
