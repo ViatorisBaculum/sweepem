@@ -1,55 +1,76 @@
-export enum PlayerClass { Warrior, Paladin, Mage, Assassin }
+interface PlayerHTMLHooks {
+	playerClassDiv: HTMLElement;
+	playerExperienceDiv: HTMLElement;
+	playerHealthDiv: HTMLElement;
+	playerLevelDiv: HTMLElement;
+}
+export abstract class Player {
+	abstract className: string;
+	private _experience: number = 0;
+	private _health: number = 0;
+	private _level: number = 1;
+	private _HTMLHooks: PlayerHTMLHooks;
 
-export class Player {
-	playerClass: PlayerClass;
-	health: number;
-	experience: number;
-	level: number;
-
-	constructor(playerClass: PlayerClass) {
-		this.playerClass = playerClass;
-		this.experience = 0;
-		this.level = 1;
-		this.health = 0;
-		switch (playerClass) {
-			case PlayerClass.Warrior:
-				this.health = 5;
-				break;
-			case PlayerClass.Paladin:
-				this.health = 4;
-				break;
-			case PlayerClass.Mage:
-				this.health = 3;
-				break;
-			case PlayerClass.Assassin:
-				this.health = 2;
-				break;
-			default:
-				throw new Error("Class not defined!");
-				break;
-		}
-
+	constructor() {
+		this._HTMLHooks = this.loadHTMLHooks();
+	}
+	/*=================*/
+	/*getters & setters*/
+	/*=================*/
+	protected set experience(exp: number) {
+		this._experience = exp;
 		this.updateStatsheet();
 	}
+	public get experience(): number {
+		return this._experience;
+	}
 
-	updateStatsheet() {
-		//const statSheet = document.getElementById("statSheet");
+	protected set health(health: number) {
+		this._health = health;
+		this.updateStatsheet();
+	}
+	public get health(): number {
+		return this._health;
+	}
 
-		const classText = document.getElementById("playerClass");
-		if (classText) {
-			classText.innerText = "Class " + this.playerClass.toString();
-		}
-		const level = document.getElementById("playerLevel");
-		if (level) {
-			level.innerText = "Level " + this.level.toString();
-		}
-		const health = document.getElementById("health");
-		if (health) {
-			health.innerText = "Health " + this.health.toString();
-		}
-		const experience = document.getElementById("experience");
-		if (experience) {
-			experience.innerText = "Experience " + this.experience.toString();
-		}
+	protected set level(level: number) {
+		this._level = level;
+		this.updateStatsheet();
+	}
+	public get level(): number {
+		return this._level;
+	}
+	/*==============*/
+	/*public methods*/
+	/*==============*/
+	getAttacked(damage: number) {
+		this.health -= damage;
+	}
+	/*===============*/
+	/*private methods*/
+	/*===============*/
+	private updateStatsheet() {
+		this._HTMLHooks.playerClassDiv.innerText = "Class: " + this.className;
+		this._HTMLHooks.playerLevelDiv.innerText =
+			"Level: " + this._level.toString();
+		this._HTMLHooks.playerHealthDiv.innerText =
+			"Health: " + this._health.toString();
+		this._HTMLHooks.playerExperienceDiv.innerText =
+			"Experience: " + this._experience.toString();
+	}
+
+	private loadHTMLHooks(): PlayerHTMLHooks {
+		return {
+			playerClassDiv: this.importHTMLElement("playerClass"),
+			playerExperienceDiv: this.importHTMLElement("experience"),
+			playerHealthDiv: this.importHTMLElement("health"),
+			playerLevelDiv: this.importHTMLElement("playerLevel"),
+		};
+	}
+
+	private importHTMLElement(id: string): HTMLElement {
+		const result = document.getElementById(id);
+		if (!result) throw new Error("No html element with id: " + id);
+		return result;
 	}
 }
