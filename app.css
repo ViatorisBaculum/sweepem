@@ -1,7 +1,11 @@
+:root {
+	--cols: 20;
+	--rows: 10;
+}
 #app {
 	display: grid;
-	grid-template-columns: repeat(20, 1fr);
-	grid-template-rows: repeat(10, 1fr);
+	grid-template-columns: repeat(var(--cols), 1fr);
+	grid-template-rows: repeat(var(--rows), 1fr);
 	width: fit-content;
 }
 #app button {

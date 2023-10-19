@@ -15,6 +15,7 @@ export class Board {
 		this.determineCellValues();
 		this.DBG_printCellValues();
 		this.addHTMLElements();
+		this.updateCSSVariables(width, height);
 	}
 
 	determineCellType(frequency: number): CellType {
@@ -70,6 +71,13 @@ export class Board {
 		} else {
 			return undefined;
 		}
+	}
+
+	private updateCSSVariables(gridCols: number, gridRows: number) {
+		const root = document.querySelector(":root") as HTMLElement;
+		if (!root) throw new Error("No :root found");
+		root.style.setProperty("--cols", gridCols.toString());
+		root.style.setProperty("--rows", gridRows.toString());
 	}
 
 	private DBG_printCellValues(): void {
