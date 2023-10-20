@@ -6,6 +6,7 @@ export class Cell {
 	type: CellType;
 	value?: number;
 	isClicked: boolean = false;
+	isFlagged: boolean = false;
 	board: Board;
 	HTMLElement: HTMLButtonElement;
 	x: number;
@@ -52,12 +53,25 @@ export class Cell {
 		this.HTMLElement.disabled = true;
 		this.HTMLElement.classList.add("clicked");
 
-		if (this.value) {
-			this.HTMLElement.innerText = this.value.toString();
-		}
+		if (this.value) this.HTMLElement.innerText = this.value.toString();
+		else this.HTMLElement.innerText = "";
+	}
+
+	private rightClick(e: Event) {
+		e.preventDefault();
+		this.isFlagged = !this.isFlagged;
+		this.toggleFlag();
 	}
 
 	private addEventListeners() {
 		this.HTMLElement.addEventListener("click", () => this.click());
+		this.HTMLElement.addEventListener("contextmenu", (event) =>
+			this.rightClick(event)
+		);
+	}
+
+	private toggleFlag(): void {
+		if (this.isFlagged) this.HTMLElement.innerHTML = "F";
+		else this.HTMLElement.innerHTML = "";
 	}
 }
