@@ -18,7 +18,6 @@ export class Board {
 
 		this.determineCellValues();
 		this.DBG_printCellValues();
-		this.addHTMLElements();
 		this.updateCSSVariables(width, height);
 	}
 
@@ -64,19 +63,6 @@ export class Board {
 
 	getCellType(i: number, j: number): CellType {
 		return this.getCell(i, j) ? this.cells[i][j].type : CellType.Empty;
-	}
-
-	addHTMLElements() {
-		const app = document.getElementById("app");
-
-		this.cells.forEach((row) => {
-			row.forEach((cell) => {
-				const HTMLElement = document.createElement("button");
-				cell.addHTMLElement(HTMLElement);
-				HTMLElement.addEventListener("click", () => cell.click());
-				app?.appendChild(HTMLElement);
-			});
-		});
 	}
 
 	getCell(x: number, y: number): Cell | undefined {
