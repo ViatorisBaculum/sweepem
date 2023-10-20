@@ -11,6 +11,16 @@
 #app button {
 	width: 2em;
 	height: 2em;
+	border: none;
+	box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #fff, inset -2px -2px grey,
+		inset 2px 2px #dfdfdf;
+}
+#app button.clicked {
+	background-color: #fff;
+	border: 1px solid #f0f0f0;
+	box-shadow: unset;
+	z-index: -1;
+	color: unset;
 }
 #statSheet {
 	width: 6em;

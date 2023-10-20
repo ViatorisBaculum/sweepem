@@ -51,8 +51,8 @@ export class Cell {
 
 		this.clicked = true;
 
-		this.HTMLElement.style.backgroundColor = "#fff";
-		this.HTMLElement.style.borderColor = "#f0f0f0";
+		this.HTMLElement.disabled = true;
+		this.HTMLElement.classList.add("clicked");
 
 		if (this.value) {
 			this.HTMLElement.innerText = this.value.toString();
