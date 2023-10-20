@@ -5,9 +5,9 @@ export enum CellType { Empty, Bat, Zombie, Skeleton, Ghost, Boss };
 export class Cell {
 	type: CellType;
 	value?: number;
-	clicked: boolean = false;
+	isClicked: boolean = false;
 	board: Board;
-	HTMLElement?: HTMLButtonElement;
+	HTMLElement: HTMLButtonElement;
 	x: number;
 	y: number;
 
@@ -17,6 +17,8 @@ export class Cell {
 		this.value = value;
 		this.x = x;
 		this.y = y;
+		this.HTMLElement = htmlElement;
+		this.addEventListeners();
 	}
 
 	click() {
@@ -34,9 +36,9 @@ export class Cell {
 			for (let dy = -1; dy <= 1; dy++) {
 				const neighbor = this.board.getCell(this.x + dx, this.y + dy);
 				if (neighbor) {
-					if (neighbor.value === 0 && !neighbor.clicked) {
+					if (neighbor.value === 0 && !neighbor.isClicked) {
 						neighbor.click();
-					} else if (neighbor.type === CellType.Empty && !neighbor.clicked) {
+					} else if (neighbor.type === CellType.Empty && !neighbor.isClicked) {
 						neighbor.revealCell();
 					}
 				}
@@ -45,11 +47,7 @@ export class Cell {
 	}
 
 	revealCell() {
-		if (!this.HTMLElement) {
-			throw new Error("HTML element is not initialized");
-		}
-
-		this.clicked = true;
+		this.isClicked = true;
 
 		this.HTMLElement.disabled = true;
 		this.HTMLElement.classList.add("clicked");
@@ -59,7 +57,7 @@ export class Cell {
 		}
 	}
 
-	addHTMLElement(HTMLElement: HTMLButtonElement) {
-		this.HTMLElement = HTMLElement;
+	private addEventListeners() {
+		this.HTMLElement.addEventListener("click", () => this.click());
 	}
 }

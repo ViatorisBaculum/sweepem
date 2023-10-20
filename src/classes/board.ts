@@ -3,12 +3,16 @@ import { Cell, CellType } from "./cell";
 export class Board {
 	cells: Cell[][] = [];
 
+	private _minesFrequency: number;
+
 	constructor(width: number, height: number, minesFreq: number) {
+		this._minesFrequency = minesFreq;
+
 		for (let i = 0; i < height; i++) {
 			this.cells.push([]);
 
 			for (let j = 0; j < width; j++) {
-				this.cells[i].push(new Cell(this.determineCellType(minesFreq), this, i, j));
+				this.appendCell(i, j);
 			}
 		}
 
@@ -18,10 +22,20 @@ export class Board {
 		this.updateCSSVariables(width, height);
 	}
 
-	determineCellType(frequency: number): CellType {
+	private appendCell(x: number, y: number): void {
+		const app = document.getElementById("app"); //später aus gameMaster importieren
+		if (!app) throw new Error("No #app div found");
+
+		const HTMLElement = document.createElement("button");
+		const cell = new Cell(this.determineCellType(), this, x, y, HTMLElement);
+		app.appendChild(HTMLElement);
+		this.cells[x].push(cell);
+	}
+
+	private determineCellType(): CellType {
 		const number = Math.random();
 
-		if (number <= frequency) {
+		if (number <= this._minesFrequency) {
 			return CellType.Bat;
 		} else {
 			return CellType.Empty;
