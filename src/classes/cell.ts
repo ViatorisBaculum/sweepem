@@ -12,7 +12,7 @@ export class Cell {
 	x: number;
 	y: number;
 
-	constructor(type: CellType, board: Board, x: number, y: number, value?: number) {
+	constructor(type: CellType, board: Board, x: number, y: number, htmlElement: HTMLButtonElement, value?: number) {
 		this.type = type;
 		this.board = board;
 		this.value = value;
