@@ -1,6 +1,6 @@
 :root {
-	--cols: 20;
-	--rows: 10;
+	--cols: 40;
+	--rows: 20;
 }
 #app {
 	display: grid;
@@ -19,8 +19,12 @@
 	background-color: #fff;
 	border: 1px solid #f0f0f0;
 	box-shadow: unset;
-	z-index: -1;
+	/* z-index: -1; */
 	color: unset;
+}
+#app button.monster {
+	background-color: #96e1ff;
+	border: 1px solid #86bbff;
 }
 #statSheet {
 	width: 6em;

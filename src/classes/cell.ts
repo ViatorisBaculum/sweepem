@@ -30,6 +30,12 @@ export class Cell {
 		if (this.value === 0 && this.type === CellType.Empty) {
 			this.clickNeighbors();
 		}
+
+		if (this.type > 0 && this.value === undefined) {
+			// get attacked
+			// when not killed reveal cell
+			this.revealCell();
+		}
 	}
 
 	clickNeighbors() {
@@ -41,6 +47,8 @@ export class Cell {
 						neighbor.click();
 					} else if (neighbor.type === CellType.Empty && !neighbor.isClicked) {
 						neighbor.revealCell();
+					} else if (neighbor.type > CellType.Empty && !neighbor.isClicked) {
+						neighbor.click();
 					}
 				}
 			}
@@ -54,13 +62,36 @@ export class Cell {
 		this.HTMLElement.classList.add("clicked");
 
 		if (this.value) this.HTMLElement.innerText = this.value.toString();
+		else if (!this.value && this.type > 0) {
+			this.HTMLElement.innerText = this.translateType(this.type);
+			this.HTMLElement.classList.add("monster");
+		}
 		else this.HTMLElement.innerText = "";
+	}
+
+	private translateType(type: number): string {
+		if (type < 1 || type > 5) {
+
+		}
+		switch (type) {
+			case 1:
+				return "B";
+				break;
+
+			default:
+				return "x"; // Wenn alle Gegner definiert sind, kann das weg
+				break;
+		}
 	}
 
 	private rightClick(e: Event) {
 		e.preventDefault();
-		this.isFlagged = !this.isFlagged;
-		this.toggleFlag();
+		if (!this.isClicked) {
+			this.isFlagged = !this.isFlagged;
+			this.toggleFlag();
+		} else {
+			this.clickNeighbors();
+		}
 	}
 
 	private addEventListeners() {
