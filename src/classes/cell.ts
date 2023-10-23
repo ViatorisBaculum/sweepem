@@ -69,15 +69,20 @@ export class Cell {
 		else this.HTMLElement.innerText = "";
 	}
 
-	private translateType(type: number): string {
-		if (type < 1 || type > 5) {
-
-		}
+	private translateType(type: CellType): string {
 		switch (type) {
-			case 1:
+			case CellType.Bat:
 				return "B";
+			case CellType.Zombie:
+				return "Z";
+			case CellType.Skeleton:
+				return "S";
+			case CellType.Ghost:
+				return "G";
+			case CellType.Boss:
+				return "Bo";
 			default:
-				return "x"; // Wenn alle Gegner definiert sind, kann das weg
+				throw new Error("Unknown CellType");
 		}
 	}
 

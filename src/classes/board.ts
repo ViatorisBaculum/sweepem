@@ -1,44 +1,74 @@
 import { Cell, CellType } from "./cell";
 
+interface typeDistribution {
+	Bat: number,
+	Zombie: number,
+	Skeleton: number,
+	Ghost: number,
+	Boss: number
+}
+
 export class Board {
 	cells: Cell[][] = [];
 
 	private _minesFrequency: number;
+	private _width: number;
+	private _height: number;
 
 	constructor(width: number, height: number, minesFreq: number) {
 		this._minesFrequency = minesFreq;
+		this._width = width;
+		this._height = height;
 
-		for (let i = 0; i < height; i++) {
-			this.cells.push([]);
-
-			for (let j = 0; j < width; j++) {
-				this.appendCell(i, j);
-			}
-		}
+		const distribution: typeDistribution = { Bat: 0.4, Zombie: 0.3, Skeleton: 0.1, Ghost: 0.1, Boss: 0.1 };
+		this.fillBoard(distribution);
 
 		this.determineCellValues();
 		this.DBG_printCellValues();
 		this.updateCSSVariables(width, height);
 	}
 
-	private appendCell(x: number, y: number): void {
+	private fillBoard(distribution: typeDistribution) {
+		const urn = this.createUrn(distribution);
+		console.log(urn);
+
+		for (let i = 0; i < this._height; i++) {
+			this.cells.push([]);
+
+			for (let j = 0; j < this._width; j++) {
+				this.appendCell(i, j, urn.pop());
+			}
+		}
+	}
+
+	private appendCell(x: number, y: number, cellType: CellType): void {
 		const app = document.getElementById("app"); //später aus gameMaster importieren
 		if (!app) throw new Error("No #app div found");
 
 		const HTMLElement = document.createElement("button");
-		const cell = new Cell(this.determineCellType(), this, x, y, HTMLElement);
+		const cell = new Cell(cellType, this, x, y, HTMLElement);
 		app.appendChild(HTMLElement);
 		this.cells[x].push(cell);
 	}
 
-	private determineCellType(): CellType {
-		const number = Math.random();
+	private createUrn(distribution: typeDistribution) {
+		const cellCount = this._width * this._height;
+		const lastEmptyCell = cellCount * (1 - this._minesFrequency);
+		const lastBatCell = lastEmptyCell + distribution.Bat * this._minesFrequency * cellCount;
+		const lastZombieCell = lastBatCell + distribution.Zombie * this._minesFrequency * cellCount;
+		const lastSkeletonCell = lastZombieCell + distribution.Skeleton * this._minesFrequency * cellCount;
+		const lastGhostCell = lastSkeletonCell + distribution.Ghost * this._minesFrequency * cellCount;
+		const lastBossCell = lastGhostCell + distribution.Boss * this._minesFrequency * cellCount;
 
-		if (number <= this._minesFrequency) {
-			return CellType.Bat;
-		} else {
-			return CellType.Empty;
-		}
+		const urn = new Array(cellCount).fill(CellType.Empty, 0, lastEmptyCell);
+
+		urn.fill(CellType.Bat, lastEmptyCell, lastBatCell);
+		urn.fill(CellType.Zombie, lastBatCell, lastZombieCell);
+		urn.fill(CellType.Skeleton, lastZombieCell, lastSkeletonCell);
+		urn.fill(CellType.Ghost, lastSkeletonCell, lastGhostCell);
+		urn.fill(CellType.Boss, lastGhostCell, lastBossCell);
+
+		return urn.sort(() => (0.5 - Math.random()));
 	}
 
 	determineCellValues(): void {
