@@ -42,12 +42,12 @@ export class Cell {
 		for (let dx = -1; dx <= 1; dx++) {
 			for (let dy = -1; dy <= 1; dy++) {
 				const neighbor = this.board.getCell(this.x + dx, this.y + dy);
-				if (neighbor) {
-					if (neighbor.value === 0 && !neighbor.isClicked) {
+				if (neighbor && !neighbor.isClicked) {
+					if (neighbor.value === 0) {
 						neighbor.click();
-					} else if (neighbor.type === CellType.Empty && !neighbor.isClicked) {
+					} else if (neighbor.type === CellType.Empty) {
 						neighbor.revealCell();
-					} else if (neighbor.type > CellType.Empty && !neighbor.isClicked) {
+					} else if (neighbor.type > CellType.Empty) {
 						neighbor.click();
 					}
 				}
@@ -76,11 +76,8 @@ export class Cell {
 		switch (type) {
 			case 1:
 				return "B";
-				break;
-
 			default:
 				return "x"; // Wenn alle Gegner definiert sind, kann das weg
-				break;
 		}
 	}
 
