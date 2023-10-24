@@ -1,4 +1,5 @@
 import { Board } from "./board";
+import { GameMaster } from "./gameMaster";
 
 export enum CellType { Empty, Bat, Zombie, Skeleton, Ghost, Boss };
 
@@ -32,10 +33,21 @@ export class Cell {
 		}
 
 		if (this.type > 0 && this.value === undefined) {
-			// get attacked
-			// when not killed reveal cell
+			this.attackPlayer();
+
 			this.revealCell();
 		}
+	}
+
+	attackPlayer() {
+		const gameInstance = GameMaster.getInstance();
+		const damage = this.type - gameInstance.player.level + 1;
+
+		if (damage >= 0) {
+			gameInstance.player.getAttacked(damage);
+		}
+
+		gameInstance.player.gainExperience(this.type);
 	}
 
 	clickNeighbors() {
@@ -56,6 +68,9 @@ export class Cell {
 	}
 
 	revealCell() {
+		const gameInstance = GameMaster.getInstance();
+		gameInstance.player.gainExperience(1);
+
 		this.isClicked = true;
 
 		this.HTMLElement.disabled = true;

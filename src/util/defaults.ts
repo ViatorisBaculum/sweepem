@@ -8,4 +8,6 @@ const typeDistribution: typeDistribution = {
 	Boss: 0.1,
 };
 
-export default { typeDistribution };
+const expToNextLevel: number[] = [100, 200, 300, 400];
+
+export default { typeDistribution, expToNextLevel };

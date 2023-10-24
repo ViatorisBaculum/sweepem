@@ -1,3 +1,6 @@
+import { CellType } from "./cell";
+import defaults from "../util/defaults";
+
 interface PlayerHTMLHooks {
 	playerClassDiv: HTMLElement;
 	playerExperienceDiv: HTMLElement;
@@ -13,12 +16,14 @@ export abstract class Player {
 
 	constructor() {
 		this._HTMLHooks = this.loadHTMLHooks();
+
 	}
 	/*=================*/
 	/*getters & setters*/
 	/*=================*/
 	protected set experience(exp: number) {
 		this._experience = exp;
+		this.gainLevel();
 		this.updateStatsheet();
 	}
 	public get experience(): number {
@@ -46,6 +51,9 @@ export abstract class Player {
 	getAttacked(damage: number) {
 		this.health -= damage;
 	}
+	gainExperience(exp: CellType) {
+		this.experience += exp;
+	}
 	/*===============*/
 	/*private methods*/
 	/*===============*/
@@ -72,5 +80,11 @@ export abstract class Player {
 		const result = document.getElementById(id);
 		if (!result) throw new Error("No html element with id: " + id);
 		return result;
+	}
+
+	private gainLevel() {
+		if (this.experience > defaults.expToNextLevel[this.level - 1]) {
+			this.level += 1;
+		}
 	}
 }
