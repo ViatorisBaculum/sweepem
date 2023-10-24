@@ -53,12 +53,13 @@ export class Board {
 
 	private createUrn(distribution: typeDistribution) {
 		const cellCount = this._width * this._height;
+		const badCellCount = this._minesFrequency * cellCount;
 		const lastEmptyCell = cellCount * (1 - this._minesFrequency);
-		const lastBatCell = lastEmptyCell + distribution.Bat * this._minesFrequency * cellCount;
-		const lastZombieCell = lastBatCell + distribution.Zombie * this._minesFrequency * cellCount;
-		const lastSkeletonCell = lastZombieCell + distribution.Skeleton * this._minesFrequency * cellCount;
-		const lastGhostCell = lastSkeletonCell + distribution.Ghost * this._minesFrequency * cellCount;
-		const lastBossCell = lastGhostCell + distribution.Boss * this._minesFrequency * cellCount;
+		const lastBatCell = lastEmptyCell + distribution.Bat * badCellCount;
+		const lastZombieCell = lastBatCell + distribution.Zombie * badCellCount;
+		const lastSkeletonCell = lastZombieCell + distribution.Skeleton * badCellCount;
+		const lastGhostCell = lastSkeletonCell + distribution.Ghost * badCellCount;
+		const lastBossCell = lastGhostCell + distribution.Boss * badCellCount;
 
 		const urn = new Array(cellCount).fill(CellType.Empty, 0, lastEmptyCell);
 
