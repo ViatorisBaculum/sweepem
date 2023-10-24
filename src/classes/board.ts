@@ -1,12 +1,6 @@
+import { typeDistribution } from "../util/customTypes";
+import defaults from "../util/defaults";
 import { Cell, CellType } from "./cell";
-
-interface typeDistribution {
-	Bat: number,
-	Zombie: number,
-	Skeleton: number,
-	Ghost: number,
-	Boss: number
-}
 
 export class Board {
 	cells: Cell[][] = [];
@@ -15,12 +9,11 @@ export class Board {
 	private _width: number;
 	private _height: number;
 
-	constructor(width: number, height: number, minesFreq: number) {
+	constructor(width: number, height: number, minesFreq: number, distribution: typeDistribution = defaults.typeDistribution) {
 		this._minesFrequency = minesFreq;
 		this._width = width;
 		this._height = height;
 
-		const distribution: typeDistribution = { Bat: 0.4, Zombie: 0.3, Skeleton: 0.1, Ghost: 0.1, Boss: 0.1 };
 		this.fillBoard(distribution);
 
 		this.determineCellValues();
