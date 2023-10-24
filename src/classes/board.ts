@@ -10,6 +10,8 @@ export class Board {
 	private _height: number;
 
 	constructor(width: number, height: number, minesFreq: number, distribution: typeDistribution = defaults.typeDistribution) {
+		this.validateDistribution(distribution);
+
 		this._minesFrequency = minesFreq;
 		this._width = width;
 		this._height = height;
@@ -102,6 +104,13 @@ export class Board {
 		if (!root) throw new Error("No :root found");
 		root.style.setProperty("--cols", gridCols.toString());
 		root.style.setProperty("--rows", gridRows.toString());
+	}
+
+	private validateDistribution(distribution: typeDistribution): true {
+		let proportionSum = 0;
+		for (const [_key, value] of Object.entries(distribution)) proportionSum += value;
+		if (Math.abs(proportionSum - 1) < Number.EPSILON) return true;
+		else throw new Error("Provided typeDistribution doesn't sum to 1. Sum of proportions is " + proportionSum);
 	}
 
 	private DBG_printCellValues(): void {
