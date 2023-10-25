@@ -5,3 +5,4 @@ export interface typeDistribution {
 	Ghost: number;
 	Boss: number;
 }
+export type playerClasses = "Assassin" | "Warrior" | "Paladin" | "Mage";

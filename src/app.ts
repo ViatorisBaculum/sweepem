@@ -10,7 +10,7 @@ const gameMaster = GameMaster.getInstance();
 
 gameMaster.setSettings();
 gameMaster.createBoard();
-gameMaster.createPlayer("Assassin");
+gameMaster.createPlayer();
 
 function setValueToInput(name: string, value: number) {
     const input = document.getElementById(name);

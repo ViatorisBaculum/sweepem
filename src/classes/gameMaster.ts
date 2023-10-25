@@ -5,6 +5,7 @@ import { PC_Warrior } from "./PlayerClasses/PC_Warrior";
 import { Board } from "./board";
 import { Player } from "./player";
 import defaults from "../util/defaults"
+import { playerClasses } from "../util/customTypes";
 
 export class GameMaster {
 	private static instance: GameMaster;
@@ -13,6 +14,7 @@ export class GameMaster {
 	private width: number = defaults.boardDefaults.width;
 	private height: number = defaults.boardDefaults.height;
 	private minesFrequency: number = defaults.boardDefaults.minesFrequency;
+	private playerClass: playerClasses = "Assassin";
 
 	private constructor() {
 		document.getElementById("resetButton")?.addEventListener("click", () => this.resetGame());
@@ -48,8 +50,8 @@ export class GameMaster {
 		this.board = new Board(this.width, this.height, this.minesFrequency);
 	}
 
-	public createPlayer(playerClass: "Assassin" | "Mage" | "Paladin" | "Warrior") {
-		switch (playerClass) {
+	public createPlayer() {
+		switch (this.playerClass) {
 			case "Assassin":
 				this.player = new PC_Assassin();
 				break;
@@ -75,18 +77,20 @@ export class GameMaster {
 
 		this.setSettings();
 		this.createBoard();
-		this.createPlayer("Assassin");
+		this.createPlayer();
 	}
 
 	public setSettings() {
 		this.width = +this.getValueFromInput("inputWidth");
 		this.height = +this.getValueFromInput("inputHeight");
 		this.minesFrequency = +this.getValueFromInput("inputMinesFrequency");
+		this.playerClass = this.getValueFromInput("selectClass") as playerClasses;
 	}
 
 	private getValueFromInput(name: string) {
-		const inputWidth = document.getElementById(name);
-		if (inputWidth && inputWidth.tagName === "INPUT") return (inputWidth as HTMLInputElement).value;
+		const input = document.getElementById(name);
+		console.log(input);
+		if (input) return (input as HTMLInputElement).value;
 		else throw new Error("gameMaster: getValueFromHTML: HTML does not exist");
 	}
 }
