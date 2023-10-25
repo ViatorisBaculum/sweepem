@@ -10,4 +10,10 @@ const typeDistribution: typeDistribution = {
 
 const expToNextLevel: number[] = [100, 200, 300, 400];
 
-export default { typeDistribution, expToNextLevel };
+const boardDefaults = {
+	width: 40,
+	height: 20,
+	minesFrequency: 0.2
+};
+
+export default { typeDistribution, expToNextLevel, boardDefaults };

@@ -4,13 +4,19 @@ import { PC_Paladin } from "./PlayerClasses/PC_Paladin";
 import { PC_Warrior } from "./PlayerClasses/PC_Warrior";
 import { Board } from "./board";
 import { Player } from "./player";
+import defaults from "../util/defaults"
 
 export class GameMaster {
 	private static instance: GameMaster;
 	private _board?: Board;
 	private _player?: Player;
+	private width: number = defaults.boardDefaults.width;
+	private height: number = defaults.boardDefaults.height;
+	private minesFrequency: number = defaults.boardDefaults.minesFrequency;
 
-	private constructor() { }
+	private constructor() {
+		document.getElementById("resetButton")?.addEventListener("click", () => this.resetGame());
+	}
 	static getInstance() {
 		if (!this.instance) {
 			return this.instance = new GameMaster();
@@ -38,8 +44,8 @@ export class GameMaster {
 		return this._player;
 	}
 
-	public createBoard(width: number, height: number, minesFreq: number) {
-		this.board = new Board(width, height, minesFreq);
+	public createBoard() {
+		this.board = new Board(this.width, this.height, this.minesFrequency);
 	}
 
 	public createPlayer(playerClass: "Assassin" | "Mage" | "Paladin" | "Warrior") {
@@ -57,5 +63,30 @@ export class GameMaster {
 				this.player = new PC_Warrior();
 				break;
 		}
+	}
+
+	public endGame() {
+		this.board.removeEventHandler();
+	}
+
+	public resetGame() {
+		const boardHTML = document.getElementById("app");
+		if (boardHTML) boardHTML.innerHTML = "";
+
+		this.setSettings();
+		this.createBoard();
+		this.createPlayer("Assassin");
+	}
+
+	public setSettings() {
+		this.width = +this.getValueFromInput("inputWidth");
+		this.height = +this.getValueFromInput("inputHeight");
+		this.minesFrequency = +this.getValueFromInput("inputMinesFrequency");
+	}
+
+	private getValueFromInput(name: string) {
+		const inputWidth = document.getElementById(name);
+		if (inputWidth && inputWidth.tagName === "INPUT") return (inputWidth as HTMLInputElement).value;
+		else throw new Error("gameMaster: getValueFromHTML: HTML does not exist");
 	}
 }

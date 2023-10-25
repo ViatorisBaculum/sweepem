@@ -6,15 +6,31 @@
 		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
 		<title></title>
 		<link rel="stylesheet" href="app.css" />
-		<script type="module" src="dist/bundle.js"></script>
 	</head>
 	<body>
-		<div id="statSheet">
-			<p id="playerClass"></p>
-			<p id="playerLevel"></p>
-			<p id="health"></p>
-			<p id="experience"></p>
+		<div id="menu">
+			<div id="statSheet">
+				<p id="playerClass"></p>
+				<p id="playerLevel"></p>
+				<p id="health"></p>
+				<p id="experience"></p>
+			</div>
+			<button id="resetButton">Reset</button>
+			<div id="settings">
+				<label for="width">width</label>
+				<input id="inputWidth" name="width" type="number" />
+
+				<label for="height">height</label>
+				<input id="inputHeight" name="height" type="number" />
+
+				<label for="minesFrequency">mines frequency</label>
+				<input id="inputMinesFrequency" name="minesFrequency" type="number" />
+
+				<label for="class">player class</label>
+				<input id="inputClass" name="class" type="text" />
+			</div>
 		</div>
 		<div id="app"></div>
+		<script defer type="module" src="dist/bundle.js"></script>
 	</body>
 </html>

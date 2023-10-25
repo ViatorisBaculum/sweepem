@@ -1,5 +1,6 @@
 import { CellType } from "./cell";
 import defaults from "../util/defaults";
+import { GameMaster } from "./gameMaster";
 
 interface PlayerHTMLHooks {
 	playerClassDiv: HTMLElement;
@@ -16,7 +17,6 @@ export abstract class Player {
 
 	constructor() {
 		this._HTMLHooks = this.loadHTMLHooks();
-
 	}
 	/*=================*/
 	/*getters & setters*/
@@ -32,6 +32,7 @@ export abstract class Player {
 
 	protected set health(health: number) {
 		this._health = health;
+		if (this._health <= 0) GameMaster.getInstance().endGame();
 		this.updateStatsheet();
 	}
 	public get health(): number {

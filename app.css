@@ -11,15 +11,14 @@
 #app button {
 	width: 2em;
 	height: 2em;
-	border: none;
-	box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #fff, inset -2px -2px grey,
-		inset 2px 2px #dfdfdf;
+	border: 1px solid #bbbbbb;
+	margin-left: 1px;
+	margin-top: 1px;
 }
 #app button.clicked {
 	background-color: #fff;
 	border: 1px solid #f0f0f0;
 	box-shadow: unset;
-	/* z-index: -1; */
 	color: unset;
 }
 #app button.monster {
@@ -32,9 +31,17 @@
 	background-color: aquamarine;
 	margin-right: 2em;
 	padding: 2em;
-
-	float: left;
 }
 #statSheet p:first-child {
 	margin-top: 0;
+}
+#menu {
+	float: left;
+}
+#resetButton {
+	margin-top: 1em;
+	margin-bottom: 2em;
+}
+#menu input {
+	display: block;
 }
