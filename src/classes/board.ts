@@ -99,6 +99,16 @@ export class Board {
 		}
 	}
 
+	public removeEventHandler() {
+		for (let i = 0; i < this._height; i++) {
+			for (let j = 0; j < this._width; j++) {
+				console.log(i + ", " + j);
+				//console.log(this.cells[i][j])
+				this.cells[i][j].removeEventListeners();
+			}
+		}
+	}
+
 	private updateCSSVariables(gridCols: number, gridRows: number) {
 		const root = document.querySelector(":root") as HTMLElement;
 		if (!root) throw new Error("No :root found");
