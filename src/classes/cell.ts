@@ -23,7 +23,7 @@ export class Cell {
 		this.addEventListeners();
 	}
 
-	click() {
+	public click() {
 		if (this.value !== undefined) {
 			this.revealCell();
 		}
@@ -112,10 +112,13 @@ export class Cell {
 	}
 
 	private addEventListeners() {
-		this.HTMLElement.addEventListener("click", () => this.click());
-		this.HTMLElement.addEventListener("contextmenu", (event) =>
-			this.rightClick(event)
-		);
+		this.HTMLElement.addEventListener("click", () => this.click(), false);
+		this.HTMLElement.addEventListener("contextmenu", (e) => this.rightClick(e), false);
+	}
+
+	public removeEventListeners() {
+		this.HTMLElement.addEventListener("click", (e) => e.stopImmediatePropagation(), true);
+		this.HTMLElement.addEventListener("contextmenu", (e) => { e.stopImmediatePropagation(); e.preventDefault() }, true);
 	}
 
 	private toggleFlag(): void {
