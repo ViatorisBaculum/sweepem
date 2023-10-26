@@ -23,7 +23,23 @@
 }
 #app button.monster {
 	background-color: #96e1ff;
-	border: 1px solid #86bbff;
+	border: 1px solid #6a93c9;
+}
+#app button.Z {
+	background-color: #96ffbe;
+	border: 1px solid #4d9665;
+}
+#app button.S {
+	background-color: #d1ff96;
+	border: 1px solid #b4bd61;
+}
+#app button.G {
+	background-color: #be96ff;
+	border: 1px solid #8c539e;
+}
+#app button.Bo {
+	background-color: #ff9696;
+	border: 1px solid #99504e;
 }
 #statSheet {
 	width: 6em;

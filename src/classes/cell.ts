@@ -79,7 +79,7 @@ export class Cell {
 		if (this.value) this.HTMLElement.innerText = this.value.toString();
 		else if (!this.value && this.type > 0) {
 			this.HTMLElement.innerText = this.translateType(this.type);
-			this.HTMLElement.classList.add("monster");
+			this.HTMLElement.classList.add("monster", this.translateType(this.type));
 		}
 		else this.HTMLElement.innerText = "";
 	}
