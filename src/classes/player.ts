@@ -1,4 +1,4 @@
-import { CellType } from "./cell";
+import { CellType } from "../util/customTypes";
 import defaults from "../util/defaults";
 import { GameMaster } from "./gameMaster";
 

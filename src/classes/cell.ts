@@ -1,7 +1,7 @@
 import { Board } from "./board";
 import { GameMaster } from "./gameMaster";
-
-export enum CellType { Empty, Bat, Zombie, Skeleton, Ghost, Boss };
+import { CellType, typeDistribution } from "../util/customTypes";
+import defaults from "../util/defaults";
 
 export class Cell {
 	type: CellType;
@@ -94,21 +94,15 @@ export class Cell {
 		else this.HTMLElement.innerText = "";
 	}
 
-	private translateType(type: CellType): string {
-		switch (type) {
-			case CellType.Bat:
-				return "B";
-			case CellType.Zombie:
-				return "Z";
-			case CellType.Skeleton:
-				return "S";
-			case CellType.Ghost:
-				return "G";
-			case CellType.Boss:
-				return "Bo";
-			default:
-				throw new Error("Unknown CellType");
+	public translateType(type: CellType): string {
+		const distribution: typeDistribution = defaults.typeDistribution;
+		let index = 0;
+		for (const monster in distribution) {
+			index++;
+			if (index === type) return monster.charAt(0);
 		}
+
+		throw new Error("cell: translateType: Unknown CellType");
 	}
 
 	private rightClick(e: Event) {
