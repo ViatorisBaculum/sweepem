@@ -7,6 +7,7 @@
 	grid-template-columns: repeat(var(--cols), 1fr);
 	grid-template-rows: repeat(var(--rows), 1fr);
 	width: fit-content;
+	transition: background-color 1s linear;
 }
 #app button {
 	width: 2em;
@@ -20,6 +21,10 @@
 	border: 1px solid #f0f0f0;
 	box-shadow: unset;
 	color: unset;
+}
+#app button.notClicked {
+	background-color: #ededed;
+	color: #acacac;
 }
 #app button.monster {
 	background-color: #96e1ff;

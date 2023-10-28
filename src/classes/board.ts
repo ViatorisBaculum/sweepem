@@ -162,4 +162,20 @@ export class Board {
 		});
 		console.log(result.trim());
 	}
+
+	public indicateLevelGain() {
+		const app = document.getElementById("app");
+		if (app) app.classList.add("highlight");
+	}
+
+	public revealBoard() {
+		this.cells.forEach((row) => {
+			row.forEach((cell) => {
+				if (!cell.isClicked) {
+					cell.HTMLElement.classList.add("notClicked");
+					cell.revealCell();
+				}
+			});
+		});
+	}
 }
