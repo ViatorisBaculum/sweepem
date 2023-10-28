@@ -1,6 +1,6 @@
-import { typeDistribution } from "../util/customTypes";
+import { typeDistribution, CellType } from "../util/customTypes";
 import defaults from "../util/defaults";
-import { Cell, CellType } from "./cell";
+import { Cell } from "./cell";
 
 export class Board {
 	cells: Cell[][] = [];
@@ -49,19 +49,22 @@ export class Board {
 		const cellCount = this._width * this._height;
 		const badCellCount = this._minesFrequency * cellCount;
 		const lastEmptyCell = cellCount * (1 - this._minesFrequency);
-		const lastBatCell = lastEmptyCell + distribution.Bat * badCellCount;
+		const urn = new Array(cellCount).fill(CellType.Empty, 0, lastEmptyCell - 1);
+		urn.fill(CellType.Boss, lastEmptyCell - 1, lastEmptyCell);
+
+		const lastBatCell = lastEmptyCell + distribution.Rat * badCellCount;
 		const lastZombieCell = lastBatCell + distribution.Zombie * badCellCount;
 		const lastSkeletonCell = lastZombieCell + distribution.Skeleton * badCellCount;
 		const lastGhostCell = lastSkeletonCell + distribution.Ghost * badCellCount;
-		const lastBossCell = lastGhostCell + distribution.Boss * badCellCount;
+		const lastWitchCell = lastGhostCell + distribution.Witch * badCellCount;
+		const lastBossCell = lastWitchCell + distribution.Boss * badCellCount;
 
-		const urn = new Array(cellCount).fill(CellType.Empty, 0, lastEmptyCell);
-
-		urn.fill(CellType.Bat, lastEmptyCell, lastBatCell);
+		urn.fill(CellType.Rat, lastEmptyCell, lastBatCell);
 		urn.fill(CellType.Zombie, lastBatCell, lastZombieCell);
 		urn.fill(CellType.Skeleton, lastZombieCell, lastSkeletonCell);
 		urn.fill(CellType.Ghost, lastSkeletonCell, lastGhostCell);
-		urn.fill(CellType.Boss, lastGhostCell, lastBossCell);
+		urn.fill(CellType.Witch, lastGhostCell, lastWitchCell);
+		urn.fill(CellType.Boss, lastWitchCell, lastBossCell);
 
 		return urn.sort(() => (0.5 - Math.random()));
 	}
@@ -102,7 +105,7 @@ export class Board {
 		const remainingMonster = this.getRemainingMonster();
 
 		remainingMonster.forEach(cell => {
-			if (Math.random() <= defaults.boardDefaults.evolutionRate) {
+			if (Math.random() <= defaults.boardDefaults.evolutionRate && cell.type < CellType.Witch) {
 				cell.type += 1;
 			}
 		});
@@ -153,7 +156,7 @@ export class Board {
 			let line = "";
 			row.forEach((cell) => {
 				if (cell.type === CellType.Empty) line += cell.value + "\t";
-				else line += "M\t";
+				else line += cell.translateType(cell.type) + "\t";
 			});
 			result += line.trim() + "\n";
 		});
