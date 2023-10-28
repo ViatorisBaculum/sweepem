@@ -54,7 +54,7 @@ export class Cell {
 		for (let dx = -1; dx <= 1; dx++) {
 			for (let dy = -1; dy <= 1; dy++) {
 				const neighbor = this.board.getCell(this.x + dx, this.y + dy);
-				if (neighbor && !neighbor.isClicked) {
+				if (neighbor && !neighbor.isClicked && !neighbor.isFlagged) {
 					if (neighbor.value === 0) {
 						neighbor.click();
 					} else if (neighbor.type === CellType.Empty) {
