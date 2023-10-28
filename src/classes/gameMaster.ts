@@ -15,6 +15,8 @@ export class GameMaster {
 	private height: number = defaults.boardDefaults.height;
 	private minesFrequency: number = defaults.boardDefaults.minesFrequency;
 	private playerClass: playerClasses = defaults.playerClass;
+	private timer?: NodeJS.Timeout;
+	private gameTimer: number = 0;
 
 	private constructor() {
 		document.getElementById("resetButton")?.addEventListener("click", () => this.resetGame());
@@ -71,7 +73,22 @@ export class GameMaster {
 		this.endGame();
 	}
 
+	public startGame() {
+		this.setSettings();
+		this.createBoard();
+		this.createPlayer();
+
+		this.timer = setInterval(() => this.countSeconds(), 1000);
+	}
+
+	countSeconds() {
+		this.gameTimer++;
+		this.player.calculateScore(this.gameTimer);
+	}
+
 	private endGame() {
+		clearInterval(this.timer);
+
 		this.board.revealBoard();
 		this.board.removeEventHandler();
 	}
@@ -86,9 +103,7 @@ export class GameMaster {
 		const boardHTML = document.getElementById("app");
 		if (boardHTML) boardHTML.innerHTML = "";
 
-		this.setSettings();
-		this.createBoard();
-		this.createPlayer();
+		this.startGame();
 	}
 
 	public setSettings() {
@@ -108,5 +123,10 @@ export class GameMaster {
 	public playerUp() {
 		this.board.indicateLevelGain();
 		this.board.evoluteMonster();
+	}
+
+	public calculateScore() {
+		this.player.experience;
+
 	}
 }

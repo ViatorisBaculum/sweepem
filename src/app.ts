@@ -9,9 +9,7 @@ setValueToInput("selectClass", defaults.playerClass);
 
 const gameMaster = GameMaster.getInstance();
 
-gameMaster.setSettings();
-gameMaster.createBoard();
-gameMaster.createPlayer();
+gameMaster.startGame();
 
 function setValueToInput(name: string, value: string) {
     const input = document.getElementById(name);

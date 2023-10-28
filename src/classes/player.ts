@@ -7,12 +7,14 @@ interface PlayerHTMLHooks {
 	playerExperienceDiv: HTMLElement;
 	playerHealthDiv: HTMLElement;
 	playerLevelDiv: HTMLElement;
+	playerScoreDiv: HTMLElement;
 }
 export abstract class Player {
 	abstract className: string;
 	private _experience: number = 0;
 	private _health: number = 0;
 	private _level: number = 1;
+	private _score: number = 0;
 	private _HTMLHooks: PlayerHTMLHooks;
 
 	constructor() {
@@ -46,6 +48,14 @@ export abstract class Player {
 	public get level(): number {
 		return this._level;
 	}
+
+	protected set score(score: number) {
+		this._score = score;
+		this.updateStatsheet();
+	}
+	public get score(): number {
+		return this._score;
+	}
 	/*==============*/
 	/*public methods*/
 	/*==============*/
@@ -66,6 +76,12 @@ export abstract class Player {
 			"Health: " + this._health.toString();
 		this._HTMLHooks.playerExperienceDiv.innerText =
 			"Experience: " + this._experience.toString();
+		this._HTMLHooks.playerScoreDiv.innerText = "Score: " + this._score.toString();
+	}
+
+	public calculateScore(time: number) {
+		console.log(this.score);
+		this.score = time + this.experience;
 	}
 
 	private loadHTMLHooks(): PlayerHTMLHooks {
@@ -74,6 +90,7 @@ export abstract class Player {
 			playerExperienceDiv: this.importHTMLElement("experience"),
 			playerHealthDiv: this.importHTMLElement("health"),
 			playerLevelDiv: this.importHTMLElement("playerLevel"),
+			playerScoreDiv: this.importHTMLElement("score")
 		};
 	}
 
