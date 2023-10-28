@@ -67,6 +67,16 @@ export class Cell {
 		}
 	}
 
+	isAnyNeighborClicked(): boolean {
+		for (let dx = -1; dx <= 1; dx++) {
+			for (let dy = -1; dy <= 1; dy++) {
+				const neighbor = this.board.getCell(this.x + dx, this.y + dy);
+				if (neighbor && neighbor.isClicked) return true;
+			}
+		}
+		return false;
+	}
+
 	revealCell() {
 		const gameInstance = GameMaster.getInstance();
 		gameInstance.player.gainExperience(1);

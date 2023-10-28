@@ -25,7 +25,6 @@ export class Board {
 
 	private fillBoard(distribution: typeDistribution) {
 		const urn = this.createUrn(distribution);
-		console.log(urn);
 
 		for (let i = 0; i < this._height; i++) {
 			this.cells.push([]);
@@ -38,7 +37,7 @@ export class Board {
 
 	private appendCell(x: number, y: number, cellType: CellType): void {
 		const app = document.getElementById("app"); //später aus gameMaster importieren
-		if (!app) throw new Error("No #app div found");
+		if (!app) throw new Error("board: appendCell: No #app div found");
 
 		const HTMLElement = document.createElement("button");
 		const cell = new Cell(cellType, this, x, y, HTMLElement);
@@ -99,11 +98,36 @@ export class Board {
 		}
 	}
 
+	evoluteMonster() {
+		const remainingMonster = this.getRemainingMonster();
+
+		remainingMonster.forEach(cell => {
+			if (Math.random() <= defaults.boardDefaults.evolutionRate) {
+				cell.type += 1;
+			}
+		});
+
+		this.determineCellValues();
+		this.DBG_printCellValues();
+	}
+
+	getRemainingMonster(): Cell[] {
+		let remainingMonster: Cell[] = [];
+
+		this.cells.forEach((row) => {
+			row.forEach((cell) => {
+				if (!cell.isAnyNeighborClicked() && cell.type > CellType.Empty && !cell.isClicked) {
+					remainingMonster.push(cell);
+				}
+			});
+		});
+
+		return remainingMonster;
+	}
+
 	public removeEventHandler() {
 		for (let i = 0; i < this._height; i++) {
 			for (let j = 0; j < this._width; j++) {
-				console.log(i + ", " + j);
-				//console.log(this.cells[i][j])
 				this.cells[i][j].removeEventListeners();
 			}
 		}

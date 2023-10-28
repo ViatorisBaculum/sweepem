@@ -86,6 +86,7 @@ export abstract class Player {
 	private gainLevel() {
 		if (this.experience > defaults.expToNextLevel[this.level - 1]) {
 			this.level += 1;
+			GameMaster.getInstance().playerUp();
 		}
 	}
 }

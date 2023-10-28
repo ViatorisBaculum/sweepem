@@ -14,7 +14,7 @@ export class GameMaster {
 	private width: number = defaults.boardDefaults.width;
 	private height: number = defaults.boardDefaults.height;
 	private minesFrequency: number = defaults.boardDefaults.minesFrequency;
-	private playerClass: playerClasses = "Assassin";
+	private playerClass: playerClasses = defaults.playerClass;
 
 	private constructor() {
 		document.getElementById("resetButton")?.addEventListener("click", () => this.resetGame());
@@ -92,5 +92,9 @@ export class GameMaster {
 		console.log(input);
 		if (input) return (input as HTMLInputElement).value;
 		else throw new Error("gameMaster: getValueFromHTML: HTML does not exist");
+	}
+
+	public playerUp() {
+		this.board.evoluteMonster();
 	}
 }
