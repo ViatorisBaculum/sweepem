@@ -67,8 +67,19 @@ export class GameMaster {
 		}
 	}
 
-	public endGame() {
+	public loseGame() {
+		this.endGame();
+	}
+
+	private endGame() {
+		this.board.revealBoard();
 		this.board.removeEventHandler();
+	}
+
+	public winGame() {
+		this.endGame();
+
+		alert("You won!");
 	}
 
 	public resetGame() {
@@ -95,6 +106,7 @@ export class GameMaster {
 	}
 
 	public playerUp() {
+		this.board.indicateLevelGain();
 		this.board.evoluteMonster();
 	}
 }

@@ -18,6 +18,16 @@ const boardDefaults = {
 	evolutionRate: 0.2
 };
 
+const monsterKeys = {
+	0: "E",
+	1: "R",
+	2: "Z",
+	3: "S",
+	4: "G",
+	5: "W",
+	6: "B"
+}
+
 const playerClass: playerClasses = "Warrior";
 
-export default { typeDistribution, expToNextLevel, boardDefaults, playerClass };
+export default { typeDistribution, expToNextLevel, boardDefaults, playerClass, monsterKeys };

@@ -32,7 +32,7 @@ export abstract class Player {
 
 	protected set health(health: number) {
 		this._health = health;
-		if (this._health <= 0) GameMaster.getInstance().endGame();
+		if (this._health <= 0) GameMaster.getInstance().loseGame();
 		this.updateStatsheet();
 	}
 	public get health(): number {

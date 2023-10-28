@@ -1,6 +1,6 @@
 import { Board } from "./board";
 import { GameMaster } from "./gameMaster";
-import { CellType, typeDistribution } from "../util/customTypes";
+import { CellType } from "../util/customTypes";
 import defaults from "../util/defaults";
 
 export class Cell {
@@ -25,7 +25,7 @@ export class Cell {
 
 	public click() {
 		if (this.value !== undefined) {
-			this.revealCell();
+			this.activateCell();
 		}
 
 		if (this.value === 0 && this.type === CellType.Empty) {
@@ -35,7 +35,7 @@ export class Cell {
 		if (this.type > 0 && this.value === undefined) {
 			this.attackPlayer();
 
-			this.revealCell();
+			this.activateCell();
 		}
 	}
 
@@ -48,6 +48,8 @@ export class Cell {
 		}
 
 		gameInstance.player.gainExperience(this.type);
+
+		if (gameInstance.player.health > 0 && this.type === CellType.Boss) gameInstance.winGame();
 	}
 
 	clickNeighbors() {
@@ -58,7 +60,7 @@ export class Cell {
 					if (neighbor.value === 0) {
 						neighbor.click();
 					} else if (neighbor.type === CellType.Empty) {
-						neighbor.revealCell();
+						neighbor.activateCell();
 					} else if (neighbor.type > CellType.Empty) {
 						neighbor.click();
 					}
@@ -77,10 +79,12 @@ export class Cell {
 		return false;
 	}
 
-	revealCell() {
-		const gameInstance = GameMaster.getInstance();
-		gameInstance.player.gainExperience(1);
+	activateCell() {
+		this.revealCell();
+		this.addExperience();
+	}
 
+	revealCell() {
 		this.isClicked = true;
 
 		this.HTMLElement.disabled = true;
@@ -94,13 +98,13 @@ export class Cell {
 		else this.HTMLElement.innerText = "";
 	}
 
+	addExperience() {
+		const gameInstance = GameMaster.getInstance();
+		gameInstance.player.gainExperience(1);
+	}
+
 	public translateType(type: CellType): string {
-		const distribution: typeDistribution = defaults.typeDistribution;
-		let index = 0;
-		for (const monster in distribution) {
-			index++;
-			if (index === type) return monster.charAt(0);
-		}
+		if (type > 0) return defaults.monsterKeys[type];
 
 		throw new Error("cell: translateType: Unknown CellType");
 	}
