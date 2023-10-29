@@ -11,19 +11,19 @@ export class GameMaster {
 	private static instance: GameMaster;
 	private _board?: Board;
 	private _player?: Player;
-	private width: number = defaults.boardDefaults.width;
-	private height: number = defaults.boardDefaults.height;
-	private minesFrequency: number = defaults.boardDefaults.minesFrequency;
-	private playerClass: playerClasses = defaults.playerClass;
-	private timer?: NodeJS.Timeout;
-	private gameTimer: number = 0;
+	private _width: number = defaults.boardDefaults.width;
+	private _height: number = defaults.boardDefaults.height;
+	private _minesFrequency: number = defaults.boardDefaults.minesFrequency;
+	private _playerClass: playerClasses = defaults.playerClass;
+	private _timer?: NodeJS.Timeout;
+	private _gameTimer: number = 0;
 
 	private constructor() {
 		document.getElementById("resetButton")?.addEventListener("click", () => this.resetGame());
 	}
 	static getInstance() {
 		if (!this.instance) {
-			return this.instance = new GameMaster();
+			return (this.instance = new GameMaster());
 		} else {
 			return this.instance;
 		}
@@ -47,13 +47,15 @@ export class GameMaster {
 		if (!this._player) throw new Error("Player was not initialized!");
 		return this._player;
 	}
-
+	/*==============*/
+	/*public methods*/
+	/*==============*/
 	public createBoard() {
-		this.board = new Board(this.width, this.height, this.minesFrequency);
+		this.board = new Board(this._width, this._height, this._minesFrequency);
 	}
 
 	public createPlayer() {
-		switch (this.playerClass) {
+		switch (this._playerClass) {
 			case "Assassin":
 				this.player = new PC_Assassin();
 				break;
@@ -73,40 +75,9 @@ export class GameMaster {
 		this.endGame();
 	}
 
-	public startGame() {
-		this.setSettings();
-		this.createBoard();
-		this.createPlayer();
-
-		this.resetTimer();
-		this.timer = setInterval(() => this.countSeconds(), 1000);
-	}
-
-	private countSeconds() {
-		this.gameTimer++;
-		this.player.calculateScore(this.gameTimer);
-	}
-
-	private resetTimer() {
-		this.stopTimer();
-		this.gameTimer = 0;
-	}
-
-	private stopTimer() {
-		clearInterval(this.timer);
-	}
-
-	private endGame() {
-		this.stopTimer();
-
-		this.board.revealBoard();
-		this.board.removeEventHandler();
-	}
-
-	public winGame() {
-		this.endGame();
-
-		alert("You won!");
+	public playerUp() {
+		this.board.indicateLevelGain();
+		this.board.evoluteMonster();
 	}
 
 	public resetGame() {
@@ -117,10 +88,40 @@ export class GameMaster {
 	}
 
 	public setSettings() {
-		this.width = +this.getValueFromInput("inputWidth");
-		this.height = +this.getValueFromInput("inputHeight");
-		this.minesFrequency = +this.getValueFromInput("inputMinesFrequency");
-		this.playerClass = this.getValueFromInput("selectClass") as playerClasses;
+		this._width = +this.getValueFromInput("inputWidth");
+		this._height = +this.getValueFromInput("inputHeight");
+		this._minesFrequency = +this.getValueFromInput("inputMinesFrequency");
+		this._playerClass = this.getValueFromInput("selectClass") as playerClasses;
+	}
+
+	public startGame() {
+		this.setSettings();
+		this.createBoard();
+		this.createPlayer();
+
+		this.resetTimer();
+		this._timer = setInterval(() => this.countSeconds(), 1000);
+	}
+
+	public winGame() {
+		this.endGame();
+
+		alert("You won!");
+	}
+	/*===============*/
+	/*private methods*/
+	/*===============*/
+
+	private countSeconds() {
+		this._gameTimer++;
+		this.player.calculateScore(this._gameTimer);
+	}
+
+	private endGame() {
+		this.stopTimer();
+
+		this.board.revealBoard();
+		this.board.removeEventHandler();
 	}
 
 	private getValueFromInput(name: string) {
@@ -129,12 +130,12 @@ export class GameMaster {
 		else throw new Error("gameMaster: getValueFromHTML: HTML does not exist");
 	}
 
-	public playerUp() {
-		this.board.indicateLevelGain();
-		this.board.evoluteMonster();
+	private resetTimer() {
+		this.stopTimer();
+		this._gameTimer = 0;
 	}
 
-	public calculateScore() {
-		this.player.experience;
+	private stopTimer() {
+		clearInterval(this._timer);
 	}
 }
