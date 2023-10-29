@@ -4,7 +4,7 @@ import { PC_Paladin } from "./PlayerClasses/PC_Paladin";
 import { PC_Warrior } from "./PlayerClasses/PC_Warrior";
 import { Board } from "./board";
 import { Player } from "./player";
-import defaults from "../util/defaults"
+import defaults from "../util/defaults";
 import { playerClasses } from "../util/customTypes";
 
 export class GameMaster {
