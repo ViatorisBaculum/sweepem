@@ -59,39 +59,27 @@ export abstract class Player {
 	/*==============*/
 	/*public methods*/
 	/*==============*/
-	getAttacked(damage: number) {
+	calculateScore(time: number): void {
+		console.log(this.score);
+		this.score = time + this.experience;
+	}
+
+	getAttacked(damage: number): void {
 		this.health -= damage;
 	}
-	gainExperience(exp: CellType) {
+
+	gainExperience(exp: CellType): void {
 		this.experience += exp;
 	}
 	/*===============*/
 	/*private methods*/
 	/*===============*/
-	private updateStatsheet() {
-		this._HTMLHooks.playerClassDiv.innerText = "Class: " + this.className;
-		this._HTMLHooks.playerLevelDiv.innerText =
-			"Level: " + this._level.toString();
-		this._HTMLHooks.playerHealthDiv.innerText =
-			"Health: " + this._health.toString();
-		this._HTMLHooks.playerExperienceDiv.innerText =
-			"Experience: " + this._experience.toString();
-		this._HTMLHooks.playerScoreDiv.innerText = "Score: " + this._score.toString();
-	}
 
-	public calculateScore(time: number) {
-		console.log(this.score);
-		this.score = time + this.experience;
-	}
-
-	private loadHTMLHooks(): PlayerHTMLHooks {
-		return {
-			playerClassDiv: this.importHTMLElement("playerClass"),
-			playerExperienceDiv: this.importHTMLElement("experience"),
-			playerHealthDiv: this.importHTMLElement("health"),
-			playerLevelDiv: this.importHTMLElement("playerLevel"),
-			playerScoreDiv: this.importHTMLElement("score")
-		};
+	private gainLevel(): void {
+		if (this.experience > defaults.expToNextLevel[this.level - 1]) {
+			this.level += 1;
+			GameMaster.getInstance().playerUp();
+		}
 	}
 
 	private importHTMLElement(id: string): HTMLElement {
@@ -100,10 +88,21 @@ export abstract class Player {
 		return result;
 	}
 
-	private gainLevel() {
-		if (this.experience > defaults.expToNextLevel[this.level - 1]) {
-			this.level += 1;
-			GameMaster.getInstance().playerUp();
-		}
+	private loadHTMLHooks(): PlayerHTMLHooks {
+		return {
+			playerClassDiv: this.importHTMLElement("playerClass"),
+			playerExperienceDiv: this.importHTMLElement("experience"),
+			playerHealthDiv: this.importHTMLElement("health"),
+			playerLevelDiv: this.importHTMLElement("playerLevel"),
+			playerScoreDiv: this.importHTMLElement("score"),
+		};
+	}
+
+	private updateStatsheet(): void {
+		this._HTMLHooks.playerClassDiv.innerText = "Class: " + this.className;
+		this._HTMLHooks.playerLevelDiv.innerText = "Level: " + this._level.toString();
+		this._HTMLHooks.playerHealthDiv.innerText = "Health: " + this._health.toString();
+		this._HTMLHooks.playerExperienceDiv.innerText = "Experience: " + this._experience.toString();
+		this._HTMLHooks.playerScoreDiv.innerText = "Score: " + this._score.toString();
 	}
 }
