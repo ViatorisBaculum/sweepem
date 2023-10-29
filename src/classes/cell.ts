@@ -96,15 +96,16 @@ export class Cell {
 	removeEventListeners() {
 		this.HTMLElement.addEventListener("click", (e) => e.stopImmediatePropagation(), true);
 		this.HTMLElement.addEventListener("contextmenu", (e) => {
-				e.stopImmediatePropagation();
-				e.preventDefault();
-			},
+			e.stopImmediatePropagation();
+			e.preventDefault();
+		},
 			true
 		);
 	}
 
 	revealCell() {
 		this.isClicked = true;
+		this.animateReveal();
 
 		this.HTMLElement.disabled = true;
 		this.HTMLElement.classList.add("clicked");
@@ -144,5 +145,15 @@ export class Cell {
 	private toggleFlag(): void {
 		if (this.isFlagged) this.HTMLElement.innerHTML = "F";
 		else this.HTMLElement.innerHTML = "";
+	}
+
+	private animateReveal() {
+		if (this.HTMLElement) {
+			this.HTMLElement.classList.add("shrinked");
+
+			this.HTMLElement.addEventListener("transitionend", () => {
+				this.HTMLElement.classList.remove("shrinked");
+			});
+		}
 	}
 }
