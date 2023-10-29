@@ -27,26 +27,6 @@ export class Board {
 	/*public methods*/
 	/*==============*/
 
-	determineCellValues(): void {
-		this.cells.forEach((row, i) => {
-			row.forEach((cell, j) => {
-				if (cell.type === CellType.Empty) {
-					let sum = 0;
-					sum += this.getCellType(i - 1, j - 1);
-					sum += this.getCellType(i - 1, j + 0);
-					sum += this.getCellType(i - 1, j + 1);
-					sum += this.getCellType(i + 0, j - 1);
-					sum += this.getCellType(i + 0, j + 1);
-					sum += this.getCellType(i + 1, j - 1);
-					sum += this.getCellType(i + 1, j + 0);
-					sum += this.getCellType(i + 1, j + 1);
-
-					cell.value = sum;
-				}
-			});
-		});
-	}
-
 	evoluteMonster() {
 		const remainingMonster = this.getRemainingMonster();
 
@@ -70,20 +50,6 @@ export class Board {
 
 	getCellType(i: number, j: number): CellType {
 		return this.getCell(i, j) ? this.cells[i][j].type : CellType.Empty;
-	}
-
-	getRemainingMonster(): Cell[] {
-		let remainingMonster: Cell[] = [];
-
-		this.cells.forEach((row) => {
-			row.forEach((cell) => {
-				if (!cell.isAnyNeighborClicked() && cell.type > CellType.Empty && !cell.isClicked) {
-					remainingMonster.push(cell);
-				}
-			});
-		});
-
-		return remainingMonster;
 	}
 
 	public indicateLevelGain() {
@@ -154,6 +120,26 @@ export class Board {
 		return urn.sort(() => 0.5 - Math.random());
 	}
 
+	private determineCellValues(): void {
+		this.cells.forEach((row, i) => {
+			row.forEach((cell, j) => {
+				if (cell.type === CellType.Empty) {
+					let sum = 0;
+					sum += this.getCellType(i - 1, j - 1);
+					sum += this.getCellType(i - 1, j + 0);
+					sum += this.getCellType(i - 1, j + 1);
+					sum += this.getCellType(i + 0, j - 1);
+					sum += this.getCellType(i + 0, j + 1);
+					sum += this.getCellType(i + 1, j - 1);
+					sum += this.getCellType(i + 1, j + 0);
+					sum += this.getCellType(i + 1, j + 1);
+
+					cell.value = sum;
+				}
+			});
+		});
+	}
+
 	private fillBoard(distribution: typeDistribution) {
 		const urn = this.createUrn(distribution);
 
@@ -163,6 +149,20 @@ export class Board {
 				this.appendCell(i, j, urn.pop());
 			}
 		}
+	}
+
+	private getRemainingMonster(): Cell[] {
+		let remainingMonster: Cell[] = [];
+
+		this.cells.forEach((row) => {
+			row.forEach((cell) => {
+				if (!cell.isAnyNeighborClicked() && cell.type > CellType.Empty && !cell.isClicked) {
+					remainingMonster.push(cell);
+				}
+			});
+		});
+
+		return remainingMonster;
 	}
 
 	private updateCSSVariables(gridCols: number, gridRows: number) {
