@@ -27,11 +27,17 @@
 	border: 1px solid #f0f0f0;
 	box-shadow: unset;
 	color: unset;
-	transition: none;
+	transition: transform 0.1s linear;
 }
 #app button.notClicked {
 	background-color: #ededed;
+	border: 1px solid #b5b5b5;
 	color: #acacac;
+}
+#app button.shrinked {
+	transition: transform 0.1s linear, background-color 1s linear,
+		border 1s linear;
+	transform: scale(0);
 }
 #app button.monster {
 	background-color: #96e1ff;
@@ -49,7 +55,11 @@
 	background-color: #be96ff;
 	border: 1px solid #8c539e;
 }
-#app button.Bo {
+#app button.W {
+	background-color: #ffd448;
+	border: 1px solid #ffbb00;
+}
+#app button.B {
 	background-color: #ff9696;
 	border: 1px solid #99504e;
 }
