@@ -19,13 +19,18 @@
 			<button id="resetButton">Reset</button>
 			<div id="settings">
 				<label for="width">width</label>
-				<input id="inputWidth" name="width" type="number" />
+				<input id="inputWidth" name="width" type="number" step="10" />
 
 				<label for="height">height</label>
-				<input id="inputHeight" name="height" type="number" />
+				<input id="inputHeight" name="height" type="number" step="10" />
 
 				<label for="minesFrequency">mines frequency</label>
-				<input id="inputMinesFrequency" name="minesFrequency" type="number" />
+				<input
+					id="inputMinesFrequency"
+					name="minesFrequency"
+					type="number"
+					step="0.01"
+				/>
 
 				<select name="class" id="selectClass">
 					<option value="Assassin">Assassin</option>

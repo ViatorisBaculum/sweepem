@@ -8,6 +8,7 @@
 	grid-template-rows: repeat(var(--rows), 1fr);
 	width: fit-content;
 	transition: background-color 1s linear;
+	margin-left: 2em;
 }
 #app button {
 	width: 2em;
@@ -53,17 +54,21 @@
 	border: 1px solid #99504e;
 }
 #statSheet {
-	width: 6em;
-	height: 8em;
+	width: fit-content;
+	height: fit-content;
 	background-color: aquamarine;
-	margin-right: 2em;
-	padding: 2em;
+	margin-right: 0;
+	padding: 1.5em;
 }
 #statSheet p:first-child {
 	margin-top: 0;
 }
+#statSheet p:last-child {
+	margin-bottom: 0;
+}
 #menu {
 	float: left;
+	margin-right: 2em;
 }
 #resetButton {
 	margin-top: 1em;
@@ -71,6 +76,7 @@
 }
 #menu input {
 	display: block;
+	width: 10em;
 }
 #selectClass {
 	margin-top: 2em;

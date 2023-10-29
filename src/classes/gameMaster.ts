@@ -78,16 +78,26 @@ export class GameMaster {
 		this.createBoard();
 		this.createPlayer();
 
+		this.resetTimer();
 		this.timer = setInterval(() => this.countSeconds(), 1000);
 	}
 
-	countSeconds() {
+	private countSeconds() {
 		this.gameTimer++;
 		this.player.calculateScore(this.gameTimer);
 	}
 
-	private endGame() {
+	private resetTimer() {
+		this.stopTimer();
+		this.gameTimer = 0;
+	}
+
+	private stopTimer() {
 		clearInterval(this.timer);
+	}
+
+	private endGame() {
+		this.stopTimer();
 
 		this.board.revealBoard();
 		this.board.removeEventHandler();
@@ -115,7 +125,6 @@ export class GameMaster {
 
 	private getValueFromInput(name: string) {
 		const input = document.getElementById(name);
-		console.log(input);
 		if (input) return (input as HTMLInputElement).value;
 		else throw new Error("gameMaster: getValueFromHTML: HTML does not exist");
 	}
@@ -127,6 +136,5 @@ export class GameMaster {
 
 	public calculateScore() {
 		this.player.experience;
-
 	}
 }
