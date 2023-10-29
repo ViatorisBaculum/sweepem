@@ -15,12 +15,18 @@
 	border: 1px solid #bbbbbb;
 	margin-left: 1px;
 	margin-top: 1px;
+	transition: background-color 1s ease-in-out;
+}
+#app.highlight button {
+	transition: background-color 0.5s ease-in-out;
+	background-color: #96e1ff;
 }
 #app button.clicked {
 	background-color: #fff;
 	border: 1px solid #f0f0f0;
 	box-shadow: unset;
 	color: unset;
+	transition: none;
 }
 #app button.notClicked {
 	background-color: #ededed;

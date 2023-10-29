@@ -165,7 +165,13 @@ export class Board {
 
 	public indicateLevelGain() {
 		const app = document.getElementById("app");
-		if (app) app.classList.add("highlight");
+		if (app) {
+			app.classList.add("highlight");
+
+			app.addEventListener("transitionend", () => {
+				app.classList.remove("highlight");
+			});
+		}
 	}
 
 	public revealBoard() {
