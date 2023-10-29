@@ -23,17 +23,102 @@ export class Board {
 		this.updateCSSVariables(width, height);
 	}
 
-	private fillBoard(distribution: typeDistribution) {
-		const urn = this.createUrn(distribution);
+	/*==============*/
+	/*public methods*/
+	/*==============*/
 
+	determineCellValues(): void {
+		this.cells.forEach((row, i) => {
+			row.forEach((cell, j) => {
+				if (cell.type === CellType.Empty) {
+					let sum = 0;
+					sum += this.getCellType(i - 1, j - 1);
+					sum += this.getCellType(i - 1, j + 0);
+					sum += this.getCellType(i - 1, j + 1);
+					sum += this.getCellType(i + 0, j - 1);
+					sum += this.getCellType(i + 0, j + 1);
+					sum += this.getCellType(i + 1, j - 1);
+					sum += this.getCellType(i + 1, j + 0);
+					sum += this.getCellType(i + 1, j + 1);
+
+					cell.value = sum;
+				}
+			});
+		});
+	}
+
+	evoluteMonster() {
+		const remainingMonster = this.getRemainingMonster();
+
+		remainingMonster.forEach((cell) => {
+			if (Math.random() <= defaults.boardDefaults.evolutionRate && cell.type < CellType.Witch) {
+				cell.type += 1;
+			}
+		});
+
+		this.determineCellValues();
+		this.DBG_printCellValues();
+	}
+
+	getCell(x: number, y: number): Cell | undefined {
+		if (this.cells[x] && this.cells[x][y]) {
+			return this.cells[x][y];
+		} else {
+			return undefined;
+		}
+	}
+
+	getCellType(i: number, j: number): CellType {
+		return this.getCell(i, j) ? this.cells[i][j].type : CellType.Empty;
+	}
+
+	getRemainingMonster(): Cell[] {
+		let remainingMonster: Cell[] = [];
+
+		this.cells.forEach((row) => {
+			row.forEach((cell) => {
+				if (!cell.isAnyNeighborClicked() && cell.type > CellType.Empty && !cell.isClicked) {
+					remainingMonster.push(cell);
+				}
+			});
+		});
+
+		return remainingMonster;
+	}
+
+	public indicateLevelGain() {
+		const app = document.getElementById("app");
+		if (app) {
+			app.classList.add("highlight");
+
+			app.addEventListener("transitionend", () => {
+				app.classList.remove("highlight");
+			});
+		}
+	}
+
+	public removeEventHandler() {
 		for (let i = 0; i < this._height; i++) {
-			this.cells.push([]);
-
 			for (let j = 0; j < this._width; j++) {
-				this.appendCell(i, j, urn.pop());
+				this.cells[i][j].removeEventListeners();
 			}
 		}
 	}
+
+	public revealBoard() {
+		this.cells.forEach((row) => {
+			row.forEach((cell) => {
+				if (!cell.isClicked) {
+					cell.HTMLElement.classList.add("notClicked");
+					cell.revealCell();
+				}
+			});
+		});
+	}
+
+	/*===============*/
+	/*private methods*/
+	/*===============*/
 
 	private appendCell(x: number, y: number, cellType: CellType): void {
 		const app = document.getElementById("app"); //später aus gameMaster importieren
@@ -66,72 +151,16 @@ export class Board {
 		urn.fill(CellType.Witch, lastGhostCell, lastWitchCell);
 		urn.fill(CellType.Boss, lastWitchCell, lastBossCell);
 
-		return urn.sort(() => (0.5 - Math.random()));
+		return urn.sort(() => 0.5 - Math.random());
 	}
 
-	determineCellValues(): void {
-		this.cells.forEach((row, i) => {
-			row.forEach((cell, j) => {
-				if (cell.type === CellType.Empty) {
-					let sum = 0;
-					sum += this.getCellType(i - 1, j - 1);
-					sum += this.getCellType(i - 1, j + 0);
-					sum += this.getCellType(i - 1, j + 1);
-					sum += this.getCellType(i + 0, j - 1);
-					sum += this.getCellType(i + 0, j + 1);
-					sum += this.getCellType(i + 1, j - 1);
-					sum += this.getCellType(i + 1, j + 0);
-					sum += this.getCellType(i + 1, j + 1);
+	private fillBoard(distribution: typeDistribution) {
+		const urn = this.createUrn(distribution);
 
-					cell.value = sum;
-				}
-			});
-		});
-	}
-
-	getCellType(i: number, j: number): CellType {
-		return this.getCell(i, j) ? this.cells[i][j].type : CellType.Empty;
-	}
-
-	getCell(x: number, y: number): Cell | undefined {
-		if (this.cells[x] && this.cells[x][y]) {
-			return this.cells[x][y];
-		} else {
-			return undefined;
-		}
-	}
-
-	evoluteMonster() {
-		const remainingMonster = this.getRemainingMonster();
-
-		remainingMonster.forEach(cell => {
-			if (Math.random() <= defaults.boardDefaults.evolutionRate && cell.type < CellType.Witch) {
-				cell.type += 1;
-			}
-		});
-
-		this.determineCellValues();
-		this.DBG_printCellValues();
-	}
-
-	getRemainingMonster(): Cell[] {
-		let remainingMonster: Cell[] = [];
-
-		this.cells.forEach((row) => {
-			row.forEach((cell) => {
-				if (!cell.isAnyNeighborClicked() && cell.type > CellType.Empty && !cell.isClicked) {
-					remainingMonster.push(cell);
-				}
-			});
-		});
-
-		return remainingMonster;
-	}
-
-	public removeEventHandler() {
 		for (let i = 0; i < this._height; i++) {
+			this.cells.push([]);
 			for (let j = 0; j < this._width; j++) {
-				this.cells[i][j].removeEventListeners();
+				this.appendCell(i, j, urn.pop());
 			}
 		}
 	}
@@ -150,6 +179,10 @@ export class Board {
 		else throw new Error("Provided typeDistribution doesn't sum to 1. Sum of proportions is " + proportionSum);
 	}
 
+	/*===============*/
+	/*===DEBUGGING===*/
+	/*===============*/
+
 	private DBG_printCellValues(): void {
 		let result = "";
 		this.cells.forEach((row) => {
@@ -161,27 +194,5 @@ export class Board {
 			result += line.trim() + "\n";
 		});
 		console.log(result.trim());
-	}
-
-	public indicateLevelGain() {
-		const app = document.getElementById("app");
-		if (app) {
-			app.classList.add("highlight");
-
-			app.addEventListener("transitionend", () => {
-				app.classList.remove("highlight");
-			});
-		}
-	}
-
-	public revealBoard() {
-		this.cells.forEach((row) => {
-			row.forEach((cell) => {
-				if (!cell.isClicked) {
-					cell.HTMLElement.classList.add("notClicked");
-					cell.revealCell();
-				}
-			});
-		});
 	}
 }
