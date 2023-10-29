@@ -23,20 +23,18 @@ export class Cell {
 		this.addEventListeners();
 	}
 
-	public click() {
-		if (this.value !== undefined) {
-			this.activateCell();
-		}
+	/*==============*/
+	/*public methods*/
+	/*==============*/
 
-		if (this.value === 0 && this.type === CellType.Empty) {
-			this.clickNeighbors();
-		}
+	activateCell() {
+		this.revealCell();
+		this.addExperience();
+	}
 
-		if (this.type > 0 && this.value === undefined) {
-			this.attackPlayer();
-
-			this.activateCell();
-		}
+	addExperience() {
+		const gameInstance = GameMaster.getInstance();
+		gameInstance.player.gainExperience(1);
 	}
 
 	attackPlayer() {
@@ -50,6 +48,22 @@ export class Cell {
 		gameInstance.player.gainExperience(this.type);
 
 		if (gameInstance.player.health > 0 && this.type === CellType.Boss) gameInstance.winGame();
+	}
+
+	click() {
+		if (this.value !== undefined) {
+			this.activateCell();
+		}
+
+		if (this.value === 0 && this.type === CellType.Empty) {
+			this.clickNeighbors();
+		}
+
+		if (this.type > 0 && this.value === undefined) {
+			this.attackPlayer();
+
+			this.activateCell();
+		}
 	}
 
 	clickNeighbors() {
@@ -79,9 +93,14 @@ export class Cell {
 		return false;
 	}
 
-	activateCell() {
-		this.revealCell();
-		this.addExperience();
+	removeEventListeners() {
+		this.HTMLElement.addEventListener("click", (e) => e.stopImmediatePropagation(), true);
+		this.HTMLElement.addEventListener("contextmenu", (e) => {
+				e.stopImmediatePropagation();
+				e.preventDefault();
+			},
+			true
+		);
 	}
 
 	revealCell() {
@@ -94,22 +113,10 @@ export class Cell {
 		else if (!this.value && this.type > 0) {
 			this.HTMLElement.innerText = this.translateType(this.type);
 			this.HTMLElement.classList.add("monster", this.translateType(this.type));
-		}
-		else this.HTMLElement.innerText = "";
+		} else this.HTMLElement.innerText = "";
 	}
 
-	addExperience() {
-		const gameInstance = GameMaster.getInstance();
-		gameInstance.player.gainExperience(1);
-	}
-
-	public translateType(type: CellType): string {
-		if (type > 0) return defaults.monsterKeys[type];
-
-		throw new Error("cell: translateType: Unknown CellType");
-	}
-
-	private rightClick(e: Event) {
+	rightClick(e: Event) {
 		e.preventDefault();
 		if (!this.isClicked) {
 			this.isFlagged = !this.isFlagged;
@@ -119,14 +126,19 @@ export class Cell {
 		}
 	}
 
+	public translateType(type: CellType): string {
+		if (type > 0) return defaults.monsterKeys[type];
+
+		throw new Error("cell: translateType: Unknown CellType");
+	}
+
+	/*===============*/
+	/*private methods*/
+	/*===============*/
+
 	private addEventListeners() {
 		this.HTMLElement.addEventListener("click", () => this.click(), false);
 		this.HTMLElement.addEventListener("contextmenu", (e) => this.rightClick(e), false);
-	}
-
-	public removeEventListeners() {
-		this.HTMLElement.addEventListener("click", (e) => e.stopImmediatePropagation(), true);
-		this.HTMLElement.addEventListener("contextmenu", (e) => { e.stopImmediatePropagation(); e.preventDefault() }, true);
 	}
 
 	private toggleFlag(): void {
