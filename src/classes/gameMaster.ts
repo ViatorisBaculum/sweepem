@@ -99,8 +99,13 @@ export class GameMaster {
 		this.createBoard();
 		this.createPlayer();
 
+
 		this.resetTimer();
 		this._timer = setInterval(() => this.countSeconds(), 1000);
+
+		setTimeout(() => {
+			this._board?.openStartArea();
+		}, 500);
 	}
 
 	public winGame() {

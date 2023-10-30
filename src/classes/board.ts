@@ -82,6 +82,19 @@ export class Board {
 		});
 	}
 
+	public openStartArea() {
+		const x = Math.round(Math.random() * (this._height - 1));
+		const y = Math.round(Math.random() * (this._width - 1));
+		let startCell = this.cells[x][y];
+		while (startCell.value !== 0) {
+			console.log(startCell);
+			let x = Math.round(Math.random() * (this._height - 1));
+			let y = Math.round(Math.random() * (this._height - 1));
+			startCell = this.cells[x][y];
+		}
+		if (startCell.value === 0) startCell.click();
+	}
+
 	/*===============*/
 	/*private methods*/
 	/*===============*/

@@ -7,6 +7,8 @@ Eine vernünftige Berechnung des Scores
 @gameMaster.ts > timer
 "room for improvement is immer" - Unknown
 
+## css highlight transition zerstört weil an animation rumgespielt
+
 ## Ideen für Klassen
 
 Paladin: Hohe HP und Regenration pro Level, oder pro x Zellen
