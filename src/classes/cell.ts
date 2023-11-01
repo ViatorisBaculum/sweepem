@@ -66,6 +66,19 @@ export class Cell {
 		}
 	}
 
+	public getBlankNeighbors() {
+
+		let neighbor: Cell[] | undefined;
+		for (let dx = -1; dx <= 1; dx++) {
+			for (let dy = -1; dy <= 1; dy++) {
+				const celli = this.board.getCell(this.x + dx, this.y + dy);
+				if (celli && celli.value === 0) {
+					if (neighbor && celli) neighbor.push(celli);
+				}
+			}
+		}
+	}
+
 	clickNeighbors() {
 		for (let dx = -1; dx <= 1; dx++) {
 			for (let dy = -1; dy <= 1; dy++) {
@@ -148,7 +161,7 @@ export class Cell {
 	}
 
 	private animateReveal() {
-		if (this.HTMLElement) {
+		if (this.HTMLElement.checkVisibility()) {
 			this.HTMLElement.classList.add("shrinked");
 
 			this.HTMLElement.addEventListener("transitionend", () => {
