@@ -2,13 +2,17 @@
 	--cols: 40;
 	--rows: 20;
 }
+#game {
+	width: fit-content;
+	height: fit-content;
+	margin: auto;
+}
 #app {
 	display: grid;
 	grid-template-columns: repeat(var(--cols), 1fr);
 	grid-template-rows: repeat(var(--rows), 1fr);
 	width: fit-content;
 	transition: background-color 1s linear;
-	margin-left: 2em;
 }
 #app button {
 	width: 2em;
@@ -66,28 +70,68 @@
 #statSheet {
 	width: fit-content;
 	height: fit-content;
-	background-color: aquamarine;
 	margin-right: 0;
-	padding: 1.5em;
+	display: flex;
+}
+#playerLevel {
+	width: 2em;
+	height: 2em;
+	border-radius: 100%;
+	border: 1px solid #fff;
+	text-align: center;
+	vertical-align: middle;
+	line-height: 2;
+}
+#statSheet p {
+	float: left;
+	margin: 0 0 0 1em;
 }
 #statSheet p:first-child {
-	margin-top: 0;
+	margin-left: 1em;
 }
 #statSheet p:last-child {
 	margin-bottom: 0;
 }
 #menu {
-	float: left;
-	margin-right: 2em;
-}
-#resetButton {
-	margin-top: 1em;
-	margin-bottom: 2em;
+	background-color: #96e1ff;
+	display: flex;
+	width: 100%;
+	height: fit-content;
+	margin: 1em auto;
+	padding: 0.7em 0;
+	border-radius: 0.2em;
+	line-height: 2;
+	border-radius: 0.3em;
+	justify-content: space-between;
 }
 #menu input {
 	display: block;
 	width: 10em;
+	margin: auto;
+}
+#rightMenu {
+	display: flex;
+	align-items: center;
 }
 #selectClass {
-	margin-top: 2em;
+	float: left;
+	margin-left: 0.7em;
+	border: 0;
+	background-color: transparent;
+}
+#resetButton {
+	margin: 0;
+	float: left;
+}
+#settings {
+	float: left;
+	display: flex;
+	transition: transform 0.2s ease-in-out;
+	transform-origin: right;
+}
+#settings.hidden {
+	transform: scaleX(0);
+}
+#settings * {
+	float: left;
 }

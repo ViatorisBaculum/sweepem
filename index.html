@@ -8,41 +8,44 @@
 		<link rel="stylesheet" href="app.css" />
 	</head>
 	<body>
-		<div id="menu">
-			<div id="statSheet">
-				<p id="playerClass"></p>
-				<p id="playerLevel"></p>
-				<p id="health"></p>
-				<p id="experience"></p>
-				<p id="score"></p>
-			</div>
-			<button id="resetButton">Reset</button>
-			<div id="settings">
-				<label for="width">width</label>
-				<input id="inputWidth" name="width" type="number" step="10" />
+		<div id="game">
+			<div id="app"></div>
+			<div id="menu">
+				<div id="statSheet">
+					<select name="class" id="selectClass">
+						<option value="Assassin">Assassin</option>
+						<option value="Warrior">Warrior</option>
+						<option value="Paladin">Paladin</option>
+						<option value="Mage">Mage</option>
+					</select>
+					<p id="playerLevel"></p>
+					<p id="health"></p>
+					<p id="experience"></p>
+					<p id="score"></p>
+				</div>
+				<div id="rightMenu">
+					<button id="resetButton">Reset</button>
+					<div id="settings" class="hidden">
+						<label for="width">width</label>
+						<input id="inputWidth" name="width" type="number" step="10" />
 
-				<label for="height">height</label>
-				<input id="inputHeight" name="height" type="number" step="10" />
+						<label for="height">height</label>
+						<input id="inputHeight" name="height" type="number" step="10" />
 
-				<label for="minesFrequency">mines frequency</label>
-				<input
-					id="inputMinesFrequency"
-					name="minesFrequency"
-					type="number"
-					step="0.01"
-					min="0.01"
-					max="0.99"
-				/>
-
-				<select name="class" id="selectClass">
-					<option value="Assassin">Assassin</option>
-					<option value="Warrior">Warrior</option>
-					<option value="Paladin">Paladin</option>
-					<option value="Mage">Mage</option>
-				</select>
+						<label for="minesFrequency">mines frequency</label>
+						<input
+							id="inputMinesFrequency"
+							name="minesFrequency"
+							type="number"
+							step="0.01"
+							min="0.01"
+							max="0.99"
+						/>
+					</div>
+					<button id="openSettings">X</button>
+				</div>
 			</div>
 		</div>
-		<div id="app"></div>
 		<script defer type="module" src="dist/bundle.js"></script>
 	</body>
 </html>

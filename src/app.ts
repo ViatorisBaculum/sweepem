@@ -1,6 +1,6 @@
 import { GameMaster } from "./classes/gameMaster";
 import defaults from "./util/defaults";
-
+import { initialize } from "./content";
 
 setValueToInput("inputWidth", defaults.boardDefaults.width.toString());
 setValueToInput("inputHeight", defaults.boardDefaults.height.toString());
@@ -10,6 +10,7 @@ setValueToInput("selectClass", defaults.playerClass);
 const gameMaster = GameMaster.getInstance();
 
 gameMaster.startGame();
+initialize();
 
 function setValueToInput(name: string, value: string) {
     const input = document.getElementById(name);

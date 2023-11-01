@@ -3,7 +3,6 @@ import defaults from "../util/defaults";
 import { GameMaster } from "./gameMaster";
 
 interface PlayerHTMLHooks {
-	playerClassDiv: HTMLElement;
 	playerExperienceDiv: HTMLElement;
 	playerHealthDiv: HTMLElement;
 	playerLevelDiv: HTMLElement;
@@ -90,7 +89,6 @@ export abstract class Player {
 
 	private loadHTMLHooks(): PlayerHTMLHooks {
 		return {
-			playerClassDiv: this.importHTMLElement("playerClass"),
 			playerExperienceDiv: this.importHTMLElement("experience"),
 			playerHealthDiv: this.importHTMLElement("health"),
 			playerLevelDiv: this.importHTMLElement("playerLevel"),
@@ -99,8 +97,7 @@ export abstract class Player {
 	}
 
 	private updateStatsheet(): void {
-		this._HTMLHooks.playerClassDiv.innerText = "Class: " + this.className;
-		this._HTMLHooks.playerLevelDiv.innerText = "Level: " + this._level.toString();
+		this._HTMLHooks.playerLevelDiv.innerText = this._level.toString();
 		this._HTMLHooks.playerHealthDiv.innerText = "Health: " + this._health.toString();
 		this._HTMLHooks.playerExperienceDiv.innerText = "Experience: " + this._experience.toString();
 		this._HTMLHooks.playerScoreDiv.innerText = "Score: " + this._score.toString();
