@@ -2,6 +2,9 @@
 	--cols: 40;
 	--rows: 20;
 }
+html {
+	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
 #game {
 	width: fit-content;
 	height: fit-content;
@@ -106,12 +109,17 @@
 }
 #menu input {
 	display: block;
-	width: 10em;
+	width: 3em;
 	margin: auto;
+	border: none;
+	background-color: #d1e4ff;
+	padding: 0.3em;
+	border-radius: 0.4em;
 }
 #rightMenu {
 	display: flex;
 	align-items: center;
+	overflow: hidden;
 }
 #selectClass {
 	float: left;
@@ -126,12 +134,29 @@
 #settings {
 	float: left;
 	display: flex;
-	transition: transform 0.2s ease-in-out;
-	transform-origin: right;
+	transition: max-width 0.2s ease-in-out, max-height 1s ease-in-out;
+	max-height: 2em;
+	max-width: 50em;
 }
 #settings.hidden {
-	transform: scaleX(0);
+	max-width: 0;
+	overflow: hidden;
 }
 #settings * {
 	float: left;
+}
+#settings img {
+	width: 1em;
+	height: 1em;
+	margin: auto;
+}
+#openSettings {
+	width: 2em;
+	height: 2em;
+	margin-right: 0.5em;
+}
+#resetButton {
+	width: 2em;
+	height: 2em;
+	margin-right: 0.5em;
 }
