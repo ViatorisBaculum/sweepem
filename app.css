@@ -99,9 +99,6 @@ body {
 #statSheet p:first-child {
 	margin-left: 1em;
 }
-#statSheet p:last-child {
-	margin-bottom: 0;
-}
 #menu {
 	background-color: #96e1ff;
 	display: flex;
@@ -179,6 +176,9 @@ body {
 	margin-right: 0.5em;
 }
 @media only screen and (max-width: 600px) {
+	#game {
+		padding: 10em;
+	}
 	#menu {
 		position: fixed;
 		bottom: 0;
@@ -192,7 +192,13 @@ body {
 		background: #fff;
 	}
 	#app button {
-		width: 3em;
-		height: 3em;
+		width: 8vw;
+		height: 8vw;
+		font-size: 1.5em;
+		font-weight: lighter;
+		padding: 0;
+	}
+	#openSettings {
+		margin-right: 1.5em;
 	}
 }
