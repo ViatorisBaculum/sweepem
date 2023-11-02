@@ -6,5 +6,6 @@ export class PC_Paladin extends Player {
 	constructor() {
 		super();
 		this.health = 4;
+		this.maxHealth = this.health;
 	}
 }

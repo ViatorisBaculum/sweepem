@@ -6,5 +6,6 @@ export class PC_Warrior extends Player {
 	constructor() {
 		super();
 		this.health = 5;
+		this.maxHealth = this.health;
 	}
 }

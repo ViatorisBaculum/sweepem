@@ -2,8 +2,14 @@
 	--cols: 40;
 	--rows: 20;
 }
+* :focus {
+	outline: none;
+}
 html {
 	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+body {
+	margin: 0;
 }
 #game {
 	width: fit-content;
@@ -16,6 +22,7 @@ html {
 	grid-template-rows: repeat(var(--rows), 1fr);
 	width: fit-content;
 	transition: background-color 1s linear;
+	user-select: none;
 }
 #app button {
 	width: 2em;
@@ -87,7 +94,7 @@ html {
 }
 #statSheet p {
 	float: left;
-	margin: 0 0 0 1em;
+	margin: auto 0 auto 1em;
 }
 #statSheet p:first-child {
 	margin-left: 1em;
@@ -106,6 +113,17 @@ html {
 	line-height: 2;
 	border-radius: 0.3em;
 	justify-content: space-between;
+}
+#health {
+	margin-left: 1em;
+}
+#health img {
+	vertical-align: middle;
+	width: 1em;
+	height: 1em;
+}
+#health img.colored {
+	opacity: 40%;
 }
 #menu input {
 	display: block;
@@ -159,4 +177,22 @@ html {
 	width: 2em;
 	height: 2em;
 	margin-right: 0.5em;
+}
+@media only screen and (max-width: 600px) {
+	#menu {
+		position: fixed;
+		bottom: 0;
+		width: 95vw;
+		left: 50%;
+		transform: translateX(-50%);
+	}
+	#settings {
+		transform: translateX(-100%);
+		position: absolute;
+		background: #fff;
+	}
+	#app button {
+		width: 3em;
+		height: 3em;
+	}
 }

@@ -6,5 +6,6 @@ export class PC_Mage extends Player {
 	constructor() {
 		super();
 		this.health = 3;
+		this.maxHealth = this.health;
 	}
 }

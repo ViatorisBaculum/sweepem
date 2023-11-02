@@ -12,9 +12,11 @@ export abstract class Player {
 	abstract className: string;
 	private _experience: number = 0;
 	private _health: number = 0;
+	protected maxHealth: number = 0;
 	private _level: number = 1;
 	private _score: number = 0;
 	private _HTMLHooks: PlayerHTMLHooks;
+	private heartContainers: HTMLImageElement[] = [];
 
 	constructor() {
 		this._HTMLHooks = this.loadHTMLHooks();
@@ -98,8 +100,28 @@ export abstract class Player {
 
 	private updateStatsheet(): void {
 		this._HTMLHooks.playerLevelDiv.innerText = this._level.toString();
-		this._HTMLHooks.playerHealthDiv.innerText = "Health: " + this._health.toString();
+		//this._HTMLHooks.playerHealthDiv.innerText = "Health: " + this._health.toString();
+		if (this.heartContainers.length === 0) this.addHearts();
+		this.styleHearts();
 		this._HTMLHooks.playerExperienceDiv.innerText = "Experience: " + this._experience.toString();
 		this._HTMLHooks.playerScoreDiv.innerText = "Score: " + this._score.toString();
+	}
+
+	private addHearts(): void {
+		for (let i = 0; i < this.maxHealth; i++) {
+			const img = document.createElement("img");
+			img.src = "./res/heart.svg";
+			img.alt = "Health"
+			img.classList.add("heart");
+			this.heartContainers.push(img);
+			this._HTMLHooks.playerHealthDiv.appendChild(img);
+		}
+	}
+
+	private styleHearts() {
+		this.heartContainers.forEach((heart, i) => {
+			if (i >= this.health) heart.classList.add("colored");
+			else heart.classList.remove("colored");
+		});
 	}
 }

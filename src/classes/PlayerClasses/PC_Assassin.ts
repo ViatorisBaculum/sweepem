@@ -6,5 +6,6 @@ export class PC_Assassin extends Player {
 	constructor() {
 		super();
 		this.health = 2;
+		this.maxHealth = this.health;
 	}
 }

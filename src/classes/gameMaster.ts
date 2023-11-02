@@ -84,6 +84,7 @@ export class GameMaster {
 		const boardHTML = document.getElementById("app");
 		if (boardHTML) boardHTML.innerHTML = "";
 
+		this.resetHeartContainer();
 		this.startGame();
 	}
 
@@ -135,6 +136,11 @@ export class GameMaster {
 	private resetTimer() {
 		this.stopTimer();
 		this._gameTimer = 0;
+	}
+
+	private resetHeartContainer() {
+		const hearts = document.getElementById("health");
+		if (hearts) hearts.innerHTML = "";
 	}
 
 	private stopTimer() {
