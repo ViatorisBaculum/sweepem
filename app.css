@@ -1,6 +1,10 @@
 :root {
 	--cols: 40;
 	--rows: 20;
+	--theme-color1: rgb(147, 177, 166);
+	--theme-color2: rgb(92, 131, 116);
+	--theme-color3: rgb(24, 61, 61);
+	--theme-color4: rgb(4, 13, 18);
 }
 * :focus {
 	outline: none;
@@ -201,4 +205,48 @@ body {
 	#openSettings {
 		margin-right: 1.5em;
 	}
+}
+
+.modal-bg {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: hsl(0deg 100% 100%/70%);
+}
+
+.modal {
+	display: flex;
+	flex-direction: column;
+	margin: 2rem auto 0 auto;
+	padding: 0.5rem;
+	width: 33%;
+	min-height: 20vh;
+	border: 1px solid var(--theme-color4);
+	background-color: var(--theme-color1);
+	color: var(--theme-color3);
+	opacity: 1;
+}
+
+.modal hr {
+	border-color: var(--theme-color4);
+	width: 90%;
+}
+
+.modal fieldset {
+	display: flex;
+	flex-direction: column;
+	margin: 1rem 0;
+}
+.modal button {
+	background-color: var(--theme-color2);
+	color: var(--theme-color4);
+	font-size: 1.5rem;
+	padding: 0.2rem;
+	border-color: var(--theme-color4);
+}
+
+.modal button:hover {
+	cursor: pointer;
 }

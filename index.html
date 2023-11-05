@@ -52,4 +52,47 @@
 		</div>
 		<script defer type="module" src="dist/bundle.js"></script>
 	</body>
+	<template id="template-modal">
+		<div id="modal-bg" class="modal-bg">
+			<div id="modal" class="modal">
+				<h1 id="modal-h1"></h1>
+				<hr />
+				<div id="modal-content">
+					<h2>Welcome to DungeonSweeper</h2>
+					<p>
+						This is a more elaborate version of MineSweeper with RPG elements
+						such as classes, leveling and different enemies. Please choose your
+						starting configuration.
+					</p>
+					<div id="modal-slot"></div>
+					<button id="modal-confirm">Confirm</button>
+				</div>
+			</div>
+		</div>
+	</template>
+	<template id="template-settings">
+		<fieldset>
+			<legend>Game Settings</legend>
+			<label for="startMenu-ClassSelector">Player class</label>
+			<select id="startMenu-ClassSelector">
+				<option value="Assassin">Assassin</option>
+				<option value="Warrior">Warrior</option>
+				<option value="Paladin">Paladin</option>
+				<option value="Mage">Mage</option>
+			</select>
+			<label for="">Board width</label>
+			<input id="startMenu-WidthInput" type="number" step="1" value="40" />
+			<label for="">Board height</label>
+			<input id="startMenu-HeightInput" type="number" step="1" value="20" />
+			<label for="">Enemy frequency</label>
+			<input
+				id="startMenu-EnemyFrequency"
+				type="number"
+				value="0.15"
+				step="0.01"
+				min="0.01"
+				max="0.99"
+			/>
+		</fieldset>
+	</template>
 </html>
