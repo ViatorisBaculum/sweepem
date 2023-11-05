@@ -207,3 +207,12 @@ body {
 .modal button:hover {
 	cursor: pointer;
 }
+
+.modal .controls {
+	display: flex;
+	gap: 0.4rem;
+}
+
+.confirm {
+	margin-left: auto;
+}

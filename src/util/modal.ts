@@ -1,13 +1,12 @@
 interface modalSettings {
-	confirmButton: boolean;
-	cancelButton: boolean;
-	ignorable: boolean;
+	cancelButton?: boolean;
+	title?: string;
+	subtitle?: string;
+	text?: string;
 }
 export class Modal {
 	private modalSettings: modalSettings = {
-		confirmButton: true,
 		cancelButton: false,
-		ignorable: false,
 	};
 	parentNode: HTMLElement;
 	node: Node;
@@ -18,10 +17,21 @@ export class Modal {
 		if (!template) throw new Error("No modal-template found");
 		this.node = (template as HTMLTemplateElement).content.cloneNode(true);
 		this.node = parentNode.appendChild(this.node);
+		this.setCancelAction();
+		this.parseModalSettings();
 	}
 
 	private destroyModal() {
 		document.getElementById("modal-bg")?.remove();
+	}
+
+	private parseModalSettings() {
+		if (!this.modalSettings.cancelButton)
+			document.getElementById("modal-cancel")?.remove();
+		if (this.modalSettings.title) this.setTitle(this.modalSettings.title);
+		if (this.modalSettings.subtitle)
+			this.setSubTitle(this.modalSettings.subtitle);
+		if (this.modalSettings.text) this.setText(this.modalSettings.text);
 	}
 
 	setSubTitle(title: string) {
@@ -53,6 +63,15 @@ export class Modal {
 		if (confirmButton) {
 			confirmButton.addEventListener("click", () => {
 				cb();
+				this.destroyModal();
+			});
+		}
+	}
+	setCancelAction(cb?: Function) {
+		const confirmButton = document.getElementById("modal-cancel");
+		if (confirmButton) {
+			confirmButton.addEventListener("click", () => {
+				if (cb) cb();
 				this.destroyModal();
 			});
 		}

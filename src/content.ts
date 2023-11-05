@@ -25,7 +25,7 @@ function initalModal() {
 function toggleSettings() {
 	if (!settingsForm) throw new Error("No settings template found");
 
-	const modal = new Modal(document.body);
+	const modal = new Modal(document.body, { cancelButton: true });
 	modal.setTitle("Game Settings");
 	modal.setText("Please choose the settings for your next round");
 	modal.setSlotContent(settingsForm.innerHTML);
