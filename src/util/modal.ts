@@ -24,8 +24,14 @@ export class Modal {
 		document.getElementById("modal-bg")?.remove();
 	}
 
-	setH1(title: string) {
-		const modal = document.getElementById("modal-h1");
+	setSubTitle(title: string) {
+		const modal = document.getElementById("modal-subtitle");
+		if (modal) {
+			modal.innerText = title;
+		}
+	}
+	setTitle(title: string) {
+		const modal = document.getElementById("modal-title");
 		if (modal) {
 			modal.innerText = title;
 		}
@@ -34,6 +40,12 @@ export class Modal {
 		const modal = document.getElementById("modal-slot");
 		if (modal) {
 			modal.innerHTML = content;
+		}
+	}
+	setText(text: string) {
+		const modal = document.getElementById("modal-text");
+		if (modal) {
+			modal.innerText = text;
 		}
 	}
 	setConfirmAction(cb: Function) {

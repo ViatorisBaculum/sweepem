@@ -16,36 +16,13 @@
 			<div id="app"></div>
 			<div id="menu">
 				<div id="statSheet">
-					<select name="class" id="selectClass">
-						<option value="Assassin">Assassin</option>
-						<option value="Warrior">Warrior</option>
-						<option value="Paladin">Paladin</option>
-						<option value="Mage">Mage</option>
-					</select>
+					<span id="playerClass"></span>
 					<p id="playerLevel"></p>
 					<div id="health"></div>
 					<p id="experience"></p>
 					<p id="score"></p>
 				</div>
 				<div id="rightMenu">
-					<img id="resetButton" src="./res/refresh.svg" alt="Settings" />
-					<div id="settings" class="hidden">
-						<img src="./res/arrow_horizontal.svg" alt="Width" />
-						<input id="inputWidth" name="width" type="number" step="10" />
-
-						<img src="./res/arrow_vertical.svg" alt="Width" />
-						<input id="inputHeight" name="height" type="number" step="10" />
-
-						<label for="minesFrequency">f</label>
-						<input
-							id="inputMinesFrequency"
-							name="minesFrequency"
-							type="number"
-							step="0.01"
-							min="0.01"
-							max="0.99"
-						/>
-					</div>
 					<img id="openSettings" src="./res/gear.svg" alt="Settings" />
 				</div>
 			</div>
@@ -55,15 +32,11 @@
 	<template id="template-modal">
 		<div id="modal-bg" class="modal-bg">
 			<div id="modal" class="modal">
-				<h1 id="modal-h1"></h1>
+				<h1 id="modal-title"></h1>
 				<hr />
 				<div id="modal-content">
-					<h2>Welcome to DungeonSweeper</h2>
-					<p>
-						This is a more elaborate version of MineSweeper with RPG elements
-						such as classes, leveling and different enemies. Please choose your
-						starting configuration.
-					</p>
+					<h2 id="modal-subtitle"></h2>
+					<div id="modal-text"></div>
 					<div id="modal-slot"></div>
 					<button id="modal-confirm">Confirm</button>
 				</div>
@@ -73,20 +46,20 @@
 	<template id="template-settings">
 		<fieldset>
 			<legend>Game Settings</legend>
-			<label for="startMenu-ClassSelector">Player class</label>
-			<select id="startMenu-ClassSelector">
+			<label for="selectClass">Player class</label>
+			<select id="selectClass">
 				<option value="Assassin">Assassin</option>
 				<option value="Warrior">Warrior</option>
 				<option value="Paladin">Paladin</option>
 				<option value="Mage">Mage</option>
 			</select>
-			<label for="">Board width</label>
-			<input id="startMenu-WidthInput" type="number" step="1" value="40" />
-			<label for="">Board height</label>
-			<input id="startMenu-HeightInput" type="number" step="1" value="20" />
-			<label for="">Enemy frequency</label>
+			<label for="inputWidth">Board width</label>
+			<input id="inputWidth" type="number" step="1" value="40" />
+			<label for="inputHeight">Board height</label>
+			<input id="inputHeight" type="number" step="1" value="20" />
+			<label for="minesFrequency">Enemy frequency</label>
 			<input
-				id="startMenu-EnemyFrequency"
+				id="minesFrequency"
 				type="number"
 				value="0.15"
 				step="0.01"

@@ -3,6 +3,7 @@ import defaults from "../util/defaults";
 import { GameMaster } from "./gameMaster";
 
 interface PlayerHTMLHooks {
+	playerClassSpan: HTMLElement;
 	playerExperienceDiv: HTMLElement;
 	playerHealthDiv: HTMLElement;
 	playerLevelDiv: HTMLElement;
@@ -91,6 +92,7 @@ export abstract class Player {
 
 	private loadHTMLHooks(): PlayerHTMLHooks {
 		return {
+			playerClassSpan: this.importHTMLElement("playerClass"),
 			playerExperienceDiv: this.importHTMLElement("experience"),
 			playerHealthDiv: this.importHTMLElement("health"),
 			playerLevelDiv: this.importHTMLElement("playerLevel"),
@@ -99,8 +101,8 @@ export abstract class Player {
 	}
 
 	private updateStatsheet(): void {
+		this._HTMLHooks.playerClassSpan.innerText = this.className;
 		this._HTMLHooks.playerLevelDiv.innerText = this._level.toString();
-		//this._HTMLHooks.playerHealthDiv.innerText = "Health: " + this._health.toString();
 		if (this.heartContainers.length === 0) this.addHearts();
 		this.styleHearts();
 		this._HTMLHooks.playerExperienceDiv.innerText = "Experience: " + this._experience.toString();
@@ -111,7 +113,7 @@ export abstract class Player {
 		for (let i = 0; i < this.maxHealth; i++) {
 			const img = document.createElement("img");
 			img.src = "./res/heart.svg";
-			img.alt = "Health"
+			img.alt = "Health";
 			img.classList.add("heart");
 			this.heartContainers.push(img);
 			this._HTMLHooks.playerHealthDiv.appendChild(img);

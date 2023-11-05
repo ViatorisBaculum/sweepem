@@ -91,7 +91,7 @@ export class GameMaster {
 	public setSettings() {
 		this._width = +this.getValueFromInput("inputWidth");
 		this._height = +this.getValueFromInput("inputHeight");
-		this._minesFrequency = +this.getValueFromInput("inputMinesFrequency");
+		this._minesFrequency = +this.getValueFromInput("minesFrequency");
 		this._playerClass = this.getValueFromInput("selectClass") as playerClasses;
 	}
 
@@ -100,7 +100,6 @@ export class GameMaster {
 		this.createBoard();
 		this.createPlayer();
 		this._board?.openStartArea();
-
 
 		this.resetTimer();
 		this._timer = setInterval(() => this.countSeconds(), 1000);

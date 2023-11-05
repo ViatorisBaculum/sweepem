@@ -38,7 +38,7 @@ body {
 }
 #app.highlight button {
 	transition: background-color 0.5s ease-in-out;
-	background-color: #96e1ff;
+	background-color: var(--theme-color1);
 }
 #app button.clicked {
 	background-color: #fff;
@@ -104,7 +104,7 @@ body {
 	margin-left: 1em;
 }
 #menu {
-	background-color: #96e1ff;
+	background-color: var(--theme-color1);
 	display: flex;
 	width: 100%;
 	height: fit-content;
@@ -126,55 +126,17 @@ body {
 #health img.colored {
 	opacity: 40%;
 }
-#menu input {
-	display: block;
-	width: 3em;
-	margin: auto;
-	border: none;
-	background-color: #d1e4ff;
-	padding: 0.3em;
-	border-radius: 0.4em;
-}
 #rightMenu {
 	display: flex;
 	align-items: center;
 	overflow: hidden;
 }
-#selectClass {
+#playerClass {
 	float: left;
 	margin-left: 0.7em;
 	border: 0;
-	background-color: transparent;
-}
-#resetButton {
-	margin: 0;
-	float: left;
-}
-#settings {
-	float: left;
-	display: flex;
-	transition: max-width 0.2s ease-in-out, max-height 1s ease-in-out;
-	max-height: 2em;
-	max-width: 50em;
-}
-#settings.hidden {
-	max-width: 0;
-	overflow: hidden;
-}
-#settings * {
-	float: left;
-}
-#settings img {
-	width: 1em;
-	height: 1em;
-	margin: auto;
 }
 #openSettings {
-	width: 2em;
-	height: 2em;
-	margin-right: 0.5em;
-}
-#resetButton {
 	width: 2em;
 	height: 2em;
 	margin-right: 0.5em;
@@ -189,11 +151,6 @@ body {
 		width: 95vw;
 		left: 50%;
 		transform: translateX(-50%);
-	}
-	#settings {
-		transform: translateX(-100%);
-		position: absolute;
-		background: #fff;
 	}
 	#app button {
 		width: 8vw;
