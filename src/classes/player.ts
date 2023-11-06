@@ -62,7 +62,6 @@ export abstract class Player {
 	/*public methods*/
 	/*==============*/
 	calculateScore(time: number): void {
-		console.log(this.score);
 		this.score = time + this.experience;
 	}
 

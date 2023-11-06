@@ -14,7 +14,7 @@ const expToNextLevel: number[] = [100, 200, 300, 400];
 const boardDefaults = {
 	width: 40,
 	height: 20,
-	minesFrequency: 0.15,
+	minesFrequency: 0.3,
 	evolutionRate: 0.2
 };
 

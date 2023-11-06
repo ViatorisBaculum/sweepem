@@ -22,7 +22,7 @@ export class Board {
 		this.DBG_printCellValues();
 		this.updateCSSVariables(width, height);
 
-		this.writeValues();
+		this.writeValues(false);
 	}
 
 	/*==============*/
@@ -75,7 +75,9 @@ export class Board {
 			let y = Math.round(Math.random() * (this._height - 1));
 			startCell = this.cells[x][y];
 		}
-		if (startCell.value === 0) startCell.click();
+
+		startCell.click();
+		startCell.HTMLElement.scrollIntoView({ behavior: "smooth", block: "center", inline: "center" });
 	}
 
 	public removeEventHandler() {
@@ -211,13 +213,15 @@ export class Board {
 		console.log(result.trim());
 	}
 
-	private writeValues() {
-		this.cells.forEach((row) => {
-			row.forEach((cell) => {
-				if (cell.type) {
-					cell.HTMLElement.innerText = cell.translateType(cell.type);
-				}
+	private writeValues(openCells: boolean) {
+		if (openCells === true) {
+			this.cells.forEach((row) => {
+				row.forEach((cell) => {
+					if (cell.type) {
+						cell.HTMLElement.innerText = cell.translateType(cell.type);
+					}
+				});
 			});
-		});
+		}
 	}
 }

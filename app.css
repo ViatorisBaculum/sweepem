@@ -141,28 +141,6 @@ body {
 	height: 2em;
 	margin-right: 0.5em;
 }
-@media only screen and (max-width: 600px) {
-	#game {
-		padding: 10em;
-	}
-	#menu {
-		position: fixed;
-		bottom: 0;
-		width: 95vw;
-		left: 50%;
-		transform: translateX(-50%);
-	}
-	#app button {
-		width: 8vw;
-		height: 8vw;
-		font-size: 1.5em;
-		font-weight: lighter;
-		padding: 0;
-	}
-	#openSettings {
-		margin-right: 1.5em;
-	}
-}
 
 .modal-bg {
 	position: absolute;
@@ -215,4 +193,34 @@ body {
 
 .confirm {
 	margin-left: auto;
+}
+
+@media only screen and (max-width: 600px) {
+	#game {
+		padding: 10em;
+	}
+	#menu {
+		position: fixed;
+		bottom: 0;
+		width: 95vw;
+		left: 50%;
+		transform: translateX(-50%);
+	}
+	#app button {
+		width: 8vw;
+		height: 8vw;
+		font-size: 1.5em;
+		font-weight: lighter;
+		padding: 0;
+	}
+	#openSettings {
+		margin-right: 1.5em;
+	}
+	.modal {
+		width: 100%;
+		height: 100%;
+		margin: 0;
+		padding: 2em;
+		box-sizing: border-box;
+	}
 }
