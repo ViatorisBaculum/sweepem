@@ -156,8 +156,14 @@ export class Cell {
 	}
 
 	private toggleFlag(): void {
-		if (this.isFlagged) this.HTMLElement.innerHTML = "F";
-		else this.HTMLElement.innerHTML = "";
+		if (this.isFlagged) {
+			this.HTMLElement.innerHTML = "F";
+			this.HTMLElement.classList.add("flagged");
+		}
+		else {
+			this.HTMLElement.innerHTML = "";
+			this.HTMLElement.classList.remove("flagged");
+		}
 	}
 
 	private animateReveal() {

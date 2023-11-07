@@ -58,10 +58,14 @@ export class Board {
 		const app = document.getElementById("app");
 		if (app) {
 			app.classList.add("highlight");
-
-			app.addEventListener("transitionend", () => {
+			setTimeout(() => {
 				app.classList.remove("highlight");
-			});
+			}, 1000);
+			// app.ontransitionend = () => {
+			// 	console.log("asd");
+
+			// 	app.classList.remove("highlight");
+			// };
 		}
 	}
 
@@ -70,7 +74,6 @@ export class Board {
 		const y = Math.round(Math.random() * (this._width - 1));
 		let startCell = this.cells[x][y];
 		while (startCell.value !== 0) {
-			console.log(startCell);
 			let x = Math.round(Math.random() * (this._height - 1));
 			let y = Math.round(Math.random() * (this._height - 1));
 			startCell = this.cells[x][y];

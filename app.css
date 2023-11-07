@@ -19,6 +19,7 @@ body {
 	width: fit-content;
 	height: fit-content;
 	margin: auto;
+	margin-top: 5em;
 }
 #app {
 	display: grid;
@@ -32,9 +33,11 @@ body {
 	width: 2em;
 	height: 2em;
 	border: 1px solid #bbbbbb;
-	margin-left: 1px;
-	margin-top: 1px;
+	border-radius: 4px;
+	margin-left: -1px;
+	margin-top: -1px;
 	transition: background-color 1s ease-in-out;
+	z-index: 2;
 }
 #app.highlight button {
 	transition: background-color 0.5s ease-in-out;
@@ -46,11 +49,16 @@ body {
 	box-shadow: unset;
 	color: unset;
 	transition: transform 0.1s linear;
+	z-index: 1;
 }
 #app button.notClicked {
 	background-color: #ededed;
 	border: 1px solid #b5b5b5;
 	color: #acacac;
+}
+#app button.flagged {
+	font-weight: 900;
+	color: #a1302c;
 }
 #app button.shrinked {
 	transition: transform 0.1s linear, background-color 1s linear,
@@ -60,6 +68,7 @@ body {
 #app button.monster {
 	background-color: #96e1ff;
 	border: 1px solid #6a93c9;
+	z-index: 3;
 }
 #app button.Z {
 	background-color: #96ffbe;
@@ -114,6 +123,7 @@ body {
 	line-height: 2;
 	border-radius: 0.3em;
 	justify-content: space-between;
+	z-index: 3;
 }
 #health {
 	margin-left: 1em;
@@ -149,6 +159,7 @@ body {
 	width: 100%;
 	height: 100%;
 	background-color: hsl(0deg 100% 100%/70%);
+	z-index: 4;
 }
 
 .modal {
@@ -196,6 +207,10 @@ body {
 }
 
 @media only screen and (max-width: 600px) {
+	body {
+		position: relative;
+		height: 100vh;
+	}
 	#game {
 		padding: 10em;
 	}
@@ -222,5 +237,8 @@ body {
 		margin: 0;
 		padding: 2em;
 		box-sizing: border-box;
+	}
+	.modal-bg {
+		position: fixed;
 	}
 }
