@@ -57,15 +57,9 @@ export class Board {
 	public indicateLevelGain() {
 		const app = document.getElementById("app");
 		if (app) {
+			app.classList.remove("highlight");
+			void app.offsetWidth;
 			app.classList.add("highlight");
-			setTimeout(() => {
-				app.classList.remove("highlight");
-			}, 1000);
-			// app.ontransitionend = () => {
-			// 	console.log("asd");
-
-			// 	app.classList.remove("highlight");
-			// };
 		}
 	}
 

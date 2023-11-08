@@ -26,7 +26,6 @@ body {
 	grid-template-columns: repeat(var(--cols), 1fr);
 	grid-template-rows: repeat(var(--rows), 1fr);
 	width: fit-content;
-	transition: background-color 1s linear;
 	user-select: none;
 }
 #app button {
@@ -36,11 +35,18 @@ body {
 	border-radius: 4px;
 	margin-left: -1px;
 	margin-top: -1px;
-	transition: background-color 1s ease-in-out;
 	z-index: 2;
 }
+@keyframes highlight {
+	from {
+		background-color: #f0f0f0;
+	}
+	to {
+		background-color: var(--theme-color1);
+	}
+}
 #app.highlight button {
-	transition: background-color 0.5s ease-in-out;
+	animation: highlight 1s reverse forwards;
 	background-color: var(--theme-color1);
 }
 #app button.clicked {
@@ -60,10 +66,18 @@ body {
 	font-weight: 900;
 	color: #a1302c;
 }
+@keyframes shrink {
+	from {
+		transform: scale(1);
+	}
+	to {
+		transform: scale(0);
+	}
+}
 #app button.shrinked {
-	transition: transform 0.1s linear, background-color 1s linear,
-		border 1s linear;
-	transform: scale(0);
+	/* transition: transform 0.1s linear, background-color 1s linear,
+		border 1s linear; */
+	animation: shrink 0.2s reverse forwards;
 }
 #app button.monster {
 	background-color: #96e1ff;
@@ -232,8 +246,8 @@ body {
 		margin-right: 1.5em;
 	}
 	.modal {
-		width: 100%;
-		height: 100%;
+		width: 100vw;
+		height: 100vh;
 		margin: 0;
 		padding: 2em;
 		box-sizing: border-box;

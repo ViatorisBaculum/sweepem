@@ -168,11 +168,14 @@ export class Cell {
 
 	private animateReveal() {
 		if (this.HTMLElement.checkVisibility()) {
+			this.HTMLElement.classList.remove("shrinked");
+
 			this.HTMLElement.classList.add("shrinked");
 
-			this.HTMLElement.addEventListener("transitionend", () => {
-				this.HTMLElement.classList.remove("shrinked");
-			});
+			// this.HTMLElement.addEventListener("transitionend", () => {
+			// 	this.HTMLElement.classList.remove("shrinked");
+			// 	//console.log("shrinked");
+			// });
 		}
 	}
 }
