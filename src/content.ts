@@ -9,6 +9,10 @@ export function initialize() {
 	initalModal();
 	if (settingsButton)
 		settingsButton.addEventListener("click", () => toggleSettings(), false);
+
+	const resetButton = document.getElementById("reset");
+	if (resetButton) resetButton.addEventListener("click", () => resetGame(), false);
+
 	if (menu) menu.style.display = "none";
 }
 function initalModal() {
@@ -39,4 +43,8 @@ function toggleSettings() {
 	modal.setText("Please choose the settings for your next round");
 	modal.setSlotContent(settingsForm.innerHTML);
 	modal.setConfirmAction(() => GameMaster.getInstance().resetGame());
+}
+
+function resetGame() {
+	GameMaster.getInstance().resetGame();
 }

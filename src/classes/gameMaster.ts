@@ -96,7 +96,7 @@ export class GameMaster {
 	}
 
 	public startGame() {
-		this.setSettings();
+		if (document.getElementById("modal")) this.setSettings();
 		this.createBoard();
 		this.createPlayer();
 		this._board?.openStartArea();
