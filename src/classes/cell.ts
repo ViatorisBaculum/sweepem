@@ -45,7 +45,7 @@ export class Cell {
 			gameInstance.player.getAttacked(damage);
 		}
 
-		gameInstance.player.gainExperience(this.type);
+		gameInstance.player.gainExperience(this.type * 3);
 
 		if (gameInstance.player.health > 0 && this.type === CellType.Boss) gameInstance.winGame();
 	}

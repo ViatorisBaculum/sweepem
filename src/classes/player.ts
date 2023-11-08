@@ -62,7 +62,8 @@ export abstract class Player {
 	/*public methods*/
 	/*==============*/
 	calculateScore(time: number): void {
-		this.score = time + this.experience;
+		this.score = this.experience - time;
+		if (this.score < 0) this.score = 0;
 	}
 
 	getAttacked(damage: number): void {
@@ -104,7 +105,7 @@ export abstract class Player {
 		this._HTMLHooks.playerLevelDiv.innerText = this._level.toString();
 		if (this.heartContainers.length === 0) this.addHearts();
 		this.styleHearts();
-		this._HTMLHooks.playerExperienceDiv.innerText = "Experience: " + this._experience.toString();
+		this._HTMLHooks.playerExperienceDiv.innerText = "Exp: " + this._experience.toString();
 		this._HTMLHooks.playerScoreDiv.innerText = "Score: " + this._score.toString();
 	}
 
