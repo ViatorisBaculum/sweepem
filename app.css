@@ -157,6 +157,18 @@ body {
 #experience[value]::-webkit-progress-value {
 	background-color: var(--theme-color2);
 }
+#experience[value]:hover::after {
+	display: block;
+	content: attr(value);
+	left: 5em;
+	background: var(--theme-color1);
+	padding: 0.5em;
+	position: sticky;
+	z-index: 3;
+	margin-top: -4.5em;
+	border: 1px solid var(--theme-color3);
+	text-align: center;
+}
 #health img {
 	vertical-align: middle;
 	width: 1em;
@@ -255,9 +267,16 @@ body {
 		display: none;
 	}
 	#experience[value] {
+		display: block;
 		transform: rotate(270deg);
 		margin: auto 0;
 		width: 40%;
+	}
+	#experience[value]:hover::after {
+		transform: rotate(90deg);
+		position: absolute;
+		left: 5em;
+		top: 4em;
 	}
 	#app button {
 		width: 8vw;
