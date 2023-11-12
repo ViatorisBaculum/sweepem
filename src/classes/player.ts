@@ -136,8 +136,9 @@ export abstract class Player {
 
 	private updateProgress() {
 		if (this._level < 5) {
-			this._HTMLHooks.playerExperienceProgress.max = defaults.expToNextLevel[this.level - 1];
-			this._HTMLHooks.playerExperienceProgress.value = this._experience;
+			const expFromLastLevel = this._level > 1 ? defaults.expToNextLevel[this.level - 2] : 0;
+			this._HTMLHooks.playerExperienceProgress.max = defaults.expToNextLevel[this.level - 1] - expFromLastLevel;
+			this._HTMLHooks.playerExperienceProgress.value = this._experience - expFromLastLevel;
 		}
 	}
 }

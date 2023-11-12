@@ -1,9 +1,6 @@
 @board.ts > createUrn
 Schleife statt Elemente individuell in Urne zu packen. Abhängig von CellType-Interface
 
-@player.ts > calculateScore
-Eine vernünftige Berechnung des Scores
-
 @gameMaster.ts > timer
 "room for improvement is immer" - Unknown
 
@@ -21,8 +18,6 @@ Assassine: Wenig HP, kann Monster auf gleichem Level killen. Monster darf nicht 
 Mage: Meteor werfen öffnet ein 3x3 Feld (außer Monster)
 
 ## Monster zu Beginn etwas niedriger im Level. Möglicherweise dann stärkerer Anstieg. Machbar über Distribution.
-
-## Exp als Balken. Mit Klick/Hover soll Popup mit Zahlenwert gezeigt werden.
 
 ## Flag setzen mit Zahlenwert
 

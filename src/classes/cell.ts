@@ -67,7 +67,6 @@ export class Cell {
 	}
 
 	public getBlankNeighbors() {
-
 		let neighbor: Cell[] | undefined;
 		for (let dx = -1; dx <= 1; dx++) {
 			for (let dy = -1; dy <= 1; dy++) {
@@ -171,11 +170,6 @@ export class Cell {
 			this.HTMLElement.classList.remove("shrinked");
 
 			this.HTMLElement.classList.add("shrinked");
-
-			// this.HTMLElement.addEventListener("transitionend", () => {
-			// 	this.HTMLElement.classList.remove("shrinked");
-			// 	//console.log("shrinked");
-			// });
 		}
 	}
 }
