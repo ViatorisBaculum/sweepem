@@ -73,6 +73,8 @@ export class GameMaster {
 
 	public loseGame() {
 		this.endGame();
+
+		alert("You lost! :(");
 	}
 
 	public playerUp() {

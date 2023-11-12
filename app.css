@@ -5,9 +5,17 @@
 	--theme-color2: rgb(92, 131, 116);
 	--theme-color3: rgb(24, 61, 61);
 	--theme-color4: rgb(4, 13, 18);
+	--button-color: #f0f0f0;
+	--button-clicked-color: #fafafa;
+	--flag-color: #a1302c;
 }
 * :focus {
 	outline: none;
+}
+html,
+body {
+	overflow-x: auto;
+	overflow-y: auto;
 }
 html {
 	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
@@ -20,6 +28,7 @@ body {
 	height: fit-content;
 	margin: auto;
 	margin-top: 5em;
+	overflow: auto;
 }
 #app {
 	display: grid;
@@ -39,7 +48,7 @@ body {
 }
 @keyframes highlight {
 	from {
-		background-color: #f0f0f0;
+		background-color: var(--button-color);
 	}
 	to {
 		background-color: var(--theme-color1);
@@ -50,7 +59,7 @@ body {
 	background-color: var(--theme-color1);
 }
 #app button.clicked {
-	background-color: #fff;
+	background-color: var(--button-clicked-color);
 	border: 1px solid #f0f0f0;
 	box-shadow: unset;
 	color: unset;
@@ -64,7 +73,7 @@ body {
 }
 #app button.flagged {
 	font-weight: 900;
-	color: #a1302c;
+	color: var(--flag-color);
 }
 @keyframes shrink {
 	from {
@@ -114,7 +123,7 @@ body {
 	width: 2em;
 	height: 2em;
 	border-radius: 100%;
-	border: 1px solid #fff;
+	border: 1px solid var(--button-clicked-color);
 	text-align: center;
 	vertical-align: middle;
 	line-height: 2;
@@ -209,31 +218,44 @@ body {
 	display: flex;
 	flex-direction: column;
 	margin: 2rem auto 0 auto;
-	padding: 0.5rem;
+	padding: 1rem;
 	width: 33%;
 	min-height: 20vh;
-	border: 1px solid var(--theme-color4);
+	border: 1px solid var(--theme-color3);
 	background-color: var(--theme-color1);
 	color: var(--theme-color3);
 	opacity: 1;
 }
-
+.modal h1 {
+	margin-top: 0;
+}
 .modal hr {
 	border-color: var(--theme-color4);
-	width: 90%;
+	width: 100%;
 }
 
 .modal fieldset {
 	display: flex;
 	flex-direction: column;
 	margin: 1rem 0;
+	border: 1px solid var(--theme-color2);
+}
+.modal fieldset select,
+.modal fieldset input {
+	border: none;
+	background-color: var(--theme-color2);
+	padding: 0.3rem;
+	color: var(--theme-color3);
+	font-weight: bolder;
 }
 .modal button {
 	background-color: var(--theme-color2);
-	color: var(--theme-color4);
+	color: var(--theme-color3);
 	font-size: 1.5rem;
 	padding: 0.2rem;
-	border-color: var(--theme-color4);
+	border: 1px solid var(--theme-color3);
+	border-radius: 2px;
+	padding: 0.2em 0.5em;
 }
 
 .modal button:hover {
@@ -256,13 +278,16 @@ body {
 	}
 	#game {
 		padding: 10em;
+		height: calc(100vh - 200px);
 	}
 	#menu {
 		position: fixed;
-		bottom: 0;
 		width: 95vw;
 		left: 50%;
 		transform: translateX(-50%);
+		bottom: 1em;
+		margin: 0 auto;
+		display: block;
 	}
 	#playerClass {
 		display: none;
