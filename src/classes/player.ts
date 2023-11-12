@@ -4,7 +4,7 @@ import { GameMaster } from "./gameMaster";
 
 interface PlayerHTMLHooks {
 	playerClassSpan: HTMLElement;
-	playerExperienceDiv: HTMLElement;
+	playerExperienceProgress: HTMLProgressElement;
 	playerHealthDiv: HTMLElement;
 	playerLevelDiv: HTMLElement;
 	playerScoreDiv: HTMLElement;
@@ -90,10 +90,16 @@ export abstract class Player {
 		return result;
 	}
 
+	private importHTMLProgressElement(id: string): HTMLProgressElement {
+		const result = document.getElementById(id) as HTMLProgressElement;
+		if (!result) throw new Error("No html element with id: " + id);
+		return result;
+	}
+
 	private loadHTMLHooks(): PlayerHTMLHooks {
 		return {
 			playerClassSpan: this.importHTMLElement("playerClass"),
-			playerExperienceDiv: this.importHTMLElement("experience"),
+			playerExperienceProgress: this.importHTMLProgressElement("experience"),
 			playerHealthDiv: this.importHTMLElement("health"),
 			playerLevelDiv: this.importHTMLElement("playerLevel"),
 			playerScoreDiv: this.importHTMLElement("score"),
@@ -105,7 +111,8 @@ export abstract class Player {
 		this._HTMLHooks.playerLevelDiv.innerText = this._level.toString();
 		if (this.heartContainers.length === 0) this.addHearts();
 		this.styleHearts();
-		this._HTMLHooks.playerExperienceDiv.innerText = "Exp: " + this._experience.toString();
+		//this._HTMLHooks.playerExperienceProgress.innerText = "Exp: " + this._experience.toString();
+		this.updateProgress();
 		this._HTMLHooks.playerScoreDiv.innerText = "Score: " + this._score.toString();
 	}
 
@@ -125,5 +132,12 @@ export abstract class Player {
 			if (i >= this.health) heart.classList.add("colored");
 			else heart.classList.remove("colored");
 		});
+	}
+
+	private updateProgress() {
+		if (this._level < 5) {
+			this._HTMLHooks.playerExperienceProgress.max = defaults.expToNextLevel[this.level - 1];
+			this._HTMLHooks.playerExperienceProgress.value = this._experience;
+		}
 	}
 }

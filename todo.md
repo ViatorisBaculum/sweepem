@@ -19,3 +19,11 @@ Druide: Größerer AOE Effekt
 Nekromant: Minen "sammeln" wenn man genug hat kann man Minen höheren Levels zerstören
 Assassine: Wenig HP, kann Monster auf gleichem Level killen. Monster darf nicht verborgen sein
 Mage: Meteor werfen öffnet ein 3x3 Feld (außer Monster)
+
+## Monster zu Beginn etwas niedriger im Level. Möglicherweise dann stärkerer Anstieg. Machbar über Distribution.
+
+## Exp als Balken. Mit Klick/Hover soll Popup mit Zahlenwert gezeigt werden.
+
+## Flag setzen mit Zahlenwert
+
+## Levelup deutlicher darstellen
