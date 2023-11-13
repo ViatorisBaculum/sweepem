@@ -3,6 +3,7 @@ import { Modal } from "./util/modal";
 
 const settingsForm = document.getElementById("template-settings");
 const menu = document.getElementById("menu");
+const app = document.getElementById("app");
 
 export function initialize() {
 	const settingsButton = document.getElementById("openSettings");
@@ -14,6 +15,7 @@ export function initialize() {
 	if (resetButton) resetButton.addEventListener("click", () => resetGame(), false);
 
 	if (menu) menu.style.display = "none";
+	setMineSize();
 }
 function initalModal() {
 	if (!settingsForm) throw new Error("No settings template found");
@@ -47,4 +49,27 @@ function toggleSettings() {
 
 function resetGame() {
 	GameMaster.getInstance().resetGame();
+}
+
+function setMineSize() {
+	const selectSize = document.getElementById("selectSize") as HTMLSelectElement;
+	if (app) {
+		switch (selectSize.value) {
+			case "small":
+				app.classList.add("small");
+				app.classList.remove("medium");
+				app.classList.remove("large");
+				break;
+			case "medium":
+				app.classList.remove("small");
+				app.classList.add("medium");
+				app.classList.remove("large");
+				break;
+			case "large":
+				app.classList.remove("small");
+				app.classList.remove("medium");
+				app.classList.add("large");
+				break;
+		}
+	}
 }
