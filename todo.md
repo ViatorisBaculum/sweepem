@@ -4,8 +4,6 @@ Schleife statt Elemente individuell in Urne zu packen. Abhängig von CellType-In
 @gameMaster.ts > timer
 "room for improvement is immer" - Unknown
 
-## css highlight transition zerstört weil an animation rumgespielt
-
 ## Ideen für Klassen
 
 Paladin: Hohe HP und Regenration pro Level, oder pro x Zellen
@@ -19,6 +17,10 @@ Mage: Meteor werfen öffnet ein 3x3 Feld (außer Monster)
 
 ## Monster zu Beginn etwas niedriger im Level. Möglicherweise dann stärkerer Anstieg. Machbar über Distribution.
 
-## Flag setzen mit Zahlenwert
+## Flag setzen mit Zahlenwert. Noch nicht entschieden ob das Sinn macht.
 
-## Levelup deutlicher darstellen
+## Levelup deutlicher darstellen. Vielleicht ein Popup oder so.
+
+## Öffnen der Neighbors per Linksklick in der mobilen Version. @cell.ts > addEventListener
+
+## @modal.ts > addEventlistener schon wieder ein scheiß setTimeout notwendig. Wieso zur Hölle?

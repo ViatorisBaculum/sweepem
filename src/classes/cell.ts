@@ -152,6 +152,15 @@ export class Cell {
 	private addEventListeners() {
 		this.HTMLElement.addEventListener("click", () => this.click(), false);
 		this.HTMLElement.addEventListener("contextmenu", (e) => this.rightClick(e), false);
+
+		// why is this not working??
+
+		// if (this.isMobile()) {
+		// 	this.HTMLElement.addEventListener("click", (e) => this.rightClick(e), false);
+		// } else {
+		// 	this.HTMLElement.addEventListener("click", () => this.click(), false);
+		// 	this.HTMLElement.addEventListener("contextmenu", (e) => this.rightClick(e), false);
+		// }
 	}
 
 	private toggleFlag(): void {
@@ -172,4 +181,16 @@ export class Cell {
 			this.HTMLElement.classList.add("shrinked");
 		}
 	}
+
+	// private isMobile(): boolean {
+	// 	var hasTouchScreen = false;
+
+	// 	if ("maxTouchPoints" in navigator) {
+	// 		hasTouchScreen = navigator.maxTouchPoints > 0;
+	// 	}
+
+	// 	if (hasTouchScreen) {
+	// 		return true;
+	// 	} else return false
+	// }
 }

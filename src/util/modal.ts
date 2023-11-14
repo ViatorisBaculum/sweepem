@@ -1,3 +1,4 @@
+import defaults from "./defaults";
 interface modalSettings {
 	cancelButton?: boolean;
 	title?: string;
@@ -10,6 +11,7 @@ export class Modal {
 	};
 	parentNode: HTMLElement;
 	node: Node;
+
 	constructor(parentNode: HTMLElement, modalSettings?: modalSettings) {
 		this.parentNode = parentNode;
 		this.modalSettings = modalSettings || this.modalSettings;
@@ -19,6 +21,9 @@ export class Modal {
 		this.node = parentNode.appendChild(this.node);
 		this.setCancelAction();
 		this.parseModalSettings();
+		this.setDefaultClass();
+		this.setClassTitle(defaults.playerClass);
+		this.addEventListener();
 	}
 
 	private destroyModal() {
@@ -46,6 +51,34 @@ export class Modal {
 			modal.innerText = title;
 		}
 	}
+	setClassTitle(title: string) {
+		const modal = document.getElementById("modal-class");
+		if (modal) {
+			modal.innerText = title;
+			this.setClassText(title);
+		}
+	}
+	setClassText(title: string) {
+		const modal = document.getElementById("modal-classDescription");
+		if (modal) {
+			switch (title) {
+				case "Assassin":
+					modal.innerText = "The assassin can kill Monster on his Level blabla";
+					break;
+				case "Warrior":
+					modal.innerText = "The warrior gains hearts on level up";
+					break;
+				case "Paladin":
+					modal.innerText = "The paladin has high health to begin with";
+					break;
+				case "Mage":
+					modal.innerText = "The mage can throw fire balls";
+					break;
+				default:
+					break;
+			}
+		}
+	}
 	setSlotContent(content: string) {
 		const modal = document.getElementById("modal-slot");
 		if (modal) {
@@ -57,6 +90,14 @@ export class Modal {
 		if (modal) {
 			modal.innerText = text;
 		}
+	}
+	setDefaultClass() {
+		setTimeout(() => {
+			const select = document.getElementById("selectClass") as HTMLSelectElement;
+			if (select) {
+				select.value = defaults.playerClass;
+			};
+		}, 100);
 	}
 	setConfirmAction(cb: Function) {
 		const confirmButton = document.getElementById("modal-confirm");
@@ -75,5 +116,13 @@ export class Modal {
 				this.destroyModal();
 			});
 		}
+	}
+	addEventListener() {
+		// y do i have to add the fucking setTimeout again?
+		setTimeout(() => {
+			const select = document.getElementById("selectClass") as HTMLSelectElement;
+			console.log(select); // without setTime === null
+			if (select) select.addEventListener("change", () => this.setClassTitle(select.value));
+		}, 1000);
 	}
 }

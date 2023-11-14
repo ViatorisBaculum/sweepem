@@ -48,16 +48,10 @@ body {
 	z-index: 2;
 }
 #app.small button {
-	width: 2em;
-	height: 2em;
 }
 #app.medium button {
-	width: 3em;
-	height: 3em;
 }
 #app.large button {
-	width: 4em;
-	height: 4em;
 }
 @keyframes highlight {
 	from {
