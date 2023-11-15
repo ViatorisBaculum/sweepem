@@ -28,6 +28,11 @@ const monsterKeys = {
 	6: "B"
 }
 
+const experienceGain = {
+	open: 1,
+	multiplicator: 3
+}
+
 const playerClass: playerClasses = "Warrior";
 
-export default { typeDistribution, expToNextLevel, boardDefaults, playerClass, monsterKeys };
+export default { typeDistribution, expToNextLevel, boardDefaults, playerClass, monsterKeys, experienceGain };

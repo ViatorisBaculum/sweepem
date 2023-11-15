@@ -34,7 +34,7 @@ export class Cell {
 
 	addExperience() {
 		const gameInstance = GameMaster.getInstance();
-		gameInstance.player.gainExperience(1);
+		gameInstance.player.gainExperience(defaults.experienceGain.open);
 	}
 
 	attackPlayer() {
@@ -45,7 +45,7 @@ export class Cell {
 			gameInstance.player.getAttacked(damage);
 		}
 
-		gameInstance.player.gainExperience(this.type * 3);
+		gameInstance.player.gainExperience(this.type * defaults.experienceGain.multiplicator);
 
 		if (gameInstance.player.health > 0 && this.type === CellType.Boss) gameInstance.winGame();
 	}
