@@ -47,6 +47,10 @@ export class GameMaster {
 		if (!this._player) throw new Error("Player was not initialized!");
 		return this._player;
 	}
+	public get timer(): NodeJS.Timeout | undefined {
+		if (!this._timer) return undefined;
+		return this._timer;
+	}
 	/*==============*/
 	/*public methods*/
 	/*==============*/
@@ -99,8 +103,8 @@ export class GameMaster {
 
 	public startGame() {
 		if (document.getElementById("modal")) this.setSettings();
-		this.createBoard();
 		this.createPlayer();
+		this.createBoard();
 		this._board?.openStartArea();
 
 		this.resetTimer();

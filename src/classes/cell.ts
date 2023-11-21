@@ -12,6 +12,7 @@ export class Cell {
 	HTMLElement: HTMLButtonElement;
 	x: number;
 	y: number;
+	gameInstance = GameMaster.getInstance();
 
 	constructor(type: CellType, board: Board, x: number, y: number, htmlElement: HTMLButtonElement, value?: number) {
 		this.type = type;
@@ -21,38 +22,38 @@ export class Cell {
 		this.y = y;
 		this.HTMLElement = htmlElement;
 		this.addEventListeners();
+
+		if (this.gameInstance.player.className === "Assassin") this.rightClick = this.rightClickAssassin;
 	}
 
 	/*==============*/
 	/*public methods*/
 	/*==============*/
 
-	activateCell() {
+	activateCell(experience: number) {
 		this.revealCell();
-		this.addExperience();
+		this.addExperience(experience);
 	}
 
-	addExperience() {
-		const gameInstance = GameMaster.getInstance();
-		gameInstance.player.gainExperience(defaults.experienceGain.open);
+	addExperience(experience: number) {
+		this.gameInstance.player.gainExperience(experience);
 	}
 
-	attackPlayer() {
-		const gameInstance = GameMaster.getInstance();
-		const damage = this.type - gameInstance.player.level + 1;
+	attackPlayer(damage?: number) {
+		if (!damage && damage !== 0) damage = this.type - this.gameInstance.player.level + 1;
 
-		if (damage >= 0) {
-			gameInstance.player.getAttacked(damage);
+		if (damage > 0) {
+			this.gameInstance.player.getAttacked(damage);
 		}
 
-		gameInstance.player.gainExperience(this.type * defaults.experienceGain.multiplicator);
+		this.addExperience(this.type * defaults.experienceGain.multiplicator);
 
-		if (gameInstance.player.health > 0 && this.type === CellType.Boss) gameInstance.winGame();
+		if (this.gameInstance.player.health > 0 && this.type === CellType.Boss) this.gameInstance.winGame();
 	}
 
 	click() {
 		if (this.value !== undefined) {
-			this.activateCell();
+			this.activateCell(defaults.experienceGain.open);
 		}
 
 		if (this.value === 0 && this.type === CellType.Empty) {
@@ -61,8 +62,7 @@ export class Cell {
 
 		if (this.type > 0 && this.value === undefined) {
 			this.attackPlayer();
-
-			this.activateCell();
+			this.activateCell(0);
 		}
 	}
 
@@ -70,9 +70,9 @@ export class Cell {
 		let neighbor: Cell[] | undefined;
 		for (let dx = -1; dx <= 1; dx++) {
 			for (let dy = -1; dy <= 1; dy++) {
-				const celli = this.board.getCell(this.x + dx, this.y + dy);
-				if (celli && celli.value === 0) {
-					if (neighbor && celli) neighbor.push(celli);
+				const cell = this.board.getCell(this.x + dx, this.y + dy);
+				if (cell && cell.value === 0) {
+					if (neighbor && cell) neighbor.push(cell);
 				}
 			}
 		}
@@ -86,7 +86,7 @@ export class Cell {
 					if (neighbor.value === 0) {
 						neighbor.click();
 					} else if (neighbor.type === CellType.Empty) {
-						neighbor.activateCell();
+						neighbor.activateCell(defaults.experienceGain.open);
 					} else if (neighbor.type > CellType.Empty) {
 						neighbor.click();
 					}
@@ -95,7 +95,7 @@ export class Cell {
 		}
 	}
 
-	isAnyNeighborClicked(): boolean {
+	public isAnyNeighborClicked(): boolean {
 		for (let dx = -1; dx <= 1; dx++) {
 			for (let dy = -1; dy <= 1; dy++) {
 				const neighbor = this.board.getCell(this.x + dx, this.y + dy);
@@ -134,6 +134,22 @@ export class Cell {
 		if (!this.isClicked) {
 			this.isFlagged = !this.isFlagged;
 			this.toggleFlag();
+		} else {
+			this.clickNeighbors();
+		}
+	}
+
+	rightClickAssassin(e: Event) {
+		e.preventDefault();
+		if (!this.isClicked) {
+			this.activateCell(0);
+			if (this.gameInstance.player.level === this.type) {
+				this.attackPlayer(0);
+			} else if (this.gameInstance.player.level < this.type) {
+				this.attackPlayer();
+			} else {
+				this.attackPlayer(1);
+			}
 		} else {
 			this.clickNeighbors();
 		}

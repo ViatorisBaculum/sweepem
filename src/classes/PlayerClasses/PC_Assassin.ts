@@ -7,9 +7,4 @@ export class PC_Assassin extends Player {
 		this.health = 2;
 		this.maxHealth = this.health;
 	}
-
-	getAttacked(damage: number): void {
-		if (damage === 1) damage = 0;
-		this.health -= damage;
-	}
 }
