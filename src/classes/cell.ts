@@ -119,7 +119,6 @@ export class Cell {
 		this.isClicked = true;
 		this.animateReveal();
 
-		this.HTMLElement.disabled = true;
 		this.HTMLElement.classList.add("clicked");
 
 		if (this.value) this.HTMLElement.innerText = this.value.toString();
@@ -166,17 +165,13 @@ export class Cell {
 	/*===============*/
 
 	private addEventListeners() {
-		this.HTMLElement.addEventListener("click", () => this.click(), false);
-		this.HTMLElement.addEventListener("contextmenu", (e) => this.rightClick(e), false);
-
-		// why is this not working??
-
-		// if (this.isMobile()) {
-		// 	this.HTMLElement.addEventListener("click", (e) => this.rightClick(e), false);
-		// } else {
-		// 	this.HTMLElement.addEventListener("click", () => this.click(), false);
-		// 	this.HTMLElement.addEventListener("contextmenu", (e) => this.rightClick(e), false);
-		// }
+		if (this.isMobile()) {
+			this.HTMLElement.addEventListener("click", (e) => this.rightClick(e), false);
+			this.HTMLElement.addEventListener("contextmenu", () => this.click(), false);
+		} else {
+			this.HTMLElement.addEventListener("click", () => this.click(), false);
+			this.HTMLElement.addEventListener("contextmenu", (e) => this.rightClick(e), false);
+		}
 	}
 
 	private toggleFlag(): void {
@@ -198,15 +193,15 @@ export class Cell {
 		}
 	}
 
-	// private isMobile(): boolean {
-	// 	var hasTouchScreen = false;
+	private isMobile(): boolean {
+		var hasTouchScreen = false;
 
-	// 	if ("maxTouchPoints" in navigator) {
-	// 		hasTouchScreen = navigator.maxTouchPoints > 0;
-	// 	}
+		if ("maxTouchPoints" in navigator) {
+			hasTouchScreen = navigator.maxTouchPoints > 0;
+		}
 
-	// 	if (hasTouchScreen) {
-	// 		return true;
-	// 	} else return false
-	// }
+		if (hasTouchScreen) {
+			return true;
+		} else return false
+	}
 }
