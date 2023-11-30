@@ -165,7 +165,9 @@ export class Cell {
 	/*===============*/
 
 	private addEventListeners() {
-		if (this.isMobile()) {
+		//if (this.isMobile()) {
+		console.log(this.isMobile());
+		if (this.gameInstance.invertClicks) {
 			this.HTMLElement.addEventListener("click", (e) => this.rightClick(e), false);
 			this.HTMLElement.addEventListener("contextmenu", () => this.click(), false);
 		} else {

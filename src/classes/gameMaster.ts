@@ -17,6 +17,7 @@ export class GameMaster {
 	private _playerClass: playerClasses = defaults.playerClass;
 	private _timer?: NodeJS.Timeout;
 	private _gameTimer: number = 0;
+	private _invertClicks: boolean = false;
 
 	private constructor() {
 		document.getElementById("resetButton")?.addEventListener("click", () => this.resetGame());
@@ -50,6 +51,9 @@ export class GameMaster {
 	public get timer(): NodeJS.Timeout | undefined {
 		if (!this._timer) return undefined;
 		return this._timer;
+	}
+	public get invertClicks(): boolean {
+		return this._invertClicks;
 	}
 	/*==============*/
 	/*public methods*/
@@ -99,6 +103,26 @@ export class GameMaster {
 		this._height = +this.getValueFromInput("inputHeight");
 		this._minesFrequency = +this.getValueFromInput("minesFrequency");
 		this._playerClass = this.getValueFromInput("selectClass") as playerClasses;
+		const toggle = document.getElementById("invertClicks") as HTMLInputElement;
+		this._invertClicks = toggle.checked;
+
+		localStorage.setItem("instance", JSON.stringify(this));
+	}
+
+	public getSettings() {
+		const localSettings = localStorage.getItem("instance");
+		if (localSettings !== null) {
+			const storedSettings = JSON.parse(localSettings);
+
+			this.setValueToInput("inputWidth", storedSettings._width);
+			this.setValueToInput("inputHeight", storedSettings._height);
+			this.setValueToInput("minesFrequency", storedSettings._minesFrequency);
+			this.setValueToInput("selectClass", storedSettings._playerClass);
+			this.setValueToToggle("invertClicks", storedSettings._invertClicks);
+
+			// const toggle = document.getElementById("invertClicks") as HTMLInputElement;
+			// this._invertClicks = toggle.checked;
+		}
 	}
 
 	public startGame() {
@@ -135,6 +159,18 @@ export class GameMaster {
 	private getValueFromInput(name: string) {
 		const input = document.getElementById(name);
 		if (input) return (input as HTMLInputElement).value;
+		else throw new Error("gameMaster: getValueFromHTML: HTML does not exist");
+	}
+
+	private setValueToInput(name: string, value: string) {
+		const input = document.getElementById(name);
+		if (input) (input as HTMLInputElement).value = value;
+		else throw new Error("gameMaster: getValueFromHTML: HTML does not exist");
+	}
+
+	private setValueToToggle(name: string, value: boolean) {
+		const input = document.getElementById(name);
+		if (input) (input as HTMLInputElement).checked = value;
 		else throw new Error("gameMaster: getValueFromHTML: HTML does not exist");
 	}
 
