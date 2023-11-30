@@ -68,12 +68,18 @@
 				min="0.01"
 				max="0.99"
 			/>
-			<label for="selectSize">Mine size</label>
-			<select id="selectSize">
-				<option value="small">small</option>
-				<option value="medium">medium</option>
-				<option value="large">large</option>
-			</select>
+			<label class="toggle">
+				<input
+					id="invertClicks"
+					class="toggle-checkbox"
+					type="checkbox"
+					checked
+				/>
+				<div class="toggle-switch"></div>
+				<span class="toggle-label"
+					>Invert mouse buttons, respectively open area on tap</span
+				>
+			</label>
 		</fieldset>
 	</template>
 </html>
