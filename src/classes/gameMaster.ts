@@ -7,20 +7,26 @@ import { Player } from "./player";
 import defaults from "../util/defaults";
 import { playerClasses } from "../util/customTypes";
 
+interface GameSettings {
+	width: number;
+	height: number;
+	minesFrequency: number;
+	playerClass: playerClasses;
+	invertClicks: boolean;
+	removeFlags: boolean;
+}
+
 export class GameMaster {
 	private static instance: GameMaster;
 	private _board?: Board;
 	private _player?: Player;
-	private _width: number = defaults.boardDefaults.width;
-	private _height: number = defaults.boardDefaults.height;
-	private _minesFrequency: number = defaults.boardDefaults.minesFrequency;
-	private _playerClass: playerClasses = defaults.playerClass;
 	private _timer?: NodeJS.Timeout;
 	private _gameTimer: number = 0;
-	private _invertClicks: boolean = false;
+	private _gameSettings: GameSettings;
 
 	private constructor() {
 		document.getElementById("resetButton")?.addEventListener("click", () => this.resetGame());
+		this._gameSettings = this.loadDefaultSettings();
 	}
 	static getInstance() {
 		if (!this.instance) {
@@ -53,17 +59,20 @@ export class GameMaster {
 		return this._timer;
 	}
 	public get invertClicks(): boolean {
-		return this._invertClicks;
+		return this._gameSettings.invertClicks;
+	}
+	public get removeFlags(): boolean {
+		return this._gameSettings.removeFlags;
 	}
 	/*==============*/
 	/*public methods*/
 	/*==============*/
 	public createBoard() {
-		this.board = new Board(this._width, this._height, this._minesFrequency);
+		this.board = new Board(this._gameSettings.width, this._gameSettings.height, this._gameSettings.minesFrequency);
 	}
 
 	public createPlayer() {
-		switch (this._playerClass) {
+		switch (this._gameSettings.playerClass) {
 			case "Assassin":
 				this.player = new PC_Assassin();
 				break;
@@ -79,6 +88,17 @@ export class GameMaster {
 		}
 	}
 
+	private loadDefaultSettings(): GameSettings {
+		return {
+			width: defaults.boardDefaults.width,
+			height: defaults.boardDefaults.height,
+			minesFrequency: defaults.boardDefaults.minesFrequency,
+			playerClass: defaults.playerClass,
+			invertClicks: defaults.boardDefaults.invertClicks,
+			removeFlags: defaults.boardDefaults.removeFlags
+		};
+	}
+
 	public loseGame() {
 		this.endGame();
 
@@ -88,6 +108,7 @@ export class GameMaster {
 	public playerUp() {
 		this.board.indicateLevelGain();
 		this.board.evoluteMonster();
+		if (this._gameSettings.removeFlags) this.board.removeAllFlags();
 	}
 
 	public resetGame() {
@@ -99,14 +120,14 @@ export class GameMaster {
 	}
 
 	public setSettings() {
-		this._width = +this.getValueFromInput("inputWidth");
-		this._height = +this.getValueFromInput("inputHeight");
-		this._minesFrequency = +this.getValueFromInput("minesFrequency");
-		this._playerClass = this.getValueFromInput("selectClass") as playerClasses;
-		const toggle = document.getElementById("invertClicks") as HTMLInputElement;
-		this._invertClicks = toggle.checked;
+		this._gameSettings.width = +this.getValueFromInput("inputWidth");
+		this._gameSettings.height = +this.getValueFromInput("inputHeight");
+		this._gameSettings.minesFrequency = +this.getValueFromInput("minesFrequency");
+		this._gameSettings.playerClass = this.getValueFromInput("selectClass") as playerClasses;
+		this._gameSettings.invertClicks = (document.getElementById("invertClicks") as HTMLInputElement).checked;
+		this._gameSettings.removeFlags = (document.getElementById("removeFlags") as HTMLInputElement).checked;
 
-		localStorage.setItem("instance", JSON.stringify(this));
+		localStorage.setItem("instance", JSON.stringify(this._gameSettings));
 	}
 
 	public getSettings() {
@@ -114,14 +135,12 @@ export class GameMaster {
 		if (localSettings !== null) {
 			const storedSettings = JSON.parse(localSettings);
 
-			this.setValueToInput("inputWidth", storedSettings._width);
-			this.setValueToInput("inputHeight", storedSettings._height);
-			this.setValueToInput("minesFrequency", storedSettings._minesFrequency);
-			this.setValueToInput("selectClass", storedSettings._playerClass);
-			this.setValueToToggle("invertClicks", storedSettings._invertClicks);
-
-			// const toggle = document.getElementById("invertClicks") as HTMLInputElement;
-			// this._invertClicks = toggle.checked;
+			this.setValueToInput("inputWidth", storedSettings.width);
+			this.setValueToInput("inputHeight", storedSettings.height);
+			this.setValueToInput("minesFrequency", storedSettings.minesFrequency);
+			this.setValueToInput("selectClass", storedSettings.playerClass);
+			this.setValueToToggle("invertClicks", storedSettings.invertClicks);
+			this.setValueToToggle("removeFlags", storedSettings.removeFlags);
 		}
 	}
 

@@ -15,7 +15,9 @@ const boardDefaults = {
 	width: 40,
 	height: 20,
 	minesFrequency: 0.3,
-	evolutionRate: 0.2
+	evolutionRate: 0.2,
+	invertClicks: false,
+	removeFlags: false
 };
 
 const monsterKeys = {

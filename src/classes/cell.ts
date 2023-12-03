@@ -165,7 +165,6 @@ export class Cell {
 	/*===============*/
 
 	private addEventListeners() {
-		//if (this.isMobile()) {
 		console.log(this.isMobile());
 		if (this.gameInstance.invertClicks) {
 			this.HTMLElement.addEventListener("click", (e) => this.rightClick(e), false);
@@ -176,12 +175,11 @@ export class Cell {
 		}
 	}
 
-	private toggleFlag(): void {
+	public toggleFlag(): void {
 		if (this.isFlagged) {
 			this.HTMLElement.innerHTML = "F";
 			this.HTMLElement.classList.add("flagged");
-		}
-		else {
+		} else {
 			this.HTMLElement.innerHTML = "";
 			this.HTMLElement.classList.remove("flagged");
 		}
