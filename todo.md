@@ -21,6 +21,4 @@ Mage: Meteor werfen öffnet ein 3x3 Feld (außer Monster)
 
 ## Levelup deutlicher darstellen. Vielleicht ein Popup oder so.
 
-## Öffnen der Neighbors per Linksklick in der mobilen Version. @cell.ts > addEventListener
-
 ## @modal.ts > addEventlistener schon wieder ein scheiß setTimeout notwendig. Wieso zur Hölle?

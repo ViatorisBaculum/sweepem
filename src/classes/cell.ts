@@ -165,7 +165,6 @@ export class Cell {
 	/*===============*/
 
 	private addEventListeners() {
-		console.log(this.isMobile());
 		if (this.gameInstance.invertClicks) {
 			this.HTMLElement.addEventListener("click", (e) => this.rightClick(e), false);
 			this.HTMLElement.addEventListener("contextmenu", () => this.click(), false);
@@ -193,15 +192,15 @@ export class Cell {
 		}
 	}
 
-	private isMobile(): boolean {
-		var hasTouchScreen = false;
+	// private isMobile(): boolean {
+	// 	var hasTouchScreen = false;
 
-		if ("maxTouchPoints" in navigator) {
-			hasTouchScreen = navigator.maxTouchPoints > 0;
-		}
+	// 	if ("maxTouchPoints" in navigator) {
+	// 		hasTouchScreen = navigator.maxTouchPoints > 0;
+	// 	}
 
-		if (hasTouchScreen) {
-			return true;
-		} else return false
-	}
+	// 	if (hasTouchScreen) {
+	// 		return true;
+	// 	} else return false
+	// }
 }

@@ -16,7 +16,64 @@ export function initialize() {
 	if (menu) menu.style.display = "none";
 
 	GameMaster.getInstance().getSettings();
+
+	document.addEventListener("wheel", (e) => wheel(e));
+
+	document.addEventListener('touchstart', (e) => pinchStart(e), false);
+	document.addEventListener('touchmove', (e) => pinchMove(e), false);
 }
+
+let dist: number = 0;
+
+function pinchStart(e: TouchEvent) {
+	if (e.touches.length === 2) {
+		dist = Math.hypot(
+			e.touches[0].pageX - e.touches[1].pageX,
+			e.touches[0].pageY - e.touches[1].pageY
+		);
+	}
+}
+
+function pinchMove(e: TouchEvent) {
+	if (e.touches.length === 2 && e.changedTouches.length == 2) {
+		const newDist = Math.hypot(
+			e.touches[0].pageX - e.touches[1].pageX,
+			e.touches[0].pageY - e.touches[1].pageY
+		);
+
+		const root = document.documentElement;
+		if (!root) throw new Error("No :root found");
+
+		let size = +getComputedStyle(root)
+			.getPropertyValue('--button-size').replace("em", "");
+
+		const menu = document.getElementById("menu");
+		if (newDist > dist && menu)
+			size += 0.03;
+		else
+			size -= 0.03;
+
+		root.style.setProperty("--button-size", size + "em");
+	}
+}
+
+function wheel(e: WheelEvent) {
+	console.log(e.deltaY);
+
+	const root = document.documentElement;
+	if (!root) throw new Error("No :root found");
+
+	let size = +getComputedStyle(root)
+		.getPropertyValue('--button-size').replace("em", "");
+
+	if (e.deltaY > 0)
+		size += 0.1;
+	else
+		size -= 0.1;
+
+	root.style.setProperty("--button-size", size + "em");
+}
+
 function initalModal() {
 	if (!settingsForm) throw new Error("No settings template found");
 

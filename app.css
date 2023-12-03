@@ -8,6 +8,7 @@
 	--button-color: #f0f0f0;
 	--button-clicked-color: #fafafa;
 	--flag-color: #a1302c;
+	--button-size: 2em;
 }
 * :focus {
 	outline: none;
@@ -37,10 +38,13 @@ body {
 	grid-template-rows: repeat(var(--rows), 1fr);
 	width: fit-content;
 	user-select: none;
+	overflow: auto;
+	max-width: 90vw;
+	max-height: 80vh;
 }
 #app button {
-	width: 2em;
-	height: 2em;
+	width: var(--button-size);
+	height: var(--button-size);
 	border: 1px solid #bbbbbb;
 	border-radius: 4px;
 	margin-left: -1px;
@@ -371,9 +375,14 @@ body {
 		left: 5em;
 		top: 4em;
 	}
+	#app {
+		overflow: auto;
+		max-width: unset;
+		max-height: unset;
+	}
 	#app button {
-		width: 8vw;
-		height: 8vw;
+		width: var(--button-size);
+		height: var(--button-size);
 		font-size: 1.5em;
 		font-weight: lighter;
 		padding: 0;
