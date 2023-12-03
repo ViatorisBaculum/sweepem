@@ -85,6 +85,17 @@ export class Board {
 		}
 	}
 
+	public removeAllFlags() {
+		for (let i = 0; i < this._height; i++) {
+			for (let j = 0; j < this._width; j++) {
+				if (this.cells[i][j].isFlagged) {
+					this.cells[i][j].isFlagged = false;
+					this.cells[i][j].toggleFlag();
+				}
+			}
+		}
+	}
+
 	public revealBoard() {
 		this.cells.forEach((row) => {
 			row.forEach((cell) => {
