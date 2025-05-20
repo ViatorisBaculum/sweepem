@@ -4,12 +4,15 @@
 	"main": "app.js",
 	"scripts": {
 		"dev": "webpack-dev-server",
-		"build": "webpack --config webpack.config.prod.js"
+		"build": "webpack --config webpack.config.prod.js",
+		"watch": "npm-watch"
 	},
 	"author": "Waldemar Stab",
 	"devDependencies": {
+		"@types/bonjour": "^3.5.13",
 		"clean-webpack-plugin": "^4.0.0",
 		"lite-server": "^2.5.4",
+		"npm-watch": "^0.13.0",
 		"ts-loader": "^9.4.2",
 		"typescript": "^5.2.2",
 		"webpack": "^5.75.0",

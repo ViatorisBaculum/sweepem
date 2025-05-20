@@ -6,6 +6,7 @@ import { Board } from "./board";
 import { Player } from "./player";
 import defaults from "../util/defaults";
 import { playerClasses } from "../util/customTypes";
+import { showLeaderboard } from "../content";
 
 interface GameSettings {
 	width: number;
@@ -103,6 +104,7 @@ export class GameMaster {
 		this.endGame();
 
 		alert("You lost! :(");
+		this.displayLeaderboard();
 	}
 
 	public playerUp() {
@@ -146,6 +148,7 @@ export class GameMaster {
 
 	public startGame() {
 		if (document.getElementById("modal")) this.setSettings();
+		if (document.getElementById("modal")) this.getLeaderboard();
 		this.createPlayer();
 		this.createBoard();
 		this._board?.openStartArea();
@@ -157,7 +160,32 @@ export class GameMaster {
 	public winGame() {
 		this.endGame();
 
+		this.updateLeaderboard(this.player.score);
+
 		alert("You won!");
+		this.displayLeaderboard();
+	}
+
+	public updateLeaderboard(score: number) {
+		const leaderboardKey = "leaderboard";
+		const leaderboard: number[] = JSON.parse(localStorage.getItem(leaderboardKey) || "[]");
+
+		leaderboard.push(score);
+
+		leaderboard.sort((a, b) => b - a);
+
+		const topScores = leaderboard.slice(0, 10);
+
+		localStorage.setItem(leaderboardKey, JSON.stringify(topScores));
+	}
+
+	public getLeaderboard(): number[] {
+		const leaderboardKey = "leaderboard";
+		return JSON.parse(localStorage.getItem(leaderboardKey) || "[]");
+	}
+
+	public displayLeaderboard() {
+		showLeaderboard();
 	}
 	/*===============*/
 	/*private methods*/

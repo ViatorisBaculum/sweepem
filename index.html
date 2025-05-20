@@ -2,7 +2,10 @@
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes"
+		/>
 		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
 		<title></title>
 		<link rel="stylesheet" href="app.css" />
@@ -19,6 +22,11 @@
 					<p id="score"></p>
 				</div>
 				<div id="rightMenu">
+					<img
+						id="openLeaderboard"
+						src="./res/leaderboard.svg"
+						alt="Leaderboard"
+					/>
 					<img id="reset" src="./res/refresh.svg" alt="Reset Game" />
 					<img id="openSettings" src="./res/gear.svg" alt="Settings" />
 				</div>
@@ -37,6 +45,7 @@
 					<h2 id="modal-class"></h2>
 					<div id="modal-classDescription"></div>
 					<div id="modal-slot"></div>
+					<div id="modal-leaderboard"></div>
 				</div>
 				<div class="controls">
 					<button id="modal-cancel" class="cancel">Cancel</button>
@@ -86,5 +95,11 @@
 				<span class="toggle-label">Remove flags on level up</span>
 			</label>
 		</fieldset>
+	</template>
+	<template id="template-leaderboard">
+		<div class="leaderboard-content">
+			<h3>Leaderboard</h3>
+			<div id="leaderboard-entries"></div>
+		</div>
 	</template>
 </html>

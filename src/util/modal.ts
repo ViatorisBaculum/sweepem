@@ -1,24 +1,35 @@
 import defaults from "./defaults";
 interface modalSettings {
 	cancelButton?: boolean;
+	confirmButton?: boolean;
 	title?: string;
 	subtitle?: string;
 	text?: string;
+	showClass?: boolean;
+	showClassDescription?: boolean;
+	showSlot?: boolean;
+	showSubTitle?: boolean;
 }
 export class Modal {
 	private modalSettings: modalSettings = {
 		cancelButton: false,
+		confirmButton: true,
+		showClass: true,
+		showClassDescription: true,
+		showSlot: true,
+		showSubTitle: true
 	};
 	parentNode: HTMLElement;
 	node: Node;
 
 	constructor(parentNode: HTMLElement, modalSettings?: modalSettings) {
 		this.parentNode = parentNode;
-		this.modalSettings = modalSettings || this.modalSettings;
+		this.modalSettings = { ...this.modalSettings, ...modalSettings };
 		const template = document.getElementById("template-modal");
 		if (!template) throw new Error("No modal-template found");
 		this.node = (template as HTMLTemplateElement).content.cloneNode(true);
 		this.node = parentNode.appendChild(this.node);
+
 		this.setCancelAction();
 		this.parseModalSettings();
 		this.setDefaultClass();
@@ -33,10 +44,20 @@ export class Modal {
 	private parseModalSettings() {
 		if (!this.modalSettings.cancelButton)
 			document.getElementById("modal-cancel")?.remove();
+		if (!this.modalSettings.confirmButton)
+			document.getElementById("modal-confirm")?.remove();
 		if (this.modalSettings.title) this.setTitle(this.modalSettings.title);
 		if (this.modalSettings.subtitle)
 			this.setSubTitle(this.modalSettings.subtitle);
 		if (this.modalSettings.text) this.setText(this.modalSettings.text);
+		if (!this.modalSettings.showClass)
+			document.getElementById("modal-class")?.remove();
+		if (!this.modalSettings.showClassDescription)
+			document.getElementById("modal-classDescription")?.remove();
+		if (!this.modalSettings.showSlot)
+			document.getElementById("modal-slot")?.remove();
+		if (!this.modalSettings.showSubTitle)
+			document.getElementById("modal-subtitle")?.remove();
 	}
 
 	setSubTitle(title: string) {
@@ -91,6 +112,17 @@ export class Modal {
 			modal.innerText = text;
 		}
 	}
+	setLeaderboardContent(content: number[]) {
+		const modal = document.getElementById("modal-leaderboard");
+		if (modal) {
+			//modal.innerHTML = "";
+			content.forEach((score) => {
+				const li = document.createElement("li");
+				li.innerText = score.toString();
+				modal.appendChild(li);
+			});
+		}
+	}
 	setDefaultClass() {
 		setTimeout(() => {
 			const select = document.getElementById("selectClass") as HTMLSelectElement;
@@ -109,9 +141,9 @@ export class Modal {
 		}
 	}
 	setCancelAction(cb?: Function) {
-		const confirmButton = document.getElementById("modal-cancel");
-		if (confirmButton) {
-			confirmButton.addEventListener("click", () => {
+		const cancelButton = document.getElementById("modal-cancel");
+		if (cancelButton) {
+			cancelButton.addEventListener("click", () => {
 				if (cb) cb();
 				this.destroyModal();
 			});
