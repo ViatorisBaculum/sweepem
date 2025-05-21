@@ -22,7 +22,6 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  # Build job
   build:
     runs-on: ubuntu-latest
     steps:
@@ -38,9 +37,8 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          name: github-pages-${{ github.run_id }}
+          name: github-pages-artifact # Unique artifact name
 
-  # Deployment job
   deploy:
     environment:
       name: github-pages
@@ -51,3 +49,5 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+        with:
+          artifact-name: github-pages-artifact # Reference the unique artifact
