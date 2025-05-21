@@ -222,6 +222,20 @@ html {
 	height: 2em;
 	margin-right: 0.5em;
 }
+ /* just for debugging */
+#debugLevelUp {
+    background: #ffd700;
+    color: #333;
+    font-weight: bold;
+    border: 1px solid #aaa;
+    border-radius: 0.5em;
+    padding: 0.2em 0.7em;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+#debugLevelUp:hover {
+    background: #ffe066;
+}
 
 /* Modernes Modal-Design */
 .modal-bg {

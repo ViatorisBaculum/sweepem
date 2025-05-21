@@ -67,15 +67,16 @@ export class Cell {
 	}
 
 	public getBlankNeighbors() {
-		let neighbor: Cell[] | undefined;
+		let neighbors: Cell[] = [];
 		for (let dx = -1; dx <= 1; dx++) {
 			for (let dy = -1; dy <= 1; dy++) {
 				const cell = this.board.getCell(this.x + dx, this.y + dy);
 				if (cell && cell.value === 0) {
-					if (neighbor && cell) neighbor.push(cell);
+					neighbors.push(cell);
 				}
 			}
 		}
+		return neighbors;
 	}
 
 	clickNeighbors() {
@@ -155,9 +156,13 @@ export class Cell {
 	}
 
 	public translateType(type: CellType): string {
-		if (type > 0) return defaults.monsterKeys[type];
-
-		throw new Error("cell: translateType: Unknown CellType");
+		if (type > 0 && defaults.monsterKeys[type] !== undefined) {
+			return defaults.monsterKeys[type];
+		}
+		if (type === CellType.Empty) {
+			return "."; // or "" or any symbol for empty
+		}
+		return "?";
 	}
 
 	/*===============*/

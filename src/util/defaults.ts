@@ -20,6 +20,14 @@ const boardDefaults = {
 	removeFlags: false
 };
 
+const boardColors = {
+	1: "#BFD8B8", // soft green (light, friendly)
+	2: "#7EA16B", // modern olive
+	3: "#5C8374", // teal (matches your theme)
+	4: "#355C7D", // modern blue
+	5: "#F67280"  // modern pink/coral
+};
+
 const monsterKeys = {
 	0: "E",
 	1: "R",
@@ -37,4 +45,4 @@ const experienceGain = {
 
 const playerClass: playerClasses = "Warrior";
 
-export default { typeDistribution, expToNextLevel, boardDefaults, playerClass, monsterKeys, experienceGain };
+export default { typeDistribution, expToNextLevel, boardDefaults, boardColors, playerClass, monsterKeys, experienceGain };

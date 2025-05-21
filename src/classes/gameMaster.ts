@@ -27,6 +27,7 @@ export class GameMaster {
 
 	private constructor() {
 		document.getElementById("resetButton")?.addEventListener("click", () => this.resetGame());
+		this.getSettings();
 		this._gameSettings = this.loadDefaultSettings();
 	}
 	static getInstance() {
@@ -108,7 +109,7 @@ export class GameMaster {
 	}
 
 	public playerUp() {
-		this.board.indicateLevelGain();
+		this.board.indicateLevelGain(this.player.level);
 		this.board.evoluteMonster();
 		if (this._gameSettings.removeFlags) this.board.removeAllFlags();
 	}

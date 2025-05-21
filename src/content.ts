@@ -21,6 +21,14 @@ export function initialize() {
 	if (menu) menu.style.display = "none";
 
 	GameMaster.getInstance().getSettings();
+
+	// Debug buttons
+	const debugLevelUpButton = document.getElementById("debugLevelUp");
+	if (debugLevelUpButton) {
+		debugLevelUpButton.addEventListener("click", () => {
+			GameMaster.getInstance().playerUp();
+		});
+	}
 }
 
 function initalModal() {
@@ -33,14 +41,17 @@ function initalModal() {
 		"This is a more elaborate version of MineSweeper with RPG elements such as classes, leveling and different enemies. Please choose your starting configuration."
 	);
 	modal.setSlotContent(settingsForm.innerHTML);
-	modal.setConfirmAction(() => toggleMenuBar());
+	modal.setConfirmAction(() => {
+		toggleMenuBar();
+		GameMaster.getInstance().resetGame();
+	});
 }
 
 function toggleMenuBar() {
 	if (menu && menu.style.display === "flex") menu.style.display = "none";
 	else if (menu && menu.style.display === "none") menu.style.display = "flex";
 
-	GameMaster.getInstance().resetGame()
+	//GameMaster.getInstance().resetGame()
 }
 
 function toggleSettings() {
@@ -57,6 +68,8 @@ function toggleSettings() {
 		toggleMenuBar();
 	});
 	modal.setCancelAction(() => toggleMenuBar());
+
+	GameMaster.getInstance().getSettings();
 }
 
 function resetGame() {

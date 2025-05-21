@@ -54,22 +54,27 @@ export class Board {
 		return this.getCell(i, j) ? this.cells[i][j].type : CellType.Empty;
 	}
 
-	public indicateLevelGain() {
+	public indicateLevelGain(level: number) {
 		const app = document.getElementById("app");
+		// does highlighting make sense here?
 		if (app) {
 			app.classList.remove("highlight");
 			void app.offsetWidth;
 			app.classList.add("highlight");
 		}
+		if (app) {
+			// change the css variable --button-color to the new color 
+			app.style.setProperty("--button-color", defaults.boardColors[(level as keyof typeof defaults.boardColors)]);
+		}
 	}
 
 	public openStartArea() {
-		const x = Math.round(Math.random() * (this._height - 1));
-		const y = Math.round(Math.random() * (this._width - 1));
+		const x = Math.floor(Math.random() * (this._height - 1));
+		const y = Math.floor(Math.random() * (this._width - 1));
 		let startCell = this.cells[x][y];
 		while (startCell.value !== 0) {
 			let x = Math.round(Math.random() * (this._height - 1));
-			let y = Math.round(Math.random() * (this._height - 1));
+			let y = Math.round(Math.random() * (this._width - 1));
 			startCell = this.cells[x][y];
 		}
 
@@ -142,7 +147,13 @@ export class Board {
 		urn.fill(CellType.Witch, lastGhostCell, lastWitchCell);
 		urn.fill(CellType.Boss, lastWitchCell, lastBossCell);
 
-		return urn.sort(() => 0.5 - Math.random());
+		// Fisher–Yates Shuffle
+		for (let i = urn.length - 1; i > 0; i--) {
+			const j = Math.floor(Math.random() * (i + 1));
+			[urn[i], urn[j]] = [urn[j], urn[i]];
+		}
+
+		return urn;
 	}
 
 	private determineCellValues(): void {
@@ -171,7 +182,7 @@ export class Board {
 		for (let i = 0; i < this._height; i++) {
 			this.cells.push([]);
 			for (let j = 0; j < this._width; j++) {
-				this.appendCell(i, j, urn.pop());
+				this.appendCell(i, j, urn.pop() ?? CellType.Empty);
 			}
 		}
 	}
@@ -200,7 +211,7 @@ export class Board {
 	private validateDistribution(distribution: typeDistribution): true {
 		let proportionSum = 0;
 		for (const [_key, value] of Object.entries(distribution)) proportionSum += value;
-		if (Math.abs(proportionSum - 1) < Number.EPSILON) return true;
+		if (Math.abs(proportionSum - 1) < 1e-6) return true;
 		else throw new Error("Provided typeDistribution doesn't sum to 1. Sum of proportions is " + proportionSum);
 	}
 
