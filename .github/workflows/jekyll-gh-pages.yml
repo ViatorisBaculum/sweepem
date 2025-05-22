@@ -37,7 +37,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          name: github-pages-artifact # Unique artifact name
+          name: github-pages
 
   deploy:
     environment:
@@ -50,4 +50,4 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
         with:
-          artifact-name: github-pages-artifact # Reference the unique artifact
+          artifact-name: github-pages
