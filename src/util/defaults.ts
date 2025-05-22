@@ -17,7 +17,8 @@ const boardDefaults = {
 	minesFrequency: 0.3,
 	evolutionRate: 0.2,
 	invertClicks: false,
-	removeFlags: false
+	removeFlags: false,
+	switchDarkMode: false
 };
 
 const boardColors = {

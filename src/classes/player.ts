@@ -73,6 +73,15 @@ export abstract class Player {
 	gainExperience(exp: CellType): void {
 		this.experience += exp;
 	}
+
+	debugGainLevel(): void {
+		if (this.level <= 4) {
+			this.level += 1;
+		}
+		this.experience = defaults.expToNextLevel[this.level - 1];
+		this.updateStatsheet();
+		GameMaster.getInstance().playerUp();
+	}
 	/*===============*/
 	/*private methods*/
 	/*===============*/

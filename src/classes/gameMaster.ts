@@ -15,6 +15,7 @@ interface GameSettings {
 	playerClass: playerClasses;
 	invertClicks: boolean;
 	removeFlags: boolean;
+	switchDarkMode: boolean;
 }
 
 export class GameMaster {
@@ -97,7 +98,8 @@ export class GameMaster {
 			minesFrequency: defaults.boardDefaults.minesFrequency,
 			playerClass: defaults.playerClass,
 			invertClicks: defaults.boardDefaults.invertClicks,
-			removeFlags: defaults.boardDefaults.removeFlags
+			removeFlags: defaults.boardDefaults.removeFlags,
+			switchDarkMode: defaults.boardDefaults.switchDarkMode,
 		};
 	}
 
@@ -129,6 +131,7 @@ export class GameMaster {
 		this._gameSettings.playerClass = this.getValueFromInput("selectClass") as playerClasses;
 		this._gameSettings.invertClicks = (document.getElementById("invertClicks") as HTMLInputElement).checked;
 		this._gameSettings.removeFlags = (document.getElementById("removeFlags") as HTMLInputElement).checked;
+		this._gameSettings.switchDarkMode = (document.getElementById("darkMode") as HTMLInputElement).checked;
 
 		localStorage.setItem("instance", JSON.stringify(this._gameSettings));
 	}
@@ -144,6 +147,7 @@ export class GameMaster {
 			this.setValueToInput("selectClass", storedSettings.playerClass);
 			this.setValueToToggle("invertClicks", storedSettings.invertClicks);
 			this.setValueToToggle("removeFlags", storedSettings.removeFlags);
+			this.setValueToToggle("darkMode", storedSettings.switchDarkMode);
 		}
 	}
 

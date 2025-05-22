@@ -22,11 +22,14 @@ export function initialize() {
 
 	GameMaster.getInstance().getSettings();
 
+	// Dark mode toggle
+	setupDarkModeToggle();
+
 	// Debug buttons
 	const debugLevelUpButton = document.getElementById("debugLevelUp");
 	if (debugLevelUpButton) {
 		debugLevelUpButton.addEventListener("click", () => {
-			GameMaster.getInstance().playerUp();
+			GameMaster.getInstance().player.debugGainLevel();
 		});
 	}
 }
@@ -50,8 +53,6 @@ function initalModal() {
 function toggleMenuBar() {
 	if (menu && menu.style.display === "flex") menu.style.display = "none";
 	else if (menu && menu.style.display === "none") menu.style.display = "flex";
-
-	//GameMaster.getInstance().resetGame()
 }
 
 function toggleSettings() {
@@ -66,6 +67,7 @@ function toggleSettings() {
 	modal.setConfirmAction(() => {
 		GameMaster.getInstance().resetGame();
 		toggleMenuBar();
+		applyDarkModeSetting();
 	});
 	modal.setCancelAction(() => toggleMenuBar());
 
@@ -95,4 +97,49 @@ export function showLeaderboard() {
 	console.log(scores);
 	modal.setLeaderboardContent(scores);
 	modal.setCancelAction(() => toggleMenuBar());
+}
+
+function applyDarkModeSetting() {
+	const instance = localStorage.getItem("instance");
+	let darkMode = false;
+	if (instance) {
+		try {
+			const settings = JSON.parse(instance);
+			darkMode = !!settings.switchDarkMode;
+		} catch (e) {
+			console.error("Could not parse settings from localStorage:", e);
+		}
+	}
+	document.body.classList.toggle("dark-mode", darkMode);
+
+	// Debug: log the current class and variable
+	console.log("Body class:", document.body.className);
+	console.log("Modal background:", getComputedStyle(document.body).getPropertyValue('--modal-background'));
+
+}
+
+function setupDarkModeToggle() {
+	const darkModeToggle = document.getElementById("darkMode") as HTMLInputElement | null;
+	if (!darkModeToggle) return;
+
+	// Read initial state from the instance object
+	const instance = localStorage.getItem("instance");
+	let settings: any = {};
+	if (instance) {
+		try {
+			settings = JSON.parse(instance);
+			darkModeToggle.checked = !!settings.switchDarkMode;
+			applyDarkModeSetting();
+		} catch (e) {
+			console.error("Could not parse settings from localStorage:", e);
+			darkModeToggle.checked = false;
+		}
+	} else {
+		darkModeToggle.checked = false;
+	}
+
+	darkModeToggle.addEventListener("change", () => {
+		GameMaster.getInstance().setSettings();
+		applyDarkModeSetting();
+	});
 }
