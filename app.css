@@ -12,6 +12,7 @@
 	--theme-color4: rgb(4, 13, 18);
 	--button-color: #d1d1d1;
 	--button-clicked-color: #fafafa;
+	--button-notclicked-color: #7c7c7c;
 	--button-clicked-border-color: #f0f0f0;
 	--button-hover-color: #f0f0f0;
 	--button-border-color: #bbbbbb;
@@ -28,7 +29,8 @@
 	--theme-color4: #c9d1d9;
 	--button-color: #5b616b;
 	--button-clicked-color: #2d333b;
-	--button-clicked-border-color: #5b616b;
+	--button-notclicked-color: #4b515b;
+	--button-clicked-border-color: #36393e;
 	--button-hover-color: #5b616b;
 	--button-border-color: #4b515b;
 	--flag-color: #ffb86c;
@@ -36,7 +38,6 @@
 	--app-background: #d4d4d4;
 	--modal-background: #181a1b;
 	color: #f5f6fa;
-	/* filter: invert(1) hue-rotate(180deg); */
 }
 
 :root.dark #app button.monster {
@@ -98,12 +99,6 @@ html {
 	margin-top: 0px;
 	z-index: 2;
 }
-#app.small button {
-}
-#app.medium button {
-}
-#app.large button {
-}
 @keyframes highlight {
 	from {
 		background-color: var(--button-color);
@@ -125,9 +120,9 @@ html {
 	z-index: 1;
 }
 #app button.notClicked {
-	background-color: #ededed;
-	border: 1px solid #b5b5b5;
-	color: #acacac;
+	background-color: var(--button-notclicked-color);
+	border: 1px solid var(--button-border-color);
+	color: var(--theme-color4);
 }
 #app button.flagged {
 	font-weight: 900;
@@ -219,11 +214,13 @@ html {
 #experience[value] {
 	margin: auto;
 	appearance: none;
+	-moz-appearance: none;
 	width: 4em;
 	margin-left: 1em;
 	border: 1px solid var(--theme-color2);
 	border-radius: 3px;
 	padding: 2px;
+	background-color: var(--theme-color1); /* Fallback */
 }
 #experience[value]::-webkit-progress-bar {
 	background-color: var(--theme-color1);
@@ -243,6 +240,9 @@ html {
 	text-align: center;
 	width: fit-content;
 	z-index: 3;
+}
+#experience {
+	background-color: var(--theme-color1);
 }
 #health img {
 	vertical-align: middle;
@@ -509,7 +509,18 @@ html {
 	align-items: center;
 	justify-content: flex-start;
 	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.07);
-	transition: background 0.2s;
+	transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+
+#modal-leaderboard li:hover {
+	transform: translateX(5px) scale(1.02);
+	background: var(--theme-color3);
+	color: var(--theme-color1);
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+#modal-leaderboard li:hover ~ li {
+	transform: translateX(-2px);
 }
 
 #modal-leaderboard h3 {
