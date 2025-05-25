@@ -124,12 +124,10 @@ export class Modal {
 		}
 	}
 	setDefaultClass() {
-		setTimeout(() => {
-			const select = document.getElementById("selectClass") as HTMLSelectElement;
-			if (select) {
-				select.value = defaults.playerClass;
-			};
-		}, 100);
+		const select = document.getElementById("selectClass") as HTMLSelectElement;
+		if (select) {
+			select.value = defaults.playerClass;
+		};
 	}
 	setConfirmAction(cb: Function) {
 		const confirmButton = document.getElementById("modal-confirm");
@@ -150,11 +148,17 @@ export class Modal {
 		}
 	}
 	addEventListener() {
-		// y do i have to add the fucking setTimeout again?
-		setTimeout(() => {
+		const observer = new MutationObserver((_, obs) => {
 			const select = document.getElementById("selectClass") as HTMLSelectElement;
-			console.log(select); // without setTime === null
-			if (select) select.addEventListener("change", () => this.setClassTitle(select.value));
-		}, 1000);
+			if (select) {
+				select.addEventListener("change", () => this.setClassTitle(select.value));
+				obs.disconnect(); // Stop observing once found
+			}
+		});
+
+		observer.observe(document.body, {
+			childList: true,
+			subtree: true
+		});
 	}
 }

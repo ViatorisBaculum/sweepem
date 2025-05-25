@@ -408,13 +408,16 @@ html {
 	color: var(--theme-color3);
 	font-weight: bolder;
 }
+.theme-label {
+	margin-top: 0.5em;
+}
 .modal button {
 	background-color: var(--theme-color2);
 	color: var(--theme-color3);
 	font-size: 1.5rem;
 	padding: 0.2rem;
 	border: 1px solid var(--theme-color3);
-	border-radius: 2px;
+	border-radius: 0.2em;
 	padding: 0.2em 0.5em;
 }
 
@@ -433,23 +436,22 @@ html {
 
 .toggle {
 	cursor: pointer;
-	display: inline-block;
+	display: flex;
+	align-items: center; /* vertikal zentriert */
+	gap: 0.7em; /* Abstand zwischen Switch und Label */
 	margin-top: 1rem;
+	position: relative;
 }
 
 .toggle-switch {
-	display: block;
-	float: left;
 	background: #ccc;
 	border-radius: 16px;
 	width: 58px;
 	height: 32px;
 	position: relative;
 	transition: background 0.25s;
-}
-.toggle-switch:before,
-.toggle-switch:after {
-	content: "";
+	flex-shrink: 0; /* verhindert das Schrumpfen */
+	/* float und display entfernen */
 }
 .toggle-switch:before {
 	display: block;
@@ -462,11 +464,9 @@ html {
 	top: 4px;
 	left: 4px;
 	transition: left 0.25s;
+	content: "";
 }
-.toggle:hover .toggle-switch:before {
-	background: linear-gradient(to bottom, #fff 0%, #fff 100%);
-	box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5);
-}
+
 .toggle-checkbox:checked + .toggle-switch {
 	background: var(--theme-color2);
 }
@@ -480,11 +480,11 @@ html {
 }
 
 .toggle-label {
-	margin-left: 5px;
-	position: relative;
-	top: 2px;
+	margin-left: 0;
+	position: static;
 	display: inline-block;
-	width: calc(100% - 64px);
+	width: auto;
+	top: 0;
 }
 
 /* Leaderboard Modal Styling */

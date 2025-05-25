@@ -84,6 +84,7 @@ export function showLeaderboard(statusText?: string) {
 	if (!leaderboard) throw new Error("No leaderboard template found");
 
 	toggleMenuBar();
+	GameMaster.getInstance().pauseTimer();
 
 	const modal = new Modal(document.body, {
 		cancelButton: true,
@@ -97,7 +98,10 @@ export function showLeaderboard(statusText?: string) {
 	modal.setText(statusText ? statusText + "\nThese are your best scores" : "These are your best scores");
 	const scores = GameMaster.getInstance().getLeaderboard();
 	modal.setLeaderboardContent(scores);
-	modal.setCancelAction(() => toggleMenuBar());
+	modal.setCancelAction(() => {
+		GameMaster.getInstance().resumeTimer();
+		toggleMenuBar();
+	});
 }
 
 function setupThemeToggle() {

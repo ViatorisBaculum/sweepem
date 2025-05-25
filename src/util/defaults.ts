@@ -39,8 +39,8 @@ const monsterKeys = {
 }
 
 const experienceGain = {
-	open: 1,
-	multiplicator: 3
+	open: 1, // experience gained by opening a cell
+	multiplicator: 3 // multiplicator for experience gained by defeating monsters
 }
 
 const playerClass: playerClasses = "Warrior";

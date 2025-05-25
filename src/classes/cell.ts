@@ -184,7 +184,7 @@ export class Cell {
 
 	public toggleFlag(): void {
 		if (this.isFlagged) {
-			this.HTMLElement.innerHTML = "F";
+			this.HTMLElement.innerHTML = "💀";
 			this.HTMLElement.classList.add("flagged");
 		} else {
 			this.HTMLElement.innerHTML = "";

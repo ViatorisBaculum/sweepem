@@ -8,6 +8,13 @@ import defaults from "../util/defaults";
 import { playerClasses } from "../util/customTypes";
 import { showLeaderboard } from "../content";
 
+enum GameState {
+	NotStarted,
+	Running,
+	Paused,
+	Ended
+}
+
 interface GameSettings {
 	width: number;
 	height: number;
@@ -24,6 +31,7 @@ export class GameMaster {
 	private _timer?: NodeJS.Timeout;
 	private _gameTimer: number = 0;
 	private _gameSettings: GameSettings;
+	private _gameState: GameState = GameState.NotStarted;
 
 	private constructor() {
 		document.getElementById("resetButton")?.addEventListener("click", () => this.resetGame());
@@ -149,6 +157,7 @@ export class GameMaster {
 
 		this.resetTimer();
 		this._timer = setInterval(() => this.countSeconds(), 1000);
+		this._gameState = GameState.Running;
 	}
 
 	public winGame() {
@@ -163,6 +172,21 @@ export class GameMaster {
 		this.endGame();
 
 		this.displayLeaderboard("You lost!");
+	}
+
+	public pauseTimer() {
+		if (this._timer && this._gameState === GameState.Running) {
+			clearInterval(this._timer);
+			this._timer = undefined;
+			this._gameState = GameState.Paused;
+		}
+	}
+
+	public resumeTimer() {
+		if (this._gameState === GameState.Paused) {
+			this._timer = setInterval(() => this.countSeconds(), 1000);
+			this._gameState = GameState.Running;
+		}
 	}
 
 	public updateLeaderboard(score: number) {
@@ -186,6 +210,10 @@ export class GameMaster {
 	public displayLeaderboard(statusText?: string) {
 		showLeaderboard(statusText);
 	}
+
+	public isGameEnded(): boolean {
+		return this._gameState === GameState.Ended;
+	}
 	/*===============*/
 	/*private methods*/
 	/*===============*/
@@ -200,6 +228,7 @@ export class GameMaster {
 
 		this.board.revealBoard();
 		this.board.removeEventHandler();
+		this._gameState = GameState.Ended;
 	}
 
 	private getValueFromInput(name: string) {
@@ -225,12 +254,12 @@ export class GameMaster {
 		this._gameTimer = 0;
 	}
 
+	private stopTimer() {
+		clearInterval(this._timer);
+	}
+
 	private resetHeartContainer() {
 		const hearts = document.getElementById("health");
 		if (hearts) hearts.innerHTML = "";
-	}
-
-	private stopTimer() {
-		clearInterval(this._timer);
 	}
 }
