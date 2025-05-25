@@ -1,11 +1,8 @@
 :root {
 	--cols: 40;
 	--rows: 20;
-	--button-size: 2em;
 	color-scheme: light dark;
-}
-
-:root {
+	--button-size: 2em;
 	--theme-color1: rgb(147, 177, 166);
 	--theme-color2: rgb(92, 131, 116);
 	--theme-color3: rgb(24, 61, 61);
@@ -52,14 +49,10 @@
 	filter: invert(1);
 }
 
-@media (prefers-color-scheme: light) {
-	button {
-		width: 20em;
-	}
-}
 * :focus {
 	outline: none;
 }
+
 html,
 body {
 	overflow-x: auto;
@@ -70,9 +63,11 @@ body {
 	background: var(--body-background);
 	color: var(--theme-color4);
 }
+
 html {
 	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
+
 #game {
 	width: fit-content;
 	height: fit-content;
@@ -80,6 +75,7 @@ html {
 	overflow: auto;
 	touch-action: cross-slide-x cross-slide-y;
 }
+
 #app {
 	display: grid;
 	background-color: var(--app-background);
@@ -89,6 +85,7 @@ html {
 	user-select: none;
 	overflow: auto;
 }
+
 #app button {
 	width: var(--button-size);
 	height: var(--button-size);
@@ -99,6 +96,7 @@ html {
 	margin-top: 0px;
 	z-index: 2;
 }
+
 @keyframes highlight {
 	from {
 		background-color: var(--button-color);
@@ -192,19 +190,20 @@ html {
 	position: fixed;
 	bottom: env(safe-area-inset-bottom, 0px);
 	left: 50%;
-	transform: translateX(-50%) scale(1); /* Fixiere die Skalierung */
+	transform: translateX(-50%) scale(1);
 	width: 95%;
 	margin: 0 auto;
+	margin-bottom: 0.5em;
 	display: flex;
 	justify-content: space-between;
 	background-color: var(--theme-color1);
 	padding: 0.7em 0;
 	border-radius: 0.3em;
 	z-index: 1000;
-	backface-visibility: hidden; /* Verhindert visuelle Artefakte */
-	perspective: 1000px; /* Stabilisiert die Darstellung */
-	transform-origin: center; /* Fixiert die Skalierungs-Origin */
-	will-change: transform; /* Optimiert die Performance */
+	backface-visibility: hidden;
+	perspective: 1000px;
+	transform-origin: center;
+	will-change: transform;
 }
 #health {
 	margin-left: 1em;
@@ -242,6 +241,9 @@ html {
 	z-index: 3;
 }
 #experience {
+	background-color: var(--theme-color1);
+}
+#experience::-moz-progress-bar {
 	background-color: var(--theme-color1);
 }
 #health img {
@@ -293,6 +295,7 @@ html {
 	height: 100vh;
 	background: var(--modal-background);
 	backdrop-filter: blur(2.5px);
+	-webkit-backdrop-filter: blur(2.5px);
 	z-index: 10000;
 	display: flex;
 	align-items: flex-start;
@@ -546,10 +549,10 @@ html {
 	}
 
 	#app {
-		overflow: visible;
-		max-width: 100%;
-		max-height: none;
 		margin-bottom: 2em;
+		overflow: auto;
+		max-width: unset;
+		max-height: unset;
 	}
 
 	#menu {
@@ -578,11 +581,6 @@ html {
 		position: absolute;
 		left: 5em;
 		top: 4em;
-	}
-	#app {
-		overflow: auto;
-		max-width: unset;
-		max-height: unset;
 	}
 	#app button {
 		width: var(--button-size);

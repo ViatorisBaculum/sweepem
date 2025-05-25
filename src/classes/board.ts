@@ -107,6 +107,10 @@ export class Board {
 				if (!cell.isClicked) {
 					cell.HTMLElement.classList.add("notClicked");
 					cell.revealCell();
+					// remove flag if it was set (no need for flagged cells to be revealed)
+					if (cell.isFlagged) {
+						cell.isFlagged = false;
+					}
 				}
 			});
 		});

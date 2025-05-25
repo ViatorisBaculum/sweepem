@@ -26,8 +26,6 @@ export function initialize() {
 
 	GameMaster.getInstance().getSettings();
 
-
-
 	// Debug buttons
 	const debugLevelUpButton = document.getElementById("debugLevelUp");
 	if (debugLevelUpButton) {

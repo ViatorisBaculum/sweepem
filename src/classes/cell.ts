@@ -172,7 +172,10 @@ export class Cell {
 	private addEventListeners() {
 		if (this.gameInstance.invertClicks) {
 			this.HTMLElement.addEventListener("click", (e) => this.rightClick(e), false);
-			this.HTMLElement.addEventListener("contextmenu", () => this.click(), false);
+			this.HTMLElement.addEventListener("contextmenu", (e) => {
+				e.preventDefault();
+				this.click();
+			}, false);
 		} else {
 			this.HTMLElement.addEventListener("click", () => this.click(), false);
 			this.HTMLElement.addEventListener("contextmenu", (e) => this.rightClick(e), false);
