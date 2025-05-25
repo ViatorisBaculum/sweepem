@@ -1,12 +1,16 @@
 import { GameMaster } from "./classes/gameMaster";
 import { Modal } from "./util/modal";
+import { ThemeManager, Theme } from "./util/theme";
 
 const settingsForm = document.getElementById("template-settings");
 const menu = document.getElementById("menu");
 const leaderboard = document.getElementById("template-leaderboard");
 
 export function initialize() {
+
 	initalModal();
+	ThemeManager.initialize();
+	setupThemeToggle();
 
 	const settingsButton = document.getElementById("openSettings");
 	if (settingsButton)
@@ -22,8 +26,7 @@ export function initialize() {
 
 	GameMaster.getInstance().getSettings();
 
-	// Dark mode toggle
-	setupDarkModeToggle();
+
 
 	// Debug buttons
 	const debugLevelUpButton = document.getElementById("debugLevelUp");
@@ -58,16 +61,17 @@ function toggleMenuBar() {
 function toggleSettings() {
 	if (!settingsForm) throw new Error("No settings template found");
 
-	toggleMenuBar();
-
 	const modal = new Modal(document.body, { cancelButton: true });
 	modal.setTitle("Game Settings");
 	modal.setText("Please choose the settings for your next round");
 	modal.setSlotContent(settingsForm.innerHTML);
+
+	toggleMenuBar();
+	setupThemeToggle();
+
 	modal.setConfirmAction(() => {
 		GameMaster.getInstance().resetGame();
 		toggleMenuBar();
-		applyDarkModeSetting();
 	});
 	modal.setCancelAction(() => toggleMenuBar());
 
@@ -78,7 +82,7 @@ function resetGame() {
 	GameMaster.getInstance().resetGame();
 }
 
-export function showLeaderboard() {
+export function showLeaderboard(statusText?: string) {
 	if (!leaderboard) throw new Error("No leaderboard template found");
 
 	toggleMenuBar();
@@ -92,54 +96,22 @@ export function showLeaderboard() {
 		showSlot: false
 	});
 	modal.setTitle("Leaderboard");
-	modal.setText("These are your best scores");
+	modal.setText(statusText ? statusText + "\nThese are your best scores" : "These are your best scores");
 	const scores = GameMaster.getInstance().getLeaderboard();
-	console.log(scores);
 	modal.setLeaderboardContent(scores);
 	modal.setCancelAction(() => toggleMenuBar());
 }
 
-function applyDarkModeSetting() {
-	const instance = localStorage.getItem("instance");
-	let darkMode = false;
-	if (instance) {
-		try {
-			const settings = JSON.parse(instance);
-			darkMode = !!settings.switchDarkMode;
-		} catch (e) {
-			console.error("Could not parse settings from localStorage:", e);
-		}
-	}
-	document.body.classList.toggle("dark-mode", darkMode);
+function setupThemeToggle() {
+	const themeSelect = document.getElementById('themeSelect') as HTMLSelectElement;
+	if (!themeSelect) return;
 
-	// Debug: log the current class and variable
-	console.log("Body class:", document.body.className);
-	console.log("Modal background:", getComputedStyle(document.body).getPropertyValue('--modal-background'));
+	// Set initial value
+	const currentTheme = ThemeManager.getCurrentTheme();
+	themeSelect.value = currentTheme;
 
-}
-
-function setupDarkModeToggle() {
-	const darkModeToggle = document.getElementById("darkMode") as HTMLInputElement | null;
-	if (!darkModeToggle) return;
-
-	// Read initial state from the instance object
-	const instance = localStorage.getItem("instance");
-	let settings: any = {};
-	if (instance) {
-		try {
-			settings = JSON.parse(instance);
-			darkModeToggle.checked = !!settings.switchDarkMode;
-			applyDarkModeSetting();
-		} catch (e) {
-			console.error("Could not parse settings from localStorage:", e);
-			darkModeToggle.checked = false;
-		}
-	} else {
-		darkModeToggle.checked = false;
-	}
-
-	darkModeToggle.addEventListener("change", () => {
-		GameMaster.getInstance().setSettings();
-		applyDarkModeSetting();
+	// Add change listener
+	themeSelect.addEventListener('change', () => {
+		ThemeManager.setTheme(themeSelect.value as Theme);
 	});
 }

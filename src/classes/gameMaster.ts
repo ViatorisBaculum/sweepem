@@ -15,7 +15,6 @@ interface GameSettings {
 	playerClass: playerClasses;
 	invertClicks: boolean;
 	removeFlags: boolean;
-	switchDarkMode: boolean;
 }
 
 export class GameMaster {
@@ -98,16 +97,8 @@ export class GameMaster {
 			minesFrequency: defaults.boardDefaults.minesFrequency,
 			playerClass: defaults.playerClass,
 			invertClicks: defaults.boardDefaults.invertClicks,
-			removeFlags: defaults.boardDefaults.removeFlags,
-			switchDarkMode: defaults.boardDefaults.switchDarkMode,
+			removeFlags: defaults.boardDefaults.removeFlags
 		};
-	}
-
-	public loseGame() {
-		this.endGame();
-
-		alert("You lost! :(");
-		this.displayLeaderboard();
 	}
 
 	public playerUp() {
@@ -131,7 +122,6 @@ export class GameMaster {
 		this._gameSettings.playerClass = this.getValueFromInput("selectClass") as playerClasses;
 		this._gameSettings.invertClicks = (document.getElementById("invertClicks") as HTMLInputElement).checked;
 		this._gameSettings.removeFlags = (document.getElementById("removeFlags") as HTMLInputElement).checked;
-		this._gameSettings.switchDarkMode = (document.getElementById("darkMode") as HTMLInputElement).checked;
 
 		localStorage.setItem("instance", JSON.stringify(this._gameSettings));
 	}
@@ -147,7 +137,6 @@ export class GameMaster {
 			this.setValueToInput("selectClass", storedSettings.playerClass);
 			this.setValueToToggle("invertClicks", storedSettings.invertClicks);
 			this.setValueToToggle("removeFlags", storedSettings.removeFlags);
-			this.setValueToToggle("darkMode", storedSettings.switchDarkMode);
 		}
 	}
 
@@ -167,8 +156,13 @@ export class GameMaster {
 
 		this.updateLeaderboard(this.player.score);
 
-		alert("You won!");
-		this.displayLeaderboard();
+		this.displayLeaderboard("You won!");
+	}
+
+	public loseGame() {
+		this.endGame();
+
+		this.displayLeaderboard("You lost!");
 	}
 
 	public updateLeaderboard(score: number) {
@@ -189,8 +183,8 @@ export class GameMaster {
 		return JSON.parse(localStorage.getItem(leaderboardKey) || "[]");
 	}
 
-	public displayLeaderboard() {
-		showLeaderboard();
+	public displayLeaderboard(statusText?: string) {
+		showLeaderboard(statusText);
 	}
 	/*===============*/
 	/*private methods*/
