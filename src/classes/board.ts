@@ -8,6 +8,7 @@ export class Board {
 	private _minesFrequency: number;
 	private _width: number;
 	private _height: number;
+	private appElement: HTMLElement;
 
 	constructor(width: number, height: number, minesFreq: number, distribution: typeDistribution = defaults.typeDistribution) {
 		this.validateDistribution(distribution);
@@ -16,13 +17,18 @@ export class Board {
 		this._width = width;
 		this._height = height;
 
+		const app = document.getElementById("app");
+		if (!app) throw new Error("board: No #app div found");
+		this.appElement = app;
+
 		this.fillBoard(distribution);
 
 		this.determineCellValues();
-		this.DBG_printCellValues();
+		this.debug_printCellValues();
 		this.updateCSSVariables(width, height);
 
-		this.writeValues(false);
+		this.debug_writeValues(false);
+		this.addBoardEventHandlers();
 	}
 
 	/*==============*/
@@ -39,7 +45,7 @@ export class Board {
 		});
 
 		this.determineCellValues();
-		this.DBG_printCellValues();
+		this.debug_printCellValues();
 	}
 
 	getCell(x: number, y: number): Cell | undefined {
@@ -55,80 +61,53 @@ export class Board {
 	}
 
 	public indicateLevelGain(level: number) {
-		const app = document.getElementById("app");
-		// does highlighting make sense here?
-		if (app) {
-			app.classList.remove("highlight");
-			void app.offsetWidth;
-			app.classList.add("highlight");
-		}
-		if (app) {
-			// change the css variable --button-color to the new color 
-			app.style.setProperty("--button-color", defaults.boardColors[(level as keyof typeof defaults.boardColors)]);
+		if (this.appElement) {
+			this.appElement.classList.remove("highlight");
+			void this.appElement.offsetWidth;
+			this.appElement.classList.add("highlight");
+			this.appElement.style.setProperty("--button-color", defaults.boardColors[(level as keyof typeof defaults.boardColors)]);
 		}
 	}
 
 	public openStartArea() {
-		const x = Math.floor(Math.random() * (this._height - 1));
-		const y = Math.floor(Math.random() * (this._width - 1));
+		let x = Math.floor(Math.random() * (this._height - 1));
+		let y = Math.floor(Math.random() * (this._width - 1));
 		let startCell = this.cells[x][y];
 		while (startCell.value !== 0) {
-			let x = Math.round(Math.random() * (this._height - 1));
-			let y = Math.round(Math.random() * (this._width - 1));
+			x = Math.round(Math.random() * (this._height - 1));
+			y = Math.round(Math.random() * (this._width - 1));
 			startCell = this.cells[x][y];
 		}
-
 		startCell.click();
 		startCell.HTMLElement.scrollIntoView({ behavior: "smooth", block: "center", inline: "center" });
 	}
 
 	public removeEventHandler() {
-		for (let i = 0; i < this._height; i++) {
-			for (let j = 0; j < this._width; j++) {
-				this.cells[i][j].removeEventListeners();
-			}
-		}
+		this.cells.flat().forEach(cell => cell.removeEventListeners());
 	}
 
 	public removeAllFlags() {
-		for (let i = 0; i < this._height; i++) {
-			for (let j = 0; j < this._width; j++) {
-				if (this.cells[i][j].isFlagged) {
-					this.cells[i][j].isFlagged = false;
-					this.cells[i][j].toggleFlag();
-				}
+		this.cells.flat().forEach(cell => {
+			if (cell.isFlagged) {
+				cell.isFlagged = false;
+				cell.toggleFlag();
 			}
-		}
+		});
 	}
 
 	public revealBoard() {
-		this.cells.forEach((row) => {
-			row.forEach((cell) => {
-				if (!cell.isClicked) {
-					cell.HTMLElement.classList.add("notClicked");
-					cell.revealCell();
-					// remove flag if it was set (no need for flagged cells to be revealed)
-					if (cell.isFlagged) {
-						cell.isFlagged = false;
-					}
-				}
-			});
+		this.cells.flat().forEach(cell => {
+			if (!cell.isClicked) {
+				cell.HTMLElement.classList.add("notClicked");
+				cell.revealCell();
+				if (cell.isFlagged) cell.isFlagged = false;
+			}
 		});
 	}
 
 	/*===============*/
 	/*private methods*/
 	/*===============*/
-
-	private appendCell(x: number, y: number, cellType: CellType): void {
-		const app = document.getElementById("app"); //später aus gameMaster importieren
-		if (!app) throw new Error("board: appendCell: No #app div found");
-
-		const HTMLElement = document.createElement("button");
-		const cell = new Cell(cellType, this, x, y, HTMLElement);
-		app.appendChild(HTMLElement);
-		this.cells[x].push(cell);
-	}
 
 	private createUrn(distribution: typeDistribution) {
 		const cellCount = this._width * this._height;
@@ -182,13 +161,20 @@ export class Board {
 
 	private fillBoard(distribution: typeDistribution) {
 		const urn = this.createUrn(distribution);
+		const fragment = document.createDocumentFragment();
 
 		for (let i = 0; i < this._height; i++) {
 			this.cells.push([]);
 			for (let j = 0; j < this._width; j++) {
-				this.appendCell(i, j, urn.pop() ?? CellType.Empty);
+				const HTMLElement = document.createElement("button");
+				HTMLElement.dataset.x = i.toString();
+				HTMLElement.dataset.y = j.toString();
+				const cell = new Cell(urn.pop() ?? CellType.Empty, this, i, j, HTMLElement);
+				fragment.appendChild(HTMLElement);
+				this.cells[i].push(cell);
 			}
 		}
+		this.appElement.appendChild(fragment); // Only one DOM update!
 	}
 
 	private getRemainingMonster(): Cell[] {
@@ -205,6 +191,11 @@ export class Board {
 		return remainingMonster;
 	}
 
+	/**
+	 * Updates the CSS variables for grid columns and rows.
+	 * @param gridCols - The number of columns in the grid.
+	 * @param gridRows - The number of rows in the grid.
+	 */
 	private updateCSSVariables(gridCols: number, gridRows: number) {
 		const root = document.querySelector(":root") as HTMLElement;
 		if (!root) throw new Error("No :root found");
@@ -223,28 +214,62 @@ export class Board {
 	/*===DEBUGGING===*/
 	/*===============*/
 
-	private DBG_printCellValues(): void {
-		let result = "";
-		this.cells.forEach((row) => {
-			let line = "";
-			row.forEach((cell) => {
-				if (cell.type === CellType.Empty) line += cell.value + "\t";
-				else line += cell.translateType(cell.type) + "\t";
-			});
-			result += line.trim() + "\n";
-		});
-		console.log(result.trim());
+	private debug_printCellValues(): void {
+		// let result = "";
+		// this.cells.forEach((row) => {
+		// 	let line = "";
+		// 	row.forEach((cell) => {
+		// 		if (cell.type === CellType.Empty) line += cell.value + "\t";
+		// 		else line += cell.translateType(cell.type) + "\t";
+		// 	});
+		// 	result += line.trim() + "\n";
+		// });
+		// console.log(result.trim());
 	}
 
-	private writeValues(openCells: boolean) {
+	private debug_writeValues(openCells: boolean) {
 		if (openCells === true) {
-			this.cells.forEach((row) => {
-				row.forEach((cell) => {
-					if (cell.type) {
-						cell.HTMLElement.innerText = cell.translateType(cell.type);
-					}
-				});
-			});
+			// this.cells.forEach((row) => {
+			// 	row.forEach((cell) => {
+			// 		if (cell.type) {
+			// 			cell.HTMLElement.innerText = cell.translateType(cell.type);
+			// 		}
+			// 	});
+			// });
 		}
+	}
+
+	private addBoardEventHandlers() {
+		this.appElement.addEventListener("click", (e) => {
+			const target = e.target as HTMLButtonElement;
+			if (!target || !target.dataset.x || !target.dataset.y) return;
+			const x = Number(target.dataset.x);
+			const y = Number(target.dataset.y);
+			const cell = this.getCell(x, y);
+			if (!cell) return;
+
+			// Handle invertClicks logic here if needed
+			if (cell.gameInstance.invertClicks) {
+				cell.rightClick(e);
+			} else {
+				cell.click();
+			}
+		});
+
+		this.appElement.addEventListener("contextmenu", (e) => {
+			const target = e.target as HTMLButtonElement;
+			if (!target || !target.dataset.x || !target.dataset.y) return;
+			e.preventDefault();
+			const x = Number(target.dataset.x);
+			const y = Number(target.dataset.y);
+			const cell = this.getCell(x, y);
+			if (!cell) return;
+
+			if (cell.gameInstance.invertClicks) {
+				cell.click();
+			} else {
+				cell.rightClick(e);
+			}
+		});
 	}
 }

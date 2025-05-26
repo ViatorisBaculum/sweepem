@@ -90,6 +90,15 @@ export abstract class Player {
 		if (this.experience > defaults.expToNextLevel[this.level - 1]) {
 			this.level += 1;
 			GameMaster.getInstance().playerUp();
+			if (this.className === "Warrior") this.gainHealth();
+		}
+	}
+
+	// When the Warrior gains a level, he gains a heart
+	protected gainHealth(): void {
+		if (this.health < this.maxHealth) {
+			this.health += 1;
+			this.styleHearts();
 		}
 	}
 

@@ -23,3 +23,7 @@ Schleife statt Elemente individuell in Urne zu packen. Abhängig von CellType-In
 
 - Sobald man Max-Level hat sollen vereinzelt Gegner höher als der Boss werden, somit kann man nicht willkürlich klicken
 - Statt, dass die Klassen unterschiedliche Fähigkeiten haben, sollten sie unterschiedliche Ziele haben (wie z.B. möglichst schnell sein, möglichst wenige Klicks oder möglichst viele Gegner)
+
+* Flag removal nur bei Minen die unter dem eigenen Level sind
+
+## Optimiere handleAssassinBossKill

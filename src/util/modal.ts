@@ -115,7 +115,8 @@ export class Modal {
 	setLeaderboardContent(content: number[]) {
 		const modal = document.getElementById("modal-leaderboard");
 		if (modal) {
-			//modal.innerHTML = "";
+			// show only ten best scores
+			content = content.slice(0, 10);
 			content.forEach((score) => {
 				const li = document.createElement("li");
 				li.innerText = score.toString();

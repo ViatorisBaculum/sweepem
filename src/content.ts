@@ -89,14 +89,15 @@ export function showLeaderboard(statusText?: string) {
 	const modal = new Modal(document.body, {
 		cancelButton: true,
 		confirmButton: false,
-		showSubTitle: false,
+		showSubTitle: true,
 		showClass: false,
 		showClassDescription: false,
 		showSlot: false
 	});
 	modal.setTitle("Leaderboard");
-	modal.setText(statusText ? statusText + "\nThese are your best scores" : "These are your best scores");
-	const scores = GameMaster.getInstance().getLeaderboard();
+	modal.setSubTitle(statusText ? statusText : "");
+	modal.setText("These are your best scores");
+	const scores = GameMaster.getInstance().getScores();
 	modal.setLeaderboardContent(scores);
 	modal.setCancelAction(() => {
 		GameMaster.getInstance().resumeTimer();

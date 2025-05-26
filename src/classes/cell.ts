@@ -30,16 +30,28 @@ export class Cell {
 	/*public methods*/
 	/*==============*/
 
+	/** Activates the cell, revealing it and adding experience.
+	 * @param experience - The amount of experience to add.	
+	 * If not provided, defaults to the value defined in defaults.experienceGain.open.
+	 */
 	activateCell(experience: number) {
 		this.revealCell();
 		this.addExperience(experience);
 	}
 
+	/** Adds experience to the player.
+	 * @param experience - The amount of experience to add.
+	 */
 	addExperience(experience: number) {
 		this.gameInstance.player.gainExperience(experience);
 	}
 
+	/** Attacks the player, dealing damage based on the cell type.
+	 * @param damage - The amount of damage to deal. If not provided, defaults to the cell type minus player level plus one.
+	 */
 	attackPlayer(damage?: number) {
+		if (this.handleAssassinBossKill()) return;
+
 		if (!damage && damage !== 0) damage = this.type - this.gameInstance.player.level + 1;
 
 		if (damage > 0) {
@@ -68,9 +80,10 @@ export class Cell {
 
 	public getBlankNeighbors() {
 		let neighbors: Cell[] = [];
+		const { x, y, board } = this;
 		for (let dx = -1; dx <= 1; dx++) {
 			for (let dy = -1; dy <= 1; dy++) {
-				const cell = this.board.getCell(this.x + dx, this.y + dy);
+				const cell = board.getCell(x + dx, y + dy);
 				if (cell && cell.value === 0) {
 					neighbors.push(cell);
 				}
@@ -80,9 +93,10 @@ export class Cell {
 	}
 
 	clickNeighbors() {
+		const { x, y, board } = this;
 		for (let dx = -1; dx <= 1; dx++) {
 			for (let dy = -1; dy <= 1; dy++) {
-				const neighbor = this.board.getCell(this.x + dx, this.y + dy);
+				const neighbor = board.getCell(x + dx, y + dy);
 				if (neighbor && !neighbor.isClicked && !neighbor.isFlagged) {
 					if (neighbor.value === 0) {
 						neighbor.click();
@@ -97,9 +111,10 @@ export class Cell {
 	}
 
 	public isAnyNeighborClicked(): boolean {
+		const { x, y, board } = this;
 		for (let dx = -1; dx <= 1; dx++) {
 			for (let dy = -1; dy <= 1; dy++) {
-				const neighbor = this.board.getCell(this.x + dx, this.y + dy);
+				const neighbor = board.getCell(x + dx, y + dy);
 				if (neighbor && neighbor.isClicked) return true;
 			}
 		}
@@ -117,6 +132,7 @@ export class Cell {
 	}
 
 	revealCell() {
+		if (this.isClicked) return;
 		this.isClicked = true;
 		this.animateReveal();
 
@@ -155,6 +171,22 @@ export class Cell {
 		}
 	}
 
+	private handleAssassinBossKill(): boolean {
+		const isAssassin = this.gameInstance.player.className === "Assassin";
+		if (isAssassin && this.type === CellType.Boss) {
+			// Assassin wins, no damage taken
+			this.type = CellType.Empty;
+			this.value = 0;
+			this.isClicked = true;
+			this.HTMLElement.classList.add("clicked");
+			this.HTMLElement.innerText = "";
+			this.addExperience(CellType.Boss * defaults.experienceGain.multiplicator);
+			this.gameInstance.winGame();
+			return true;
+		}
+		return false;
+	}
+
 	public translateType(type: CellType): string {
 		if (type > 0 && defaults.monsterKeys[type] !== undefined) {
 			return defaults.monsterKeys[type];
@@ -170,16 +202,16 @@ export class Cell {
 	/*===============*/
 
 	private addEventListeners() {
-		if (this.gameInstance.invertClicks) {
-			this.HTMLElement.addEventListener("click", (e) => this.rightClick(e), false);
-			this.HTMLElement.addEventListener("contextmenu", (e) => {
-				e.preventDefault();
-				this.click();
-			}, false);
-		} else {
-			this.HTMLElement.addEventListener("click", () => this.click(), false);
-			this.HTMLElement.addEventListener("contextmenu", (e) => this.rightClick(e), false);
-		}
+		// if (this.gameInstance.invertClicks) {
+		// 	this.HTMLElement.addEventListener("click", (e) => this.rightClick(e), false);
+		// 	this.HTMLElement.addEventListener("contextmenu", (e) => {
+		// 		e.preventDefault();
+		// 		this.click();
+		// 	}, false);
+		// } else {
+		// 	this.HTMLElement.addEventListener("click", () => this.click(), false);
+		// 	this.HTMLElement.addEventListener("contextmenu", (e) => this.rightClick(e), false);
+		// }
 	}
 
 	public toggleFlag(): void {

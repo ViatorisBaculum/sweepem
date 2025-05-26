@@ -150,7 +150,7 @@ export class GameMaster {
 
 	public startGame() {
 		if (document.getElementById("modal")) this.setSettings();
-		if (document.getElementById("modal")) this.getLeaderboard();
+		if (document.getElementById("modal")) this.getScores();
 		this.createPlayer();
 		this.createBoard();
 		this._board?.openStartArea();
@@ -202,7 +202,7 @@ export class GameMaster {
 		localStorage.setItem(leaderboardKey, JSON.stringify(topScores));
 	}
 
-	public getLeaderboard(): number[] {
+	public getScores(): number[] {
 		const leaderboardKey = "leaderboard";
 		return JSON.parse(localStorage.getItem(leaderboardKey) || "[]");
 	}
