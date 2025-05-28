@@ -340,9 +340,17 @@ html {
 	margin-top: 0;
 	margin-bottom: 0.7em;
 	font-weight: 700;
-	text-align: center;
+	text-align: left;
 	letter-spacing: 0.01em;
 	color: var(--theme-color3);
+}
+
+#modal-class {
+	display: flex;
+	align-items: left;
+	justify-content: left;
+	gap: 0.5em;
+	margin-top: 0.5em;
 }
 
 .modal hr {

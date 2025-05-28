@@ -32,7 +32,6 @@ export class Modal {
 
 		this.setCancelAction();
 		this.parseModalSettings();
-		this.setDefaultClass();
 		this.setClassTitle(defaults.playerClass);
 		this.addEventListener();
 	}
@@ -84,7 +83,10 @@ export class Modal {
 		if (modal) {
 			switch (title) {
 				case "Assassin":
-					modal.innerText = "The assassin can kill Monster on his Level blabla";
+					modal.innerText = "The assassin can kill Monster on his Level \n" +
+						"• Right click on a monster on the same level to kill it without taking damage \n" +
+						"• Right click on a lower level monster will give you 1 damage \n" +
+						"• Opening an area with right click will give you 1 damage when the area contains a monster on the same level or higher";
 					break;
 				case "Warrior":
 					modal.innerText = "The warrior gains hearts on level up";
@@ -125,11 +127,35 @@ export class Modal {
 		}
 	}
 	setDefaultClass() {
+		const storedPlayerClass = this.getStoredPlayerClass();
+		const playerClass = storedPlayerClass ? storedPlayerClass : defaults.playerClass;
 		const select = document.getElementById("selectClass") as HTMLSelectElement;
 		if (select) {
-			select.value = defaults.playerClass;
-		};
+			select.value = playerClass;
+			this.setClassTitle(playerClass); // Update the description as well
+			this.setClassText(playerClass);
+		}
 	}
+
+	// get stored player class from localStorage
+	private getStoredPlayerClass(): string | null {
+		let classValue = defaults.playerClass;
+
+		// Try to get the class from localStorage
+		const localSettings = localStorage.getItem("instance");
+		if (localSettings) {
+			try {
+				const storedSettings = JSON.parse(localSettings);
+				if (storedSettings.playerClass) {
+					classValue = storedSettings.playerClass;
+				}
+			} catch (e) {
+				// ignore parse errors, fallback to default
+			}
+		}
+		return classValue;
+	}
+
 	setConfirmAction(cb: Function) {
 		const confirmButton = document.getElementById("modal-confirm");
 		if (confirmButton) {

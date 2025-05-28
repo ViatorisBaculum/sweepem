@@ -162,15 +162,12 @@ export class GameMaster {
 
 	public winGame() {
 		this.endGame();
-
 		this.updateLeaderboard(this.player.score);
-
-		this.displayLeaderboard("You won!");
+		this.displayLeaderboard(`You won! Score: ${this.player.score}`);
 	}
 
 	public loseGame() {
 		this.endGame();
-
 		this.displayLeaderboard("You lost!");
 	}
 

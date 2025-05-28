@@ -129,7 +129,6 @@ export abstract class Player {
 		this._HTMLHooks.playerLevelDiv.innerText = this._level.toString();
 		if (this.heartContainers.length === 0) this.addHearts();
 		this.styleHearts();
-		//this._HTMLHooks.playerExperienceProgress.innerText = "Exp: " + this._experience.toString();
 		this.updateProgress();
 		this._HTMLHooks.playerScoreDiv.innerText = "Score: " + this._score.toString();
 	}

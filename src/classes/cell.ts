@@ -50,7 +50,11 @@ export class Cell {
 	 * @param damage - The amount of damage to deal. If not provided, defaults to the cell type minus player level plus one.
 	 */
 	attackPlayer(damage?: number) {
-		if (this.handleAssassinBossKill()) return;
+		//if (this.handleAssassinBossKill()) return;
+		if (this.gameInstance.player.className === "Assassin" && this.type === CellType.Boss && damage === undefined) {
+			// Assassin wins, no damage taken
+			damage = 1;
+		}
 
 		if (!damage && damage !== 0) damage = this.type - this.gameInstance.player.level + 1;
 
@@ -159,7 +163,9 @@ export class Cell {
 		e.preventDefault();
 		if (!this.isClicked) {
 			this.activateCell(0);
-			if (this.gameInstance.player.level === this.type) {
+			// this.type + this.gameInstance.player.level === 11 means the player is at level 5 and the cell is a boss (type 6)
+			// so the player can attack the boss without taking damage
+			if (this.gameInstance.player.level === this.type || this.type + this.gameInstance.player.level === 11) {
 				this.attackPlayer(0);
 			} else if (this.gameInstance.player.level < this.type) {
 				this.attackPlayer();
@@ -171,21 +177,21 @@ export class Cell {
 		}
 	}
 
-	private handleAssassinBossKill(): boolean {
-		const isAssassin = this.gameInstance.player.className === "Assassin";
-		if (isAssassin && this.type === CellType.Boss) {
-			// Assassin wins, no damage taken
-			this.type = CellType.Empty;
-			this.value = 0;
-			this.isClicked = true;
-			this.HTMLElement.classList.add("clicked");
-			this.HTMLElement.innerText = "";
-			this.addExperience(CellType.Boss * defaults.experienceGain.multiplicator);
-			this.gameInstance.winGame();
-			return true;
-		}
-		return false;
-	}
+	// private handleAssassinBossKill(): boolean {
+	// 	const isAssassin = this.gameInstance.player.className === "Assassin";
+	// 	if (isAssassin && this.type === CellType.Boss) {
+	// 		// Assassin wins, no damage taken
+	// 		this.type = CellType.Empty;
+	// 		this.value = 0;
+	// 		this.isClicked = true;
+	// 		this.HTMLElement.classList.add("clicked");
+	// 		this.HTMLElement.innerText = "";
+	// 		this.addExperience(CellType.Boss * defaults.experienceGain.multiplicator);
+	// 		this.gameInstance.winGame();
+	// 		return true;
+	// 	}
+	// 	return false;
+	// }
 
 	public translateType(type: CellType): string {
 		if (type > 0 && defaults.monsterKeys[type] !== undefined) {

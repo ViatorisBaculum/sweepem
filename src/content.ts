@@ -49,6 +49,7 @@ function initalModal() {
 		toggleMenuBar();
 		GameMaster.getInstance().resetGame();
 	});
+	modal.setDefaultClass();
 }
 
 function toggleMenuBar() {
@@ -72,6 +73,7 @@ function toggleSettings() {
 		toggleMenuBar();
 	});
 	modal.setCancelAction(() => toggleMenuBar());
+	modal.setDefaultClass();
 
 	GameMaster.getInstance().getSettings();
 }
