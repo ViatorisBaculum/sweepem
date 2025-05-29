@@ -2,91 +2,77 @@ import { GameMaster } from "./classes/gameMaster";
 import { Modal } from "./util/modal";
 import { ThemeManager, Theme } from "./util/theme";
 
-const settingsForm = document.getElementById("template-settings");
-const menu = document.getElementById("menu");
-const leaderboard = document.getElementById("template-leaderboard");
+type Nullable<T> = T | null;
 
-export function initialize() {
+const gameInstance = GameMaster.getInstance();
+const settingsForm = document.getElementById("template-settings") as Nullable<HTMLTemplateElement>;
+const menu = document.getElementById("menu") as Nullable<HTMLElement>;
+const leaderboardTemplate = document.getElementById("template-leaderboard") as Nullable<HTMLTemplateElement>;
 
-	initalModal();
+// Helper to get element and bind event
+function bind(
+	id: string,
+	event: keyof HTMLElementEventMap,
+	handler: EventListenerOrEventListenerObject,
+	options?: boolean | AddEventListenerOptions
+): void {
+	const el = document.getElementById(id);
+	el?.addEventListener(event, handler, options);
+}
+
+export function initialize(): void {
 	ThemeManager.initialize();
 	setupThemeToggle();
 
-	const settingsButton = document.getElementById("openSettings");
-	if (settingsButton)
-		settingsButton.addEventListener("click", () => toggleSettings(), false);
+	showInitialModal();
+	gameInstance.populateSettingsUIFromGameSettings();
+	hide(menu);
 
-	const resetButton = document.getElementById("reset");
-	if (resetButton) resetButton.addEventListener("click", () => resetGame(), false);
-
-	const leaderboardButton = document.getElementById("openLeaderboard");
-	if (leaderboardButton) leaderboardButton.addEventListener("click", () => showLeaderboard(), false);
-
-	if (menu) menu.style.display = "none";
-
-	GameMaster.getInstance().getSettings();
-
-	// Debug buttons
-	const debugLevelUpButton = document.getElementById("debugLevelUp");
-	if (debugLevelUpButton) {
-		debugLevelUpButton.addEventListener("click", () => {
-			GameMaster.getInstance().player.debugGainLevel();
-		});
-	}
+	bind("openSettings", "click", showSettings);
+	bind("reset", "click", () => gameInstance.resetGame());
+	bind("openLeaderboard", "click", () => showLeaderboard());
+	bind("debugLevelUp", "click", () => gameInstance.player.debugGainLevel());
 }
 
-function initalModal() {
-	if (!settingsForm) throw new Error("No settings template found");
-
+function showInitialModal(): void {
+	assert(settingsForm, "No settings template found");
 	const modal = new Modal(document.body);
-	modal.setTitle("New Game");
-	modal.setSubTitle("Welcome to DungeonSweeper");
+	modal.setTitle("New Game")
+	modal.setSubTitle("Welcome to DungeonSweeper")
 	modal.setText(
 		"This is a more elaborate version of MineSweeper with RPG elements such as classes, leveling and different enemies. Please choose your starting configuration."
-	);
-	modal.setSlotContent(settingsForm.innerHTML);
-	modal.setConfirmAction(() => {
-		toggleMenuBar();
-		GameMaster.getInstance().resetGame();
-	});
+	)
+	modal.setSlotContent(settingsForm.innerHTML)
+	modal.setConfirmAction((): void => {
+		toggle(menu);
+		gameInstance.resetGame();
+	})
 	modal.setDefaultClass();
 }
 
-function toggleMenuBar() {
-	if (menu && menu.style.display === "flex") menu.style.display = "none";
-	else if (menu && menu.style.display === "none") menu.style.display = "flex";
-}
-
-function toggleSettings() {
-	if (!settingsForm) throw new Error("No settings template found");
-
+function showSettings(): void {
+	assert(settingsForm, "No settings template found");
 	const modal = new Modal(document.body, { cancelButton: true });
-	modal.setTitle("Game Settings");
-	modal.setText("Please choose the settings for your next round");
-	modal.setSlotContent(settingsForm.innerHTML);
 
-	toggleMenuBar();
-	setupThemeToggle();
-
-	modal.setConfirmAction(() => {
-		GameMaster.getInstance().resetGame();
-		toggleMenuBar();
-	});
-	modal.setCancelAction(() => toggleMenuBar());
+	modal.setTitle("Game Settings")
+	modal.setText("Please choose the settings for your next round")
+	modal.setSlotContent(settingsForm.innerHTML)
+	modal.setConfirmAction((): void => {
+		gameInstance.resetGame();
+		toggle(menu);
+	})
+	modal.setCancelAction((): void => toggle(menu))
 	modal.setDefaultClass();
 
-	GameMaster.getInstance().getSettings();
+	toggle(menu);
+	setupThemeToggle();
+	gameInstance.populateSettingsUIFromGameSettings();
 }
 
-function resetGame() {
-	GameMaster.getInstance().resetGame();
-}
-
-export function showLeaderboard(statusText?: string) {
-	if (!leaderboard) throw new Error("No leaderboard template found");
-
-	toggleMenuBar();
-	GameMaster.getInstance().pauseTimer();
+export function showLeaderboard(status = ""): void {
+	assert(leaderboardTemplate, "No leaderboard template found");
+	toggle(menu);
+	gameInstance.pauseTimer();
 
 	const modal = new Modal(document.body, {
 		cancelButton: true,
@@ -94,29 +80,41 @@ export function showLeaderboard(statusText?: string) {
 		showSubTitle: true,
 		showClass: false,
 		showClassDescription: false,
-		showSlot: false
+		showSlot: false,
 	});
-	modal.setTitle("Leaderboard");
-	modal.setSubTitle(statusText ? statusText : "");
-	modal.setText("These are your best scores");
-	const scores = GameMaster.getInstance().getScores();
-	modal.setLeaderboardContent(scores);
-	modal.setCancelAction(() => {
-		GameMaster.getInstance().resumeTimer();
-		toggleMenuBar();
+
+	modal.setTitle("Leaderboard")
+	modal.setSubTitle(status)
+	modal.setText("These are your best scores")
+	modal.setLeaderboardContent(gameInstance.getScores())
+	modal.setCancelAction((): void => {
+		gameInstance.resumeTimer();
+		toggle(menu);
 	});
 }
 
-function setupThemeToggle() {
-	const themeSelect = document.getElementById('themeSelect') as HTMLSelectElement;
-	if (!themeSelect) return;
+// Generic show/hide/toggle helpers
+function hide(el: Nullable<HTMLElement>): void {
+	if (el) el.style.display = "none";
+}
 
-	// Set initial value
-	const currentTheme = ThemeManager.getCurrentTheme();
-	themeSelect.value = currentTheme;
+// function show(el: Nullable<HTMLElement>, display = "flex"): void {
+// 	if (el) el.style.display = display;
+// }
 
-	// Add change listener
-	themeSelect.addEventListener('change', () => {
-		ThemeManager.setTheme(themeSelect.value as Theme);
-	});
+function toggle(el: Nullable<HTMLElement>, display = "flex"): void {
+	if (!el) return;
+	el.style.display = el.style.display === display ? "none" : display;
+}
+
+function setupThemeToggle(): void {
+	const select = document.getElementById("themeSelect");
+	if (!select) return;
+	const themeSelect = select as HTMLSelectElement;
+	themeSelect.value = ThemeManager.getCurrentTheme();
+	themeSelect.onchange = (): void => ThemeManager.setTheme(themeSelect.value as Theme);
+}
+
+function assert<T>(cond: T, message: string): asserts cond {
+	if (!cond) throw new Error(message);
 }

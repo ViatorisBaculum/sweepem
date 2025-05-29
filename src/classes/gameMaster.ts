@@ -32,17 +32,25 @@ export class GameMaster {
 	private _gameTimer: number = 0;
 	private _gameSettings: GameSettings;
 	private _gameState: GameState = GameState.NotStarted;
+	private playerClassRegistry: Record<playerClasses, new () => Player> = {
+		"Assassin": PC_Assassin,
+		"Mage": PC_Mage,
+		"Paladin": PC_Paladin,
+		"Warrior": PC_Warrior,
+	};
 
 	private constructor() {
 		document.getElementById("resetButton")?.addEventListener("click", () => this.resetGame());
-		this.getSettings();
-		this._gameSettings = this.loadDefaultSettings();
+		this._gameSettings = this.initializeGameSettings();
+		this.populateSettingsUIFromGameSettings();
 	}
+
 	static getInstance() {
-		if (!this.instance) {
-			return (this.instance = new GameMaster());
+		if (!GameMaster.instance) {
+			GameMaster.instance = new GameMaster();
+			return GameMaster.instance;
 		} else {
-			return this.instance;
+			return GameMaster.instance;
 		}
 	}
 
@@ -82,19 +90,13 @@ export class GameMaster {
 	}
 
 	public createPlayer() {
-		switch (this._gameSettings.playerClass) {
-			case "Assassin":
-				this.player = new PC_Assassin();
-				break;
-			case "Mage":
-				this.player = new PC_Mage();
-				break;
-			case "Paladin":
-				this.player = new PC_Paladin();
-				break;
-			case "Warrior":
-				this.player = new PC_Warrior();
-				break;
+		const PlayerClassConstructor = this.playerClassRegistry[this._gameSettings.playerClass];
+		if (PlayerClassConstructor) {
+			this.player = new PlayerClassConstructor();
+		} else {
+			// Fallback or throw an error if the player class is unknown
+			console.error(`Unknown player class: ${this._gameSettings.playerClass}. Defaulting to Warrior.`);
+			this.player = new PC_Warrior();
 		}
 	}
 
@@ -109,13 +111,49 @@ export class GameMaster {
 		};
 	}
 
+	private initializeGameSettings(): GameSettings {
+		const defaultSettings = this.loadDefaultSettings();
+		const localSettings = localStorage.getItem("instance");
+		if (localSettings) {
+			try {
+				const storedSettings = JSON.parse(localSettings) as Partial<GameSettings>;
+				// Merge stored settings over defaults, ensuring all properties are present and correctly typed
+				return {
+					...defaultSettings,
+					...storedSettings,
+					width: storedSettings.width !== undefined ? +storedSettings.width : defaultSettings.width,
+					height: storedSettings.height !== undefined ? +storedSettings.height : defaultSettings.height,
+					minesFrequency: storedSettings.minesFrequency !== undefined ? +storedSettings.minesFrequency : defaultSettings.minesFrequency,
+					playerClass: storedSettings.playerClass || defaultSettings.playerClass,
+					invertClicks: typeof storedSettings.invertClicks === 'boolean' ? storedSettings.invertClicks : defaultSettings.invertClicks,
+					removeFlags: typeof storedSettings.removeFlags === 'boolean' ? storedSettings.removeFlags : defaultSettings.removeFlags,
+				};
+			} catch (error) {
+				console.error("Failed to parse stored settings, using defaults and removing corrupted item.", error);
+				localStorage.removeItem("instance"); // Remove corrupted data
+				return defaultSettings;
+			}
+		}
+		return defaultSettings;
+	}
+
 	public playerUp() {
 		this.board.indicateLevelGain(this.player.level);
 		this.board.evoluteMonster();
 		if (this._gameSettings.removeFlags) this.board.removeAllFlags();
 	}
 
+
 	public resetGame() {
+		// Stop ongoing game processes
+		if (this._gameState === GameState.Running || this._gameState === GameState.Paused) {
+			this.stopTimer();
+		}
+		if (this._board) {
+			this._board.removeEventHandler(); // Clean up event handlers from the old board
+		}
+		this._gameState = GameState.NotStarted;
+
 		const boardHTML = document.getElementById("app");
 		if (boardHTML) boardHTML.innerHTML = "";
 
@@ -123,33 +161,25 @@ export class GameMaster {
 		this.startGame();
 	}
 
-	public setSettings() {
-		this._gameSettings.width = +this.getValueFromInput("inputWidth");
-		this._gameSettings.height = +this.getValueFromInput("inputHeight");
-		this._gameSettings.minesFrequency = +this.getValueFromInput("minesFrequency");
-		this._gameSettings.playerClass = this.getValueFromInput("selectClass") as playerClasses;
-		this._gameSettings.invertClicks = (document.getElementById("invertClicks") as HTMLInputElement).checked;
-		this._gameSettings.removeFlags = (document.getElementById("removeFlags") as HTMLInputElement).checked;
+	// Renamed from setSettings - reads from UI, updates internal state and localStorage
+	public saveSettingsFromUI(): void {
+		try {
+			this._gameSettings.width = +this.getValueFromInput("inputWidth");
+			this._gameSettings.height = +this.getValueFromInput("inputHeight");
+			this._gameSettings.minesFrequency = +this.getValueFromInput("minesFrequency");
+			this._gameSettings.playerClass = this.getValueFromInput("selectClass") as playerClasses;
+			this._gameSettings.invertClicks = this.getCheckedFromToggle("invertClicks");
+			this._gameSettings.removeFlags = this.getCheckedFromToggle("removeFlags");
 
-		localStorage.setItem("instance", JSON.stringify(this._gameSettings));
-	}
-
-	public getSettings() {
-		const localSettings = localStorage.getItem("instance");
-		if (localSettings !== null) {
-			const storedSettings = JSON.parse(localSettings);
-
-			this.setValueToInput("inputWidth", storedSettings.width);
-			this.setValueToInput("inputHeight", storedSettings.height);
-			this.setValueToInput("minesFrequency", storedSettings.minesFrequency);
-			this.setValueToInput("selectClass", storedSettings.playerClass);
-			this.setValueToToggle("invertClicks", storedSettings.invertClicks);
-			this.setValueToToggle("removeFlags", storedSettings.removeFlags);
+			localStorage.setItem("instance", JSON.stringify(this._gameSettings));
+		} catch (error) {
+			console.error("Error saving settings from UI:", error);
+			// Optionally, notify the user that settings could not be saved
 		}
 	}
 
 	public startGame() {
-		if (document.getElementById("modal")) this.setSettings();
+		if (document.getElementById("modal")) this.saveSettingsFromUI();
 		if (document.getElementById("modal")) this.getScores();
 		this.createPlayer();
 		this.createBoard();
@@ -231,19 +261,37 @@ export class GameMaster {
 	private getValueFromInput(name: string) {
 		const input = document.getElementById(name);
 		if (input) return (input as HTMLInputElement).value;
-		else throw new Error("gameMaster: getValueFromHTML: HTML does not exist");
+		else throw new Error(`HTML input element with id '${name}' not found.`);
 	}
 
-	private setValueToInput(name: string, value: string) {
+	private getCheckedFromToggle(name: string): boolean {
 		const input = document.getElementById(name);
-		if (input) (input as HTMLInputElement).value = value;
-		else throw new Error("gameMaster: getValueFromHTML: HTML does not exist");
+		if (input) return (input as HTMLInputElement).checked;
+		else throw new Error(`HTML input (checkbox/toggle) element with id '${name}' not found.`);
 	}
 
-	private setValueToToggle(name: string, value: boolean) {
-		const input = document.getElementById(name);
-		if (input) (input as HTMLInputElement).checked = value;
-		else throw new Error("gameMaster: getValueFromHTML: HTML does not exist");
+	// Populates UI from _gameSettings. Replaces old getSettings()
+	public populateSettingsUIFromGameSettings(): void {
+		this.trySetInputValue("inputWidth", this._gameSettings.width.toString());
+		this.trySetInputValue("inputHeight", this._gameSettings.height.toString());
+		this.trySetInputValue("minesFrequency", this._gameSettings.minesFrequency.toString());
+		this.trySetInputValue("selectClass", this._gameSettings.playerClass); // Assumes selectClass is an HTMLSelectElement or compatible
+		this.trySetToggleValue("invertClicks", this._gameSettings.invertClicks);
+		this.trySetToggleValue("removeFlags", this._gameSettings.removeFlags);
+	}
+
+	private trySetInputValue(id: string, value: string): void {
+		const input = document.getElementById(id) as HTMLInputElement | HTMLSelectElement | null;
+		if (input) {
+			input.value = value;
+		}
+		// else console.warn(`HTML input element with id '${id}' not found for setting value.`);
+	}
+
+	private trySetToggleValue(id: string, checked: boolean): void {
+		const input = document.getElementById(id);
+		if (input) (input as HTMLInputElement).checked = checked;
+		// else console.warn(`HTML input (checkbox/toggle) element with id '${id}' not found for setting value.`);
 	}
 
 	private resetTimer() {
