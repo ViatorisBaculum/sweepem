@@ -99,18 +99,29 @@ export class Cell {
 
 	clickNeighbors(damage?: number) {
 		const { x, y, board } = this;
+
+		// 1. Sammle alle Nachbarn, die noch nicht geklickt wurden
+		const neighbors: Cell[] = [];
 		for (let dx = -1; dx <= 1; dx++) {
 			for (let dy = -1; dy <= 1; dy++) {
 				const neighbor = board.getCell(x + dx, y + dy);
-				if (neighbor && !neighbor.isClicked && !neighbor.isFlagged) {
-					if (neighbor.value === 0) {
-						neighbor.click(damage);
-					} else if (neighbor.type === CellType.Empty) {
-						neighbor.activateCell(defaults.experienceGain.open);
-					} else if (neighbor.type > CellType.Empty) {
-						neighbor.click(damage);
-					}
+				if (neighbor && !neighbor.isClicked) {
+					neighbors.push(neighbor);
 				}
+			}
+		}
+
+		// 2. Entferne alle geflaggten Zellen
+		const toClick = neighbors.filter(cell => !cell.isFlagged);
+
+		// 3. Klicke die übrigen Zellen nach deiner bisherigen Logik
+		for (const neighbor of toClick) {
+			if (neighbor.value === 0) {
+				neighbor.click(damage);
+			} else if (neighbor.type === CellType.Empty) {
+				neighbor.activateCell(defaults.experienceGain.open);
+			} else if (neighbor.type > CellType.Empty) {
+				neighbor.click(damage);
 			}
 		}
 	}
