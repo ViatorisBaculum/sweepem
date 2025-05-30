@@ -261,19 +261,27 @@ export class Board {
 	/*===============*/
 
 	private debug_printCellValues(): void {
-		const table: (string | number)[][] = [];
-		this.cells.forEach((row) => {
-			const line: (string | number)[] = [];
+		let result = "";
+
+		// Add column indices
+		result += "    "; // space for row indices
+		for (let col = 0; col < this._width; col++) {
+			result += col.toString().padStart(3, " ");
+		}
+		result += "\n";
+
+		this.cells.forEach((row, rowIdx) => {
+			// Add row index
+			let line = rowIdx.toString().padStart(3, " ") + " ";
 			row.forEach((cell) => {
-				if (cell.type === CellType.Empty) {
-					line.push((cell.value !== undefined ? cell.value.toString() : " ").padStart(2, " "));
-				} else {
-					line.push(cell.translateType(cell.type).padStart(2, " "));
-				}
+				let val = cell.type === CellType.Empty
+					? (cell.value !== undefined ? cell.value.toString() : ".")
+					: cell.translateType(cell.type);
+				line += val.toString().padStart(3, " ");
 			});
-			table.push(line);
+			result += line + "\n";
 		});
-		console.table(table);
+		console.log(result);
 	}
 
 	private debug_writeValues(openCells: boolean) {
