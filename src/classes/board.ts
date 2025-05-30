@@ -30,7 +30,7 @@ export class Board {
 		this.debug_printCellValues();
 		this.updateCSSVariables(width, height);
 
-		this.debug_writeValues(true);
+		this.debug_writeValues(false);
 		this.clickHandler = this.createClickHandler();
 		this.contextMenuHandler = this.createContextMenuHandler();
 		this.addBoardEventHandlers();
