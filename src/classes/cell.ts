@@ -21,9 +21,6 @@ export class Cell {
 		this.x = x;
 		this.y = y;
 		this.HTMLElement = htmlElement;
-		this.addEventListeners();
-
-		if (this.gameInstance.player.className === "Assassin") this.rightClick = this.rightClickAssassin;
 	}
 
 	/*==============*/
@@ -50,7 +47,9 @@ export class Cell {
 	 * @param damage - The amount of damage to deal. If not provided, defaults to the cell type minus player level plus one.
 	 */
 	attackPlayer(damage?: number) {
-		//if (this.handleAssassinBossKill()) return;
+		if (this.type === CellType.Empty) return;
+		console.log("Monster attack! Type:", this.type, "at", this.x, this.y);
+
 		if (this.gameInstance.player.className === "Assassin" && this.type === CellType.Boss && damage === undefined) {
 			// Assassin wins, no damage taken
 			damage = 1;
@@ -67,17 +66,19 @@ export class Cell {
 		if (this.gameInstance.player.health > 0 && this.type === CellType.Boss) this.gameInstance.winGame();
 	}
 
-	click() {
+	click(damage?: number) {
+		if (this.isClicked || this.isFlagged) return;
+
 		if (this.value !== undefined) {
 			this.activateCell(defaults.experienceGain.open);
 		}
 
 		if (this.value === 0 && this.type === CellType.Empty) {
-			this.clickNeighbors();
+			this.clickNeighbors(damage);
 		}
 
 		if (this.type > 0 && this.value === undefined) {
-			this.attackPlayer();
+			this.attackPlayer(damage);
 			this.activateCell(0);
 		}
 	}
@@ -96,18 +97,18 @@ export class Cell {
 		return neighbors;
 	}
 
-	clickNeighbors() {
+	clickNeighbors(damage?: number) {
 		const { x, y, board } = this;
 		for (let dx = -1; dx <= 1; dx++) {
 			for (let dy = -1; dy <= 1; dy++) {
 				const neighbor = board.getCell(x + dx, y + dy);
 				if (neighbor && !neighbor.isClicked && !neighbor.isFlagged) {
 					if (neighbor.value === 0) {
-						neighbor.click();
+						neighbor.click(damage);
 					} else if (neighbor.type === CellType.Empty) {
 						neighbor.activateCell(defaults.experienceGain.open);
 					} else if (neighbor.type > CellType.Empty) {
-						neighbor.click();
+						neighbor.click(damage);
 					}
 				}
 			}
@@ -123,16 +124,6 @@ export class Cell {
 			}
 		}
 		return false;
-	}
-
-	removeEventListeners() {
-		this.HTMLElement.addEventListener("click", (e) => e.stopImmediatePropagation(), true);
-		this.HTMLElement.addEventListener("contextmenu", (e) => {
-			e.stopImmediatePropagation();
-			e.preventDefault();
-		},
-			true
-		);
 	}
 
 	revealCell() {
@@ -151,6 +142,10 @@ export class Cell {
 
 	rightClick(e: Event) {
 		e.preventDefault();
+		if (this.gameInstance.player.className === "Assassin") {
+			this.rightClickAssassin(e);
+			return;
+		}
 		if (!this.isClicked) {
 			this.isFlagged = !this.isFlagged;
 			this.toggleFlag();
@@ -177,22 +172,6 @@ export class Cell {
 		}
 	}
 
-	// private handleAssassinBossKill(): boolean {
-	// 	const isAssassin = this.gameInstance.player.className === "Assassin";
-	// 	if (isAssassin && this.type === CellType.Boss) {
-	// 		// Assassin wins, no damage taken
-	// 		this.type = CellType.Empty;
-	// 		this.value = 0;
-	// 		this.isClicked = true;
-	// 		this.HTMLElement.classList.add("clicked");
-	// 		this.HTMLElement.innerText = "";
-	// 		this.addExperience(CellType.Boss * defaults.experienceGain.multiplicator);
-	// 		this.gameInstance.winGame();
-	// 		return true;
-	// 	}
-	// 	return false;
-	// }
-
 	public translateType(type: CellType): string {
 		if (type > 0 && defaults.monsterKeys[type] !== undefined) {
 			return defaults.monsterKeys[type];
@@ -206,19 +185,6 @@ export class Cell {
 	/*===============*/
 	/*private methods*/
 	/*===============*/
-
-	private addEventListeners() {
-		// if (this.gameInstance.invertClicks) {
-		// 	this.HTMLElement.addEventListener("click", (e) => this.rightClick(e), false);
-		// 	this.HTMLElement.addEventListener("contextmenu", (e) => {
-		// 		e.preventDefault();
-		// 		this.click();
-		// 	}, false);
-		// } else {
-		// 	this.HTMLElement.addEventListener("click", () => this.click(), false);
-		// 	this.HTMLElement.addEventListener("contextmenu", (e) => this.rightClick(e), false);
-		// }
-	}
 
 	public toggleFlag(): void {
 		if (this.isFlagged) {
@@ -237,16 +203,4 @@ export class Cell {
 			this.HTMLElement.classList.add("shrinked");
 		}
 	}
-
-	// private isMobile(): boolean {
-	// 	var hasTouchScreen = false;
-
-	// 	if ("maxTouchPoints" in navigator) {
-	// 		hasTouchScreen = navigator.maxTouchPoints > 0;
-	// 	}
-
-	// 	if (hasTouchScreen) {
-	// 		return true;
-	// 	} else return false
-	// }
 }

@@ -1,4 +1,5 @@
 import { GameMaster } from "./classes/gameMaster";
+import { CellType } from "./util/customTypes";
 import { Modal } from "./util/modal";
 import { ThemeManager, Theme } from "./util/theme";
 
@@ -23,6 +24,7 @@ function bind(
 export function initialize(): void {
 	ThemeManager.initialize();
 	setupThemeToggle();
+	setupFireball();
 
 	showInitialModal();
 	gameInstance.populateSettingsUIFromGameSettings();
@@ -117,4 +119,51 @@ function setupThemeToggle(): void {
 
 function assert<T>(cond: T, message: string): asserts cond {
 	if (!cond) throw new Error(message);
+}
+
+function setupFireball() {
+	const fireballBtn = document.getElementById("fireball") as HTMLButtonElement | null;
+	if (!fireballBtn) return;
+	fireballBtn.onclick = () => {
+		const player = gameInstance.player;
+		if (player.className !== "Mage") { return; }
+
+		const board = gameInstance.board;
+		const handler = (e: MouseEvent) => {
+			e.stopImmediatePropagation();
+			const target = e.target as HTMLButtonElement;
+			if (!target || !target.dataset.x || !target.dataset.y) return;
+			const x = Number(target.dataset.x);
+			const y = Number(target.dataset.y);
+
+			for (let dx = -1; dx <= 1; dx++) {
+				for (let dy = -1; dy <= 1; dy++) {
+					const cell = board.getCell(x + dx, y + dy);
+					if (cell && !cell.isClicked && cell.type === CellType.Empty) {
+						cell.click(0); // 0 damage: no damage to Mage
+					}
+				}
+			}
+			// Sicherer Aufruf:
+			if (typeof player.useFireball === "function") {
+				player.useFireball();
+			}
+			document.removeEventListener("click", handler, true);
+			fireballBtn.disabled = true;
+		};
+		document.addEventListener("click", handler, true);
+	};
+}
+
+export function resetFireballButton() {
+	const fireballBtn = document.getElementById("fireball") as HTMLButtonElement | null;
+	const player = gameInstance.player;
+	if (!fireballBtn) return;
+	if (player.className === "Mage") {
+		fireballBtn.disabled = false;
+		fireballBtn.style.display = "";
+	} else {
+		fireballBtn.disabled = true;
+		fireballBtn.style.display = "none";
+	}
 }

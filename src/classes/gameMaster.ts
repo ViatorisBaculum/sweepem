@@ -6,7 +6,7 @@ import { Board } from "./board";
 import { Player } from "./player";
 import defaults from "../util/defaults";
 import { playerClasses } from "../util/customTypes";
-import { showLeaderboard } from "../content";
+import { showLeaderboard, resetFireballButton } from "../content";
 
 enum GameState {
 	NotStarted,
@@ -141,8 +141,8 @@ export class GameMaster {
 		this.board.indicateLevelGain(this.player.level);
 		this.board.evoluteMonster();
 		if (this._gameSettings.removeFlags) this.board.removeAllFlags();
+		resetFireballButton();
 	}
-
 
 	public resetGame() {
 		// Stop ongoing game processes
@@ -159,9 +159,10 @@ export class GameMaster {
 
 		this.resetHeartContainer();
 		this.startGame();
+		resetFireballButton();
 	}
 
-	// Renamed from setSettings - reads from UI, updates internal state and localStorage
+	// reads from UI, updates internal state and localStorage
 	public saveSettingsFromUI(): void {
 		try {
 			this._gameSettings.width = +this.getValueFromInput("inputWidth");
@@ -174,7 +175,6 @@ export class GameMaster {
 			localStorage.setItem("instance", JSON.stringify(this._gameSettings));
 		} catch (error) {
 			console.error("Error saving settings from UI:", error);
-			// Optionally, notify the user that settings could not be saved
 		}
 	}
 
@@ -285,13 +285,13 @@ export class GameMaster {
 		if (input) {
 			input.value = value;
 		}
-		// else console.warn(`HTML input element with id '${id}' not found for setting value.`);
+		else console.warn(`HTML input element with id '${id}' not found for setting value.`);
 	}
 
 	private trySetToggleValue(id: string, checked: boolean): void {
 		const input = document.getElementById(id);
 		if (input) (input as HTMLInputElement).checked = checked;
-		// else console.warn(`HTML input (checkbox/toggle) element with id '${id}' not found for setting value.`);
+		else console.warn(`HTML input (checkbox/toggle) element with id '${id}' not found for setting value.`);
 	}
 
 	private resetTimer() {

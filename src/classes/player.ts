@@ -19,6 +19,9 @@ export abstract class Player {
 	private _HTMLHooks: PlayerHTMLHooks;
 	private heartContainers: HTMLImageElement[] = [];
 
+	canCastFireball?(): boolean;
+	useFireball?(): void;
+
 	constructor() {
 		this._HTMLHooks = this.loadHTMLHooks();
 	}
