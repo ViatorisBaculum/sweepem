@@ -10,6 +10,9 @@ export class Board {
 	private _height: number;
 	private appElement: HTMLElement;
 
+	private clickHandler: (e: MouseEvent) => void;
+	private contextMenuHandler: (e: MouseEvent) => void;
+
 	constructor(width: number, height: number, minesFreq: number, distribution: typeDistribution = defaults.typeDistribution) {
 		this.validateDistribution(distribution);
 
@@ -27,7 +30,9 @@ export class Board {
 		this.debug_printCellValues();
 		this.updateCSSVariables(width, height);
 
-		this.debug_writeValues(false);
+		this.debug_writeValues(true);
+		this.clickHandler = this.createClickHandler();
+		this.contextMenuHandler = this.createContextMenuHandler();
 		this.addBoardEventHandlers();
 	}
 
@@ -83,7 +88,8 @@ export class Board {
 	}
 
 	public removeEventHandler() {
-		this.cells.flat().forEach(cell => cell.removeEventListeners());
+		this.appElement.removeEventListener("click", this.clickHandler);
+		this.appElement.removeEventListener("contextmenu", this.contextMenuHandler);
 	}
 
 	public removeAllFlags() {
@@ -210,37 +216,8 @@ export class Board {
 		else throw new Error("Provided typeDistribution doesn't sum to 1. Sum of proportions is " + proportionSum);
 	}
 
-	/*===============*/
-	/*===DEBUGGING===*/
-	/*===============*/
-
-	private debug_printCellValues(): void {
-		// let result = "";
-		// this.cells.forEach((row) => {
-		// 	let line = "";
-		// 	row.forEach((cell) => {
-		// 		if (cell.type === CellType.Empty) line += cell.value + "\t";
-		// 		else line += cell.translateType(cell.type) + "\t";
-		// 	});
-		// 	result += line.trim() + "\n";
-		// });
-		// console.log(result.trim());
-	}
-
-	private debug_writeValues(openCells: boolean) {
-		if (openCells === true) {
-			// this.cells.forEach((row) => {
-			// 	row.forEach((cell) => {
-			// 		if (cell.type) {
-			// 			cell.HTMLElement.innerText = cell.translateType(cell.type);
-			// 		}
-			// 	});
-			// });
-		}
-	}
-
-	private addBoardEventHandlers() {
-		this.appElement.addEventListener("click", (e) => {
+	private createClickHandler() {
+		return (e: MouseEvent) => {
 			const target = e.target as HTMLButtonElement;
 			if (!target || !target.dataset.x || !target.dataset.y) return;
 			const x = Number(target.dataset.x);
@@ -248,15 +225,16 @@ export class Board {
 			const cell = this.getCell(x, y);
 			if (!cell) return;
 
-			// Handle invertClicks logic here if needed
 			if (cell.gameInstance.invertClicks) {
 				cell.rightClick(e);
 			} else {
 				cell.click();
 			}
-		});
+		};
+	}
 
-		this.appElement.addEventListener("contextmenu", (e) => {
+	private createContextMenuHandler() {
+		return (e: MouseEvent) => {
 			const target = e.target as HTMLButtonElement;
 			if (!target || !target.dataset.x || !target.dataset.y) return;
 			e.preventDefault();
@@ -270,6 +248,43 @@ export class Board {
 			} else {
 				cell.rightClick(e);
 			}
+		};
+	}
+
+	private addBoardEventHandlers() {
+		this.appElement.addEventListener("click", this.clickHandler);
+		this.appElement.addEventListener("contextmenu", this.contextMenuHandler);
+	}
+
+	/*===============*/
+	/*===DEBUGGING===*/
+	/*===============*/
+
+	private debug_printCellValues(): void {
+		const table: (string | number)[][] = [];
+		this.cells.forEach((row) => {
+			const line: (string | number)[] = [];
+			row.forEach((cell) => {
+				if (cell.type === CellType.Empty) {
+					line.push((cell.value !== undefined ? cell.value.toString() : " ").padStart(2, " "));
+				} else {
+					line.push(cell.translateType(cell.type).padStart(2, " "));
+				}
+			});
+			table.push(line);
 		});
+		console.table(table);
+	}
+
+	private debug_writeValues(openCells: boolean) {
+		if (openCells === true) {
+			this.cells.forEach((row) => {
+				row.forEach((cell) => {
+					if (cell.type) {
+						cell.HTMLElement.innerText = cell.translateType(cell.type);
+					}
+				});
+			});
+		}
 	}
 }
