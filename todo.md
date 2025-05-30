@@ -26,4 +26,4 @@ Schleife statt Elemente individuell in Urne zu packen. Abhängig von CellType-In
 
 * Flag removal nur bei Minen die unter dem eigenen Level sind
 
-## Optimiere handleAssassinBossKill
+## When player levels open but clickNeigbors is still going the player gets damage because the flag of a cell gets removed and then clicked
