@@ -50,6 +50,9 @@ function showInitialModal(): void {
 		gameInstance.resetGame();
 	})
 	modal.setDefaultClass();
+
+	setupThemeToggle();
+	gameInstance.populateSettingsUIFromGameSettings();
 }
 
 function showSettings(): void {
