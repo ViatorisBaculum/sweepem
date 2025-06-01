@@ -34,6 +34,7 @@ export class Board {
 		this.clickHandler = this.createClickHandler();
 		this.contextMenuHandler = this.createContextMenuHandler();
 		this.addBoardEventHandlers();
+		this.indicateLevelGain(1);
 	}
 
 	/*==============*/
@@ -67,10 +68,15 @@ export class Board {
 
 	public indicateLevelGain(level: number) {
 		if (this.appElement) {
+			// reset existing level classes
+			for (let i = 1; i <= 5; i++) {
+				this.appElement.classList.remove(`level-${i}`);
+			}
+			this.appElement.classList.add(`level-${level}`);
+
 			this.appElement.classList.remove("highlight");
 			void this.appElement.offsetWidth;
 			this.appElement.classList.add("highlight");
-			this.appElement.style.setProperty("--button-color", defaults.boardColors[(level as keyof typeof defaults.boardColors)]);
 		}
 	}
 
@@ -93,7 +99,7 @@ export class Board {
 	}
 
 	public removeAllFlags() {
-		this.cells.flat().forEach(cell => {
+		this.cells.flat().forEach((cell: Cell) => {
 			if (cell.isFlagged) {
 				cell.isFlagged = false;
 				cell.toggleFlag();
@@ -102,7 +108,7 @@ export class Board {
 	}
 
 	public revealBoard() {
-		this.cells.flat().forEach(cell => {
+		this.cells.flat().forEach((cell: Cell) => {
 			if (!cell.isClicked) {
 				cell.HTMLElement.classList.add("notClicked");
 				cell.revealCell();

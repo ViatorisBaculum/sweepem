@@ -7,14 +7,20 @@
 	color-scheme: light dark;
 
 	/* Farbpalette */
-	--theme-color1: rgb(147, 177, 166);
-	--theme-color2: rgb(92, 131, 116);
-	--theme-color3: rgb(24, 61, 61);
-	--theme-color4: rgb(4, 13, 18);
+	--theme-color1: #74b9b3;
+	--theme-color2: #5c8381;
+	--theme-color3: #183d3d;
+	--theme-color4: #040d12;
+
+	--theme-color11: #2a5458;
+	--theme-color22: #008b82;
+	--theme-color32: #4da6a1;
+	--theme-color42: #4a5151;
+	--theme-color22: #cc4c4a;
 
 	/* Button-Größen & Farben */
-	--button-size: 3rem;
-	--button-font-size: 2rem;
+	--button-size: 1.5em;
+	--button-font-size: 1.5rem;
 	--button-color: #d1d1d1;
 	--button-clicked-color: #fafafa;
 	--button-notclicked-color: #7c7c7c;
@@ -27,7 +33,28 @@
 	/* Hintergründe */
 	--modal-background: #f7faf9;
 	--body-background: #f7faf9;
-	--app-background: #ffffff; /* Weißer Hintergrund für modernes Erscheinungsbild */
+	--app-background: #ffffff;
+
+	/* Boardcolors */
+	--board-color-level-1: #bfd8b8;
+	--board-color-level-2: #7ea16b;
+	--board-color-level-3: #5c8374;
+	--board-color-level-4: #355c7d;
+	--board-color-level-5: #f67280;
+
+	/* Monsterfarben */
+	--monster-r-bg: #b8e0ff;
+	--monster-r-border: #4d7a96;
+	--monster-z-bg: #96ffbe;
+	--monster-z-border: #4d9665;
+	--monster-s-bg: #d1ff96;
+	--monster-s-border: #b4bd61;
+	--monster-g-bg: #be96ff;
+	--monster-g-border: #8c539e;
+	--monster-w-bg: #ffd448;
+	--monster-w-border: #ffbb00;
+	--monster-b-bg: #ff9696;
+	--monster-b-border: #99504e;
 }
 
 :root.dark {
@@ -45,22 +72,34 @@
 	--flag-color: #ffb86c;
 
 	--body-background: #181a1b;
-	--app-background: #2d333b; /* Dunkler Hintergrund im Dark Mode */
+	--app-background: #2d333b;
 	--modal-background: #181a1b;
 
 	color: #f5f6fa;
+
+	/* Monsterfarben */
+	--monster-r-bg: #3c62a7;
+	--monster-r-border: #1b2c4d;
+	--monster-z-bg: #3aa072;
+	--monster-z-border: #1b4d36;
+	--monster-s-bg: #a1b951;
+	--monster-s-border: #5a6b2c;
+	--monster-g-bg: #9063b9;
+	--monster-g-border: #3e2a4d;
+	--monster-w-bg: #bfa900;
+	--monster-w-border: #4b4200;
+	--monster-b-bg: #b85c5c;
+	--monster-b-border: #6b2c2c;
 }
 
 /* Invertiert Icons im Dark Mode */
 :root.dark #app button.monster {
-	filter: invert(1);
 	color: var(--theme-color1) !important;
 	border-color: var(--theme-color2);
 }
 :root.dark #openSettings,
 :root.dark #reset,
 :root.dark #openLeaderboard {
-	filter: invert(1);
 }
 
 /* Entfernt den Standard-Fokusrahmen */
@@ -127,6 +166,18 @@ body {
 	overflow: auto;
 	border-radius: 4px;
 }
+#app.level-2 {
+	--button-color: var(--board-color-level-2);
+}
+#app.level-3 {
+	--button-color: var(--board-color-level-3);
+}
+#app.level-4 {
+	--button-color: var(--board-color-level-4);
+}
+#app.level-5 {
+	--button-color: var(--board-color-level-5);
+}
 
 /* ===========================================================
    Einzelne Zellen (Buttons) im Spielfeld
@@ -137,15 +188,14 @@ body {
 	font-size: var(--button-font-size);
 	border: none;
 	background-color: var(--button-color);
-	border-radius: var(--button-radius); /* <--- */
-	transition: background 0.2s ease, transform 0.1s ease;
+	border-radius: var(--button-radius);
+	transition: background 1s ease, transform 1s ease;
 	position: relative; /* Für eventuelle Pseudo-Elemente/Icons */
 	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 #app button:hover {
-	background-color: var(--button-hover-color);
-	transform: translateY(-1px);
+	filter: brightness(1.15);
 }
 
 /* Animations-Keyframes für Highlighting */
@@ -159,7 +209,7 @@ body {
 }
 
 #app.highlight button {
-	animation: highlight 1s reverse forwards;
+	animation: highlight 2s reverse forwards;
 	background-color: var(--theme-color1);
 }
 
@@ -167,11 +217,9 @@ body {
 #app button.clicked {
 	background-color: var(--button-clicked-color);
 	border: 1px solid var(--button-clicked-border-color);
-	box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
 	color: var(--theme-color3);
-	transition: transform 0.1s linear;
+	transition: transform 1s linear;
 	z-index: 1;
-	border-radius: var(--button-radius); /* <--- */
 }
 
 /* Zustand: nicht aufgedeckt (“notClicked”) */
@@ -179,14 +227,12 @@ body {
 	background-color: var(--button-notclicked-color);
 	border: 1px solid var(--button-border-color);
 	color: var(--theme-color4);
-	border-radius: var(--button-radius); /* <--- */
 }
 
 /* Zustand: markiert (“flagged”) */
 #app button.flagged {
 	color: var(--flag-color);
-	background-color: var(--flag-color);
-	border-radius: var(--button-radius); /* <--- */
+	background-color: var(--flag-color) !important;
 }
 
 /* Shrink-Animation für visuelles Feedback */
@@ -208,32 +254,30 @@ body {
 	background-color: #96e1ff;
 	border: 1px solid #6a93c9;
 	z-index: 3;
-	border-radius: var(--button-radius); /* <--- */
+}
+#app button.R {
+	background-color: var(--monster-r-bg);
+	border: 1px solid var(--monster-r-border);
 }
 #app button.Z {
-	background-color: #96ffbe;
-	border: 1px solid #4d9665;
-	border-radius: var(--button-radius); /* <--- */
+	background-color: var(--monster-z-bg);
+	border: 1px solid var(--monster-z-border);
 }
 #app button.S {
-	background-color: #d1ff96;
-	border: 1px solid #b4bd61;
-	border-radius: var(--button-radius); /* <--- */
+	background-color: var(--monster-s-bg);
+	border: 1px solid var(--monster-s-border);
 }
 #app button.G {
-	background-color: #be96ff;
-	border: 1px solid #8c539e;
-	border-radius: var(--button-radius); /* <--- */
+	background-color: var(--monster-g-bg);
+	border: 1px solid var(--monster-g-border);
 }
 #app button.W {
-	background-color: #ffd448;
-	border: 1px solid #ffbb00;
-	border-radius: var(--button-radius); /* <--- */
+	background-color: var(--monster-w-bg);
+	border: 1px solid var(--monster-w-border);
 }
 #app button.B {
-	background-color: #ff9696;
-	border: 1px solid #99504e;
-	border-radius: var(--button-radius); /* <--- */
+	background-color: var(--monster-b-bg);
+	border: 1px solid var(--monster-b-border);
 }
 
 /* ===========================================================
@@ -293,6 +337,25 @@ body {
 	height: 2.5em;
 	display: flex;
 	align-items: center;
+}
+
+#fireball {
+	width: 1.5em;
+	height: 1.5em;
+	font-size: 1.5rem;
+	padding: 0;
+	border-radius: 50%;
+	box-shadow: 0 2px 8px rgba(24, 61, 61, 0.18);
+	background: var(--theme-color2);
+	color: var(--theme-color4);
+	border: 1px solid var(--theme-color3);
+	align-items: center;
+	justify-content: center;
+	transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+#fireball:active {
+	background: #ffe066;
+	box-shadow: 0 4px 16px rgba(24, 61, 61, 0.25);
 }
 
 /* Lebens- und Erfahrungsbalken (#health / #experience) */
@@ -359,15 +422,33 @@ body {
 #openLeaderboard {
 	width: 2em;
 	height: 2em;
+	font-size: 1em;
 	background: transparent;
+	background-color: var(--theme-color3);
 	border: none;
 	cursor: pointer;
 	transition: filter 0.2s ease;
+	-webkit-mask-repeat: no-repeat;
+	mask-repeat: no-repeat;
+	-webkit-mask-size: contain;
+	mask-size: contain;
 }
 #openSettings:hover,
 #reset:hover,
 #openLeaderboard:hover {
 	filter: brightness(1.1);
+}
+#openSettings {
+	-webkit-mask-image: url("./res/gear.svg");
+	mask-image: url("./res/gear.svg");
+}
+#reset {
+	-webkit-mask-image: url("./res/refresh.svg");
+	mask-image: url("./res/refresh.svg");
+}
+#openLeaderboard {
+	-webkit-mask-image: url("./res/leaderboard.svg");
+	mask-image: url("./res/leaderboard.svg");
 }
 
 /* ===========================================================
@@ -390,11 +471,21 @@ body {
 /* ===========================================================
    Modal-Hintergrund und Modal-Fenster (Startscreen)
    =========================================================== */
+@keyframes modal-fade-in {
+	from {
+		opacity: 0;
+		transform: translateY(40px) scale(0.98);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
 .modal-bg {
 	position: fixed;
 	inset: 0;
 	width: 100vw;
-	height: 100vh;
 	background: rgba(0, 0, 0, 0.35);
 	backdrop-filter: blur(2.5px);
 	-webkit-backdrop-filter: blur(2.5px);
@@ -421,18 +512,10 @@ body {
 	flex-direction: column;
 	align-items: stretch;
 	animation: modal-fade-in 0.25s ease-out;
-	position: relative;
-}
-
-@keyframes modal-fade-in {
-	from {
-		opacity: 0;
-		transform: translateY(40px) scale(0.98);
-	}
-	to {
-		opacity: 1;
-		transform: translateY(0) scale(1);
-	}
+	position: fixed;
+	top: 0;
+	gap: 0.6em;
+	margin-top: 0.5em;
 }
 
 .modal h1,
@@ -442,15 +525,7 @@ body {
 	margin-bottom: 0.8em;
 	font-weight: 700;
 	letter-spacing: 0.02em;
-	color: var(--theme-color3);
-}
-
-.modal #modal-class {
-	display: flex;
-	align-items: center;
-	justify-content: flex-start;
-	gap: 0.6em;
-	margin-top: 0.5em;
+	color: var(--theme-color4);
 }
 
 .modal hr {
@@ -463,11 +538,11 @@ body {
 	display: flex;
 	justify-content: flex-end;
 	gap: 0.5em;
-	margin-top: 1.2em;
+	margin-top: 0;
 }
 
 .modal button {
-	background: var(--theme-color1);
+	background: var(--theme-color2);
 	color: #fff;
 	border: none;
 	border-radius: 0.4em;
@@ -503,7 +578,7 @@ body {
 .modal fieldset {
 	display: flex;
 	flex-direction: column;
-	margin: 1em 0;
+	margin: 1em 0 0 0;
 	border: 1px solid var(--theme-color2);
 	border-radius: 0.5em;
 	padding: 0.8em 1em;
@@ -523,31 +598,6 @@ body {
 
 .theme-label {
 	margin-top: 0.5em;
-}
-
-/* ===========================================================
-   Bestätigungs-Button des Startscreens (.confirm-button)
-   =========================================================== */
-.modal .confirm-button {
-	align-self: center;
-	background: var(--theme-color2);
-	color: #fff;
-	border: none;
-	border-radius: 0.4em;
-	font-size: 1rem;
-	font-weight: 600;
-	padding: 0.6em 1.4em;
-	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-	transition: background 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease;
-	margin-top: 1em;
-}
-
-.modal .confirm-button:hover,
-.modal .confirm-button:focus {
-	background: var(--theme-color3);
-	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-	transform: translateY(-1px);
-	cursor: pointer;
 }
 
 /* ===========================================================
@@ -606,7 +656,7 @@ body {
    Leaderboard-Modal (Einträge, Listen, Styling)
    =========================================================== */
 #modal-leaderboard {
-	margin: 1.5em 0 0 0;
+	margin: 0;
 	padding: 0;
 }
 #modal-leaderboard ul,
@@ -705,10 +755,18 @@ body {
 		margin: 0;
 		padding: 1.5em 1em;
 		box-sizing: border-box;
+		position: absolute;
+		top: 0;
+		left: 0;
 	}
 	.modal-bg {
 		align-items: flex-start;
 		padding: 0;
+		position: fixed;
+		overflow-y: auto;
+	}
+	.modal #modal-content {
+		padding-bottom: 2em;
 	}
 	#fireball {
 		display: flex !important;
