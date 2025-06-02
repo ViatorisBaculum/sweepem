@@ -12,15 +12,24 @@ export class Cell {
 	HTMLElement: HTMLButtonElement;
 	x: number;
 	y: number;
-	gameInstance = GameMaster.getInstance();
+	gameInstance: GameMaster;
 
-	constructor(type: CellType, board: Board, x: number, y: number, htmlElement: HTMLButtonElement, value?: number) {
+	constructor(
+		type: CellType,
+		board: Board,
+		x: number,
+		y: number,
+		htmlElement: HTMLButtonElement,
+		gameMaster: GameMaster,
+		value?: number,
+	) {
 		this.type = type;
 		this.board = board;
-		this.value = value;
 		this.x = x;
 		this.y = y;
 		this.HTMLElement = htmlElement;
+		this.gameInstance = gameMaster;
+		this.value = value;
 	}
 
 	/*==============*/

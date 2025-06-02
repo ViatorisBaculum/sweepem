@@ -1,7 +1,7 @@
 import { GameMaster } from "./classes/gameMaster";
-import { CellType } from "./util/customTypes";
 import { Modal } from "./util/modal";
 import { ThemeManager, Theme } from "./util/theme";
+import { PC_Mage } from "./classes/PlayerClasses/PC_Mage";
 
 type Nullable<T> = T | null;
 
@@ -127,46 +127,63 @@ function assert<T>(cond: T, message: string): asserts cond {
 function setupFireball() {
 	const fireballBtn = document.getElementById("fireball") as HTMLButtonElement | null;
 	if (!fireballBtn) return;
-	fireballBtn.onclick = () => {
-		const player = gameInstance.player;
-		if (player.className !== "Mage") { return; }
 
-		const board = gameInstance.board;
-		const handler = (e: MouseEvent) => {
-			e.stopImmediatePropagation();
-			const target = e.target as HTMLButtonElement;
-			if (!target || !target.dataset.x || !target.dataset.y) return;
-			const x = Number(target.dataset.x);
-			const y = Number(target.dataset.y);
+	const eventType = 'click';
 
-			for (let dx = -1; dx <= 1; dx++) {
-				for (let dy = -1; dy <= 1; dy++) {
-					const cell = board.getCell(x + dx, y + dy);
-					if (cell && !cell.isClicked && cell.type === CellType.Empty) {
-						cell.click(0); // 0 damage: no damage to Mage
-					}
-				}
+	fireballBtn.addEventListener(eventType, (e) => {
+		e.preventDefault();
+		e.stopPropagation();
+
+		if (gameInstance.player.className !== "Mage") {
+			return;
+		}
+		const mage = gameInstance.player as PC_Mage;
+
+		if (mage.isFireballModeActive) {
+			mage.deactivateFireballMode();
+		} else {
+			// activateFireballMode now returns a boolean indicating success
+			if (!mage.activateFireballMode()) {
+				console.log("Fireball not ready or player cannot cast.");
 			}
-			// Sicherer Aufruf:
-			if (typeof player.useFireball === "function") {
-				player.useFireball();
-			}
-			document.removeEventListener("click", handler, true);
-			fireballBtn.disabled = true;
-		};
-		document.addEventListener("click", handler, true);
-	};
+		}
+		// UI updates are now handled within PC_Mage methods via resetFireballButton call
+	});
 }
 
 export function resetFireballButton() {
 	const fireballBtn = document.getElementById("fireball") as HTMLButtonElement | null;
-	const player = gameInstance.player;
 	if (!fireballBtn) return;
+
+	const setButtonAppearance = (isWaiting: boolean, isReady: boolean) => {
+		if (isWaiting) {
+			fireballBtn.classList.add("fireball-waiting");
+		} else {
+			fireballBtn.classList.remove("fireball-waiting");
+		}
+
+		if (isReady) {
+			fireballBtn.classList.add("fireball-ready");
+		} else {
+			fireballBtn.classList.remove("fireball-ready");
+		}
+	};
+
+	const player = gameInstance.player;
+
 	if (player.className === "Mage") {
-		fireballBtn.disabled = false;
+		const mage = player as PC_Mage;
 		fireballBtn.style.display = "";
+
+		if (mage.isFireballModeActive) {
+			setButtonAppearance(true, false);
+		} else if (mage.canCastFireball()) {
+			setButtonAppearance(false, true);
+		} else {
+			setButtonAppearance(false, false);
+		}
 	} else {
-		fireballBtn.disabled = true;
 		fireballBtn.style.display = "none";
+		setButtonAppearance(false, false);
 	}
 }

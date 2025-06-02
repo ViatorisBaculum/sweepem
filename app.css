@@ -97,10 +97,6 @@
 	color: var(--theme-color1) !important;
 	border-color: var(--theme-color2);
 }
-:root.dark #openSettings,
-:root.dark #reset,
-:root.dark #openLeaderboard {
-}
 
 /* Entfernt den Standard-Fokusrahmen */
 * :focus {
@@ -191,7 +187,6 @@ body {
 	border-radius: var(--button-radius);
 	transition: background 1s ease, transform 1s ease;
 	position: relative; /* Für eventuelle Pseudo-Elemente/Icons */
-	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 #app button:hover {
@@ -209,7 +204,7 @@ body {
 }
 
 #app.highlight button {
-	animation: highlight 2s reverse forwards;
+	animation: highlight 1s reverse forwards;
 	background-color: var(--theme-color1);
 }
 
@@ -233,6 +228,7 @@ body {
 #app button.flagged {
 	color: var(--flag-color);
 	background-color: var(--flag-color) !important;
+	padding: 0;
 }
 
 /* Shrink-Animation für visuelles Feedback */
@@ -295,7 +291,7 @@ body {
 	width: 2.2em;
 	height: 2.2em;
 	border-radius: 50%;
-	border: 1px solid var(--button-clicked-color);
+	border: 1px solid var(--theme-color4);
 	text-align: center;
 	line-height: 2.2em;
 	background: var(--theme-color1);
@@ -346,18 +342,26 @@ body {
 	padding: 0;
 	border-radius: 50%;
 	box-shadow: 0 2px 8px rgba(24, 61, 61, 0.18);
-	background: var(--theme-color2);
+	background: var(--theme-color1);
 	color: var(--theme-color4);
 	border: 1px solid var(--theme-color3);
 	align-items: center;
 	justify-content: center;
 	transition: background 0.2s ease, box-shadow 0.2s ease;
+	display: none;
 }
 #fireball:active {
 	background: #ffe066;
 	box-shadow: 0 4px 16px rgba(24, 61, 61, 0.25);
 }
-
+#fireball.fireball-ready,
+#fireball.fireball-waiting {
+	display: block;
+}
+#fireball.fireball-waiting {
+	background: #ffe066;
+	box-shadow: 0 4px 16px rgba(24, 61, 61, 0.25);
+}
 /* Lebens- und Erfahrungsbalken (#health / #experience) */
 #health {
 	display: flex;
@@ -379,24 +383,23 @@ body {
 	-moz-appearance: none;
 	width: 4em;
 	height: 0.7em;
-	border: 1px solid var(--theme-color2);
+	border: 1px solid var(--theme-color4);
 	border-radius: 4px;
-	background-color: var(--theme-color1);
+	background-color: var(--theme-color3);
 	overflow: hidden;
 }
 #experience[value]::-webkit-progress-bar {
-	background-color: var(--theme-color1);
+	background-color: var(--theme-color4);
 }
 #experience[value]::-webkit-progress-value {
 	background-color: var(--theme-color2);
 }
 #experience[value]:hover::after {
-	background: var(--theme-color1);
-	border: 1px solid var(--theme-color3);
+	background: var(--theme-color2);
+	border: 1px solid var(--theme-color1);
 	content: attr(value) "/" attr(max);
 	display: block;
-	left: 5em;
-	margin-top: -3.5em;
+	transform: translateY(-150%);
 	padding: 0.4em;
 	position: absolute;
 	text-align: center;
@@ -769,7 +772,6 @@ body {
 		padding-bottom: 2em;
 	}
 	#fireball {
-		display: flex !important;
 		position: fixed;
 		right: 1.5em;
 		bottom: 4.5em;

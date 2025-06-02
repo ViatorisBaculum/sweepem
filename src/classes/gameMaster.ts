@@ -32,7 +32,7 @@ export class GameMaster {
 	private _gameTimer: number = 0;
 	private _gameSettings: GameSettings;
 	private _gameState: GameState = GameState.NotStarted;
-	private playerClassRegistry: Record<playerClasses, new () => Player> = {
+	private playerClassRegistry: Record<playerClasses, new (board: Board | undefined) => Player> = {
 		"Assassin": PC_Assassin,
 		"Mage": PC_Mage,
 		"Paladin": PC_Paladin,
@@ -86,17 +86,23 @@ export class GameMaster {
 	/*public methods*/
 	/*==============*/
 	public createBoard() {
-		this.board = new Board(this._gameSettings.width, this._gameSettings.height, this._gameSettings.minesFrequency);
+		this.board = new Board(this._gameSettings.width, this._gameSettings.height, this._gameSettings.minesFrequency, this);
 	}
 
 	public createPlayer() {
 		const PlayerClassConstructor = this.playerClassRegistry[this._gameSettings.playerClass];
 		if (PlayerClassConstructor) {
-			this.player = new PlayerClassConstructor();
+			if (this._gameSettings.playerClass === "Mage") {
+				if (!this._board) {
+					throw new Error("Board must be initialized before creating a Mage player.");
+				}
+				this.player = new PlayerClassConstructor(this._board);
+			} else {
+				this.player = new PlayerClassConstructor(undefined);
+			}
 		} else {
-			// Fallback or throw an error if the player class is unknown
 			console.error(`Unknown player class: ${this._gameSettings.playerClass}. Defaulting to Warrior.`);
-			this.player = new PC_Warrior();
+			this.player = new PC_Warrior(undefined);
 		}
 	}
 
@@ -117,7 +123,6 @@ export class GameMaster {
 		if (localSettings) {
 			try {
 				const storedSettings = JSON.parse(localSettings) as Partial<GameSettings>;
-				// Merge stored settings over defaults, ensuring all properties are present and correctly typed
 				return {
 					...defaultSettings,
 					...storedSettings,
@@ -130,7 +135,7 @@ export class GameMaster {
 				};
 			} catch (error) {
 				console.error("Failed to parse stored settings, using defaults and removing corrupted item.", error);
-				localStorage.removeItem("instance"); // Remove corrupted data
+				localStorage.removeItem("instance");
 				return defaultSettings;
 			}
 		}
@@ -141,16 +146,18 @@ export class GameMaster {
 		this.board.indicateLevelGain(this.player.level);
 		this.board.evoluteMonster();
 		if (this._gameSettings.removeFlags) this.board.removeAllFlags();
-		resetFireballButton();
+		if (this.player.className === "Mage") {
+			const mage = this.player as PC_Mage;
+			mage.resetFireball();
+		}
 	}
 
 	public resetGame() {
-		// Stop ongoing game processes
 		if (this._gameState === GameState.Running || this._gameState === GameState.Paused) {
 			this.stopTimer();
 		}
 		if (this._board) {
-			this._board.removeEventHandler(); // Clean up event handlers from the old board
+			this._board.removeEventHandler();
 		}
 		this._gameState = GameState.NotStarted;
 
@@ -162,7 +169,6 @@ export class GameMaster {
 		resetFireballButton();
 	}
 
-	// reads from UI, updates internal state and localStorage
 	public saveSettingsFromUI(): void {
 		try {
 			this._gameSettings.width = +this.getValueFromInput("inputWidth");
@@ -181,8 +187,8 @@ export class GameMaster {
 	public startGame() {
 		if (document.getElementById("modal")) this.saveSettingsFromUI();
 		if (document.getElementById("modal")) this.getScores();
-		this.createPlayer();
 		this.createBoard();
+		this.createPlayer();
 		this._board?.openStartArea();
 
 		this.resetTimer();
@@ -241,6 +247,7 @@ export class GameMaster {
 	public isGameEnded(): boolean {
 		return this._gameState === GameState.Ended;
 	}
+
 	/*===============*/
 	/*private methods*/
 	/*===============*/
@@ -270,12 +277,11 @@ export class GameMaster {
 		else throw new Error(`HTML input (checkbox/toggle) element with id '${name}' not found.`);
 	}
 
-	// Populates UI from _gameSettings. Replaces old getSettings()
 	public populateSettingsUIFromGameSettings(): void {
 		this.trySetInputValue("inputWidth", this._gameSettings.width.toString());
 		this.trySetInputValue("inputHeight", this._gameSettings.height.toString());
 		this.trySetInputValue("minesFrequency", this._gameSettings.minesFrequency.toString());
-		this.trySetInputValue("selectClass", this._gameSettings.playerClass); // Assumes selectClass is an HTMLSelectElement or compatible
+		this.trySetInputValue("selectClass", this._gameSettings.playerClass);
 		this.trySetToggleValue("invertClicks", this._gameSettings.invertClicks);
 		this.trySetToggleValue("removeFlags", this._gameSettings.removeFlags);
 	}

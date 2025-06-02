@@ -1,6 +1,8 @@
 import { typeDistribution, CellType } from "../util/customTypes";
 import defaults from "../util/defaults";
 import { Cell } from "./cell";
+import { GameMaster } from "./gameMaster";
+import { PC_Mage } from "./PlayerClasses/PC_Mage";
 
 export class Board {
 	cells: Cell[][] = [];
@@ -9,12 +11,14 @@ export class Board {
 	private _width: number;
 	private _height: number;
 	private appElement: HTMLElement;
+	private gameInstance: GameMaster;
 
 	private clickHandler: (e: MouseEvent) => void;
 	private contextMenuHandler: (e: MouseEvent) => void;
 
-	constructor(width: number, height: number, minesFreq: number, distribution: typeDistribution = defaults.typeDistribution) {
+	constructor(width: number, height: number, minesFreq: number, gameMaster: GameMaster, distribution: typeDistribution = defaults.typeDistribution) {
 		this.validateDistribution(distribution);
+		this.gameInstance = gameMaster;
 
 		this._minesFrequency = minesFreq;
 		this._width = width;
@@ -181,7 +185,15 @@ export class Board {
 				const HTMLElement = document.createElement("button");
 				HTMLElement.dataset.x = i.toString();
 				HTMLElement.dataset.y = j.toString();
-				const cell = new Cell(urn.pop() ?? CellType.Empty, this, i, j, HTMLElement);
+				const cell = new Cell(
+					urn.pop() ?? CellType.Empty,
+					this,
+					i,
+					j,
+					HTMLElement,
+					this.gameInstance,
+					undefined
+				);
 				fragment.appendChild(HTMLElement);
 				this.cells[i].push(cell);
 			}
@@ -230,6 +242,20 @@ export class Board {
 			const y = Number(target.dataset.y);
 			const cell = this.getCell(x, y);
 			if (!cell) return;
+
+			const gameInstance = GameMaster.getInstance();
+			const player = gameInstance.player;
+
+			if (player.className === "Mage") {
+				const mage = player as PC_Mage;
+				if (mage.isFireballModeActive) {
+					e.preventDefault();
+					e.stopPropagation();
+					mage.castFireballOnCell(x, y);
+					// UI updates (button state, body class) are handled within PC_Mage methods
+					return;
+				}
+			}
 
 			if (cell.gameInstance.invertClicks) {
 				cell.rightClick(e);
