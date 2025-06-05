@@ -37,4 +37,6 @@ const experienceGain = {
 
 const playerClass: playerClasses = "Warrior";
 
-export default { typeDistribution, expToNextLevel, boardDefaults, playerClass, monsterKeys, experienceGain };
+export const revealDelayPerCell = 40;
+
+export default { typeDistribution, expToNextLevel, boardDefaults, playerClass, monsterKeys, experienceGain, revealDelayPerCell };

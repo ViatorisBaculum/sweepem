@@ -106,30 +106,32 @@ export class Cell {
 		return neighbors;
 	}
 
-	clickNeighbors(damage?: number) {
+	private static delay(ms: number) {
+		return new Promise(resolve => setTimeout(resolve, ms));
+	}
+
+	public async clickNeighbors(damage?: number) {
 		const { x, y, board } = this;
 
-		// 1. Sammle alle Nachbarn, die noch nicht geklickt wurden
 		const neighbors: Cell[] = [];
 		for (let dx = -1; dx <= 1; dx++) {
 			for (let dy = -1; dy <= 1; dy++) {
 				const neighbor = board.getCell(x + dx, y + dy);
-				if (neighbor && !neighbor.isClicked) {
+				if (neighbor && !neighbor.isClicked && !neighbor.isFlagged) {
 					neighbors.push(neighbor);
 				}
 			}
 		}
 
-		// 2. Entferne alle geflaggten Zellen
-		const toClick = neighbors.filter(cell => !cell.isFlagged);
-
-		// 3. Klicke die übrigen Zellen nach deiner bisherigen Logik
-		for (const neighbor of toClick) {
+		for (const neighbor of neighbors) {
 			if (neighbor.value === 0) {
-				neighbor.click(damage);
+				await Cell.delay(defaults.revealDelayPerCell);
+				await neighbor.click(damage);
 			} else if (neighbor.type === CellType.Empty) {
+				await Cell.delay(defaults.revealDelayPerCell);
 				neighbor.activateCell(defaults.experienceGain.open);
 			} else if (neighbor.type > CellType.Empty) {
+				await Cell.delay(defaults.revealDelayPerCell);
 				neighbor.click(damage);
 			}
 		}
