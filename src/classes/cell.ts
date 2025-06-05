@@ -73,6 +73,8 @@ export class Cell {
 		this.addExperience(this.type * defaults.experienceGain.multiplicator);
 
 		if (this.gameInstance.player.health > 0 && this.type === CellType.Boss) this.gameInstance.winGame();
+
+		this.animateDefeat();
 	}
 
 	click(damage?: number) {
@@ -209,6 +211,13 @@ export class Cell {
 	/*===============*/
 	/*private methods*/
 	/*===============*/
+
+	private animateDefeat() {
+		this.HTMLElement.classList.add("monster-defeat-anim");
+		this.HTMLElement.addEventListener('animationend', () => {
+			this.HTMLElement.classList.remove("monster-defeat-anim");
+		}, { once: true });
+	}
 
 	public toggleFlag(): void {
 		if (this.isFlagged) {
