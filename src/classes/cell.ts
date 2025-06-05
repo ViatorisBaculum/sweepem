@@ -223,8 +223,15 @@ export class Cell {
 	private animateReveal() {
 		if (this.HTMLElement.checkVisibility()) {
 			this.HTMLElement.classList.remove("shrinked");
-
 			this.HTMLElement.classList.add("shrinked");
+
+			if (this.type > 0) {
+				this.HTMLElement.classList.remove("monster-reveal-anim");
+				// Reflow, this forces the browser to re-calculate styles
+				// This is necessary to restart the animation
+				void this.HTMLElement.offsetWidth;
+				this.HTMLElement.classList.add("monster-reveal-anim");
+			}
 		}
 	}
 }

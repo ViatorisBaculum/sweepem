@@ -52,7 +52,7 @@
 	--monster-g-bg: #be96ff;
 	--monster-g-border: #8c539e;
 	--monster-w-bg: #ffd448;
-	--monster-w-border: #ffbb00;
+	--monster-w-border: #ac7e00;
 	--monster-b-bg: #ff9696;
 	--monster-b-border: #99504e;
 }
@@ -78,17 +78,17 @@
 	color: #f5f6fa;
 
 	/* Monsterfarben */
-	--monster-r-bg: #3c62a7;
+	--monster-r-bg: #76bfff;
 	--monster-r-border: #1b2c4d;
-	--monster-z-bg: #3aa072;
+	--monster-z-bg: #63ff82;
 	--monster-z-border: #1b4d36;
-	--monster-s-bg: #a1b951;
+	--monster-s-bg: #edff70;
 	--monster-s-border: #5a6b2c;
-	--monster-g-bg: #9063b9;
+	--monster-g-bg: #d67cff;
 	--monster-g-border: #3e2a4d;
-	--monster-w-bg: #bfa900;
+	--monster-w-bg: #ffb555;
 	--monster-w-border: #4b4200;
-	--monster-b-bg: #b85c5c;
+	--monster-b-bg: #ff6060;
 	--monster-b-border: #6b2c2c;
 }
 
@@ -274,6 +274,26 @@ body {
 #app button.B {
 	background-color: var(--monster-b-bg);
 	border: 1px solid var(--monster-b-border);
+}
+
+/* Monster-Animation: Shake/Pop */
+@keyframes monster-reveal {
+	0% {
+		transform: scale(1) rotate(0deg);
+	}
+	30% {
+		transform: scale(1.5) rotate(-12deg);
+	}
+	60% {
+		transform: scale(0.8) rotate(12deg);
+	}
+	100% {
+		transform: scale(1) rotate(0deg);
+	}
+}
+
+.monster-reveal-anim {
+	animation: monster-reveal 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both !important;
 }
 
 /* ===========================================================
