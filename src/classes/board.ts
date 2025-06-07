@@ -31,10 +31,8 @@ export class Board {
 		this.fillBoard(distribution);
 
 		this.determineCellValues();
-		this.debug_printCellValues();
 		this.updateCSSVariables(width, height);
 
-		this.debug_writeValues(false);
 		this.clickHandler = this.createClickHandler();
 		this.contextMenuHandler = this.createContextMenuHandler();
 		this.addBoardEventHandlers();
@@ -316,7 +314,7 @@ export class Board {
 		console.log(result);
 	}
 
-	private debug_writeValues(openCells: boolean) {
+	debug_writeValues(openCells: boolean) {
 		if (openCells === true) {
 			this.cells.forEach((row) => {
 				row.forEach((cell) => {
@@ -326,5 +324,40 @@ export class Board {
 				});
 			});
 		}
+	}
+
+	/**
+	 * Initializes the debug UI.
+	 * Toggles the visibility of the debug button based on localStorage setting.
+	 * Writes cell values to the console and updates the UI if debug mode is active.
+	 * This method is called during the Board's construction.
+	 */
+	setupDebugUI() {
+		this.setupDebugToggle(this); // Setup the toggle for debug mode
+		const debugActive = localStorage.getItem("showDebug") === "true";
+		const debugBtn = document.getElementById("debugLevelUp") as HTMLButtonElement | null;
+		if (debugBtn) debugBtn.style.display = debugActive ? "" : "none";
+		this.debug_writeValues(debugActive);
+		this.debug_printCellValues();
+	}
+
+	setupDebugToggle(boardInstance: Board) {
+		const debugSwitch = document.getElementById("showDebug") as HTMLInputElement | null;
+		const debugBtn = document.getElementById("debugLevelUp") as HTMLButtonElement | null;
+
+		if (!debugSwitch || !debugBtn) return;
+
+		// Initialer Zustand aus localStorage laden (optional)
+		const debugActive = localStorage.getItem("showDebug") === "true";
+		debugSwitch.checked = debugActive;
+		debugBtn.style.display = debugActive ? "" : "none";
+		boardInstance.debug_writeValues(debugActive);
+
+		debugSwitch.addEventListener("change", () => {
+			const show = debugSwitch.checked;
+			debugBtn.style.display = show ? "" : "none";
+			boardInstance.debug_writeValues(show);
+			localStorage.setItem("showDebug", show ? "true" : "false");
+		});
 	}
 }

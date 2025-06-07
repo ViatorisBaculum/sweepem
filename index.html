@@ -30,7 +30,7 @@
 					<button
 						id="debugLevelUp"
 						title="Gain Level (Debug)"
-						style="margin: 0 0.5em; padding: 0.5em"
+						style="margin: 0 0.5em; padding: 0.5em; display: none"
 					>
 						+1
 					</button>
@@ -98,6 +98,11 @@
 				<input id="removeFlags" class="toggle-checkbox" type="checkbox" />
 				<div class="toggle-switch"></div>
 				<span class="toggle-label">Remove flags on level up</span>
+			</label>
+			<label id="modal-debug" class="toggle">
+				<input id="showDebug" class="toggle-checkbox" type="checkbox" />
+				<div class="toggle-switch"></div>
+				<span class="toggle-label">Debug-Modus anzeigen</span>
 			</label>
 			<label class="theme-label" for="themeSelect">Theme Mode</label>
 			<select id="themeSelect" name="theme">

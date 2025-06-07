@@ -44,6 +44,7 @@ function showInitialModal(): void {
 	modal.setText(
 		"This is a more elaborate version of MineSweeper with RPG elements such as classes, leveling and different enemies. Please choose your starting configuration."
 	)
+
 	modal.setSlotContent(settingsForm.innerHTML)
 	modal.setConfirmAction((): void => {
 		toggle(menu);
@@ -53,6 +54,10 @@ function showInitialModal(): void {
 
 	setupThemeToggle();
 	gameInstance.populateSettingsUIFromGameSettings();
+
+	// Remove debug switch from settings HTML before injecting
+	const debugLabel = document.getElementById("modal-debug");
+	if (debugLabel) debugLabel.remove();
 }
 
 function showSettings(): void {
@@ -72,6 +77,11 @@ function showSettings(): void {
 	toggle(menu);
 	setupThemeToggle();
 	gameInstance.populateSettingsUIFromGameSettings();
+
+	// just for debugging purposes
+	try {
+		gameInstance.board.setupDebugUI();
+	} catch (e) { }
 }
 
 export function showLeaderboard(status = ""): void {
