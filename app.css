@@ -301,29 +301,6 @@ body {
 	overflow: visible !important; /* Allow pseudo-elements to be visible outside */
 }
 
-.monster-defeat-anim::before,
-.monster-defeat-anim::after {
-	content: "✨";
-	position: absolute;
-	font-size: 1.5rem;
-	color: yellow;
-	text-shadow: 0 0 5px gold, 0 0 10px gold;
-	animation: fadeOutAndScale 0.4s forwards !important;
-	opacity: 0;
-}
-
-.monster-defeat-anim::before {
-	top: -20px;
-	left: -10px;
-	animation-delay: 0s !important;
-}
-
-.monster-defeat-anim::after {
-	top: 20px;
-	right: -20px;
-	animation-delay: 0.2s !important;
-}
-
 @keyframes fadeOutAndScale {
 	0% {
 		opacity: 1;
@@ -336,6 +313,36 @@ body {
 	100% {
 		opacity: 0;
 		transform: scale(2);
+	}
+}
+
+.defeat-star {
+	position: absolute;
+	pointer-events: none;
+	z-index: 100;
+	animation: star-animation 0.4s forwards;
+	opacity: 0;
+	filter: sepia(1) saturate(20) hue-rotate(320deg) brightness(1.5)
+		drop-shadow(0 0 4px rgb(255, 196, 0));
+	will-change: transform, opacity;
+}
+
+@keyframes star-animation {
+	0% {
+		opacity: 0;
+		transform: translate(0, 0) scale(var(--star-scale, 1))
+			rotate(var(--star-rot, 0deg));
+	}
+	20% {
+		opacity: 1;
+	}
+	80% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+		transform: translate(var(--star-tx, 0), var(--star-ty, 0))
+			scale(var(--star-scale, 1.2)) rotate(var(--star-rot, 0deg));
 	}
 }
 
