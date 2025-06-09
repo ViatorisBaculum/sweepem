@@ -126,6 +126,8 @@ export class Cell {
 		}
 
 		for (const neighbor of neighbors) {
+			if (this.gameInstance.isGameEnded()) return;
+
 			if (neighbor.value === 0) {
 				await Cell.delay(defaults.revealDelayPerCell);
 				await neighbor.click(damage);
@@ -213,10 +215,64 @@ export class Cell {
 	/*===============*/
 
 	private animateDefeat() {
-		this.HTMLElement.classList.add("monster-defeat-anim");
-		this.HTMLElement.addEventListener('animationend', () => {
-			this.HTMLElement.classList.remove("monster-defeat-anim");
-		}, { once: true });
+		const cellElement = this.HTMLElement;
+		const container = cellElement.parentElement;
+
+		if (!container) return;
+
+		const numStars = 3;
+		//const cellRect = cellElement.getBoundingClientRect();
+		//const containerRect = container.getBoundingClientRect();
+		const cellCenterX = cellElement.offsetLeft + cellElement.offsetWidth / 2;
+		const cellCenterY = cellElement.offsetTop + cellElement.offsetHeight / 2;
+		const minDim = Math.min(cellElement.offsetWidth, cellElement.offsetHeight);
+		const radius = minDim * 1.1; // responsive
+		const starSize = minDim * 0.5; // responsive
+		const delayBetweenStars = 0.08; // seconds
+
+		// 1. Zufällige Reihenfolge
+		const starOrder = Array.from({ length: numStars }, (_, i) => i).sort(() => Math.random() - 0.5);
+
+		starOrder.forEach((starIndex, delayIndex) => {
+			const star = document.createElement("img");
+			star.src = "./res/star.svg";
+			star.classList.add("defeat-star");
+
+			// 2. Zufällige Skalierung und Rotation
+			const scale = 0.8 + Math.random() * 0.6; // 0.8 bis 1.4
+			const rotation = Math.floor(Math.random() * 360); // 0 bis 359 Grad
+
+			// 3. Bewegung nach außen (translate)
+			const angle = (starIndex / numStars) * 2 * Math.PI;
+			const radiusJitter = radius * 0.15;
+			const tx = Math.cos(angle) * (radius + (Math.random() - 0.5) * radiusJitter);
+			const ty = Math.sin(angle) * (radius + (Math.random() - 0.5) * radiusJitter);
+
+			star.style.setProperty('--star-scale', scale.toString());
+			star.style.setProperty('--star-rot', `${rotation}deg`);
+			star.style.setProperty('--star-tx', `${tx}px`);
+			star.style.setProperty('--star-ty', `${ty}px`);
+
+			// 4. Responsiv positionieren (zentriert auf Zelle)
+			star.style.left = `${cellCenterX - starSize / 2}px`;
+			star.style.top = `${cellCenterY - starSize / 2}px`;
+			star.style.width = `${starSize}px`;
+			star.style.height = `${starSize}px`;
+
+			// 5. Stagger animation start
+			const minDuration = 0.3;
+			const maxDuration = 0.5;
+			const duration = minDuration + Math.random() * (maxDuration - minDuration);
+			star.style.animationDelay = `${delayIndex * delayBetweenStars}s`;
+			star.style.animationDuration = `${duration}s`;
+
+			container.appendChild(star);
+
+			// Remove star after animation
+			star.addEventListener("animationend", () => {
+				star.remove();
+			});
+		});
 	}
 
 	public toggleFlag(): void {
