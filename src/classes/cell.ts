@@ -126,6 +126,8 @@ export class Cell {
 		}
 
 		for (const neighbor of neighbors) {
+			if (this.gameInstance.isGameEnded()) return;
+
 			if (neighbor.value === 0) {
 				await Cell.delay(defaults.revealDelayPerCell);
 				await neighbor.click(damage);
