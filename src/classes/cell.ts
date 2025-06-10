@@ -83,6 +83,11 @@ export class Cell {
 
 		if (!damage && damage !== 0) damage = this.type - this.gameInstance.player.level + 1;
 
+		if (this.gameInstance.player.level >= 5 && this.type === CellType.Boss && damage > 0) {
+			// Boss fight at level 5, player takes no damage	
+			damage = 0;
+		}
+
 		if (damage > 0) {
 			this.gameInstance.player.getAttacked(damage);
 		}

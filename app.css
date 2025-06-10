@@ -1,5 +1,5 @@
 /* ===========================================================
-   Hauptvariablen für Theme, Farben, Größen und Dark Mode
+   Main variables for theme, colors, sizes and dark mode
    =========================================================== */
 :root {
 	--cols: 40;
@@ -12,12 +12,6 @@
 	--theme-color3: #183d3d;
 	--theme-color4: #040d12;
 
-	--theme-color11: #2a5458;
-	--theme-color22: #008b82;
-	--theme-color32: #4da6a1;
-	--theme-color42: #4a5151;
-	--theme-color22: #cc4c4a;
-
 	/* Button-Größen & Farben */
 	--button-size: 1.5em;
 	--button-font-size: 1.5rem;
@@ -27,7 +21,7 @@
 	--button-clicked-border-color: #f0f0f0;
 	--button-hover-color: #f0f0f0;
 	--button-border-color: #bbbbbb;
-	--flag-color: #a05351;
+	--flag-color: #f67280;
 	--button-radius: 4px;
 
 	/* Hintergründe */
@@ -69,7 +63,7 @@
 	--button-clicked-border-color: #36393e;
 	--button-hover-color: #5b616b;
 	--button-border-color: #4b515b;
-	--flag-color: #ffb86c;
+	--flag-color: #f67280;
 
 	--body-background: #181a1b;
 	--app-background: #2d333b;
@@ -104,7 +98,7 @@
 }
 
 /* ===========================================================
-   Grundlegende HTML- und Body-Einstellungen
+   Basic HTML and body settings
    =========================================================== */
 html,
 body {
@@ -120,7 +114,7 @@ body {
 }
 
 /* ===========================================================
-   Container für das gesamte Spiel (#game)
+   Container for the entire game (#game)
    =========================================================== */
 #game-container {
 	width: fit-content;
@@ -141,7 +135,7 @@ body {
 }
 
 /* ===========================================================
-   Header-Bereich (optional, falls du ein Logo/Überschrift einfügst)
+   Header area (optional, if you add a logo/title)
    =========================================================== */
 #game .header {
 	width: 100%;
@@ -156,7 +150,7 @@ body {
 }
 
 /* ===========================================================
-   Spielfeld (#app) – modernes Grid mit kleinen Abständen
+   Game board (#app) – modern grid with small gaps
    =========================================================== */
 #app {
 	display: grid;
@@ -183,7 +177,7 @@ body {
 }
 
 /* ===========================================================
-   Einzelne Zellen (Buttons) im Spielfeld
+   Individual cells (buttons) in the game board
    =========================================================== */
 #app button {
 	width: var(--button-size);
@@ -193,14 +187,14 @@ body {
 	background-color: var(--button-color);
 	border-radius: var(--button-radius);
 	transition: background 1s ease, transform 1s ease;
-	position: relative; /* Für eventuelle Pseudo-Elemente/Icons */
+	position: relative;
 }
 
 #app button:hover {
 	filter: brightness(1.15);
 }
 
-/* Animations-Keyframes für Highlighting */
+/* Animation keyframes for highlighting */
 @keyframes highlight {
 	from {
 		background-color: var(--button-color);
@@ -215,7 +209,7 @@ body {
 	background-color: var(--theme-color1);
 }
 
-/* Zustand: aufgedeckt (“geklickt”) */
+/* State: revealed (“clicked”) */
 #app button.clicked {
 	background-color: var(--button-clicked-color);
 	border: 1px solid var(--button-clicked-border-color);
@@ -224,21 +218,21 @@ body {
 	z-index: 1;
 }
 
-/* Zustand: nicht aufgedeckt (“notClicked”) */
+/* State: not revealed (“notClicked”) */
 #app button.notClicked {
 	background-color: var(--button-notclicked-color);
 	border: 1px solid var(--button-border-color);
 	color: var(--theme-color4);
 }
 
-/* Zustand: markiert (“flagged”) */
+/* State: marked (“flagged”) */
 #app button.flagged {
 	color: var(--flag-color);
 	background-color: var(--flag-color) !important;
 	padding: 0;
 }
 
-/* Shrink-Animation für visuelles Feedback */
+/* Shrink animation for visual feedback */
 @keyframes shrink {
 	from {
 		transform: scale(1);
@@ -252,7 +246,7 @@ body {
 	animation: shrink 0.2s reverse forwards;
 }
 
-/* Spezielle Monster- bzw. Sonder-Buttons */
+/* Special monster or special buttons */
 #app button.monster {
 	background-color: #96e1ff;
 	border: 1px solid #6a93c9;
@@ -353,7 +347,7 @@ body {
 }
 
 /* ===========================================================
-   Statistiken und Spielerinformationen (#statSheet)
+   Statistics and player information (#statSheet)
    =========================================================== */
 #statSheet {
 	width: fit-content;
@@ -385,7 +379,7 @@ body {
 }
 
 /* ===========================================================
-   Unteres Menü (Floating Menu) (#menu)
+   Bottom menu (floating menu) (#menu)
    =========================================================== */
 #menu {
 	position: fixed;
@@ -412,21 +406,30 @@ body {
 }
 
 #fireball {
-	width: 1.5em;
-	height: 1.5em;
+	width: 1em;
+	height: 1em;
 	font-size: 1.5rem;
 	padding: 0;
 	border-radius: 50%;
 	box-shadow: 0 2px 8px rgba(24, 61, 61, 0.18);
-	background: var(--theme-color1);
+	background: var(--theme-color4);
 	color: var(--theme-color4);
 	border: 1px solid var(--theme-color3);
 	align-items: center;
 	justify-content: center;
 	transition: background 0.2s ease, box-shadow 0.2s ease;
 	display: none;
+	-webkit-mask-image: url("./res/fire.svg");
+	mask-image: url("./res/fire.svg");
+	-webkit-mask-repeat: no-repeat;
+	mask-repeat: no-repeat;
+	-webkit-mask-position: center;
+	mask-position: center;
+	-webkit-mask-size: contain;
+	mask-size: contain;
 }
-#fireball:active {
+#fireball:active,
+#fireball:hover {
 	background: #ffe066;
 	box-shadow: 0 4px 16px rgba(24, 61, 61, 0.25);
 }
@@ -531,7 +534,7 @@ body {
 }
 
 /* ===========================================================
-   Debug-Button (nur für Entwicklungszwecke)
+   Debug button (for development purposes only)
    =========================================================== */
 #debugLevelUp {
 	background: #ffd700;
@@ -548,7 +551,7 @@ body {
 }
 
 /* ===========================================================
-   Modal-Hintergrund und Modal-Fenster (Startscreen)
+   Modal background and modal window (start screen)
    =========================================================== */
 @keyframes modal-fade-in {
 	from {
@@ -607,6 +610,10 @@ body {
 	color: var(--theme-color4);
 }
 
+.modal h2 {
+	margin-top: 1em;
+}
+
 .modal hr {
 	border: none;
 	border-top: 1px solid var(--theme-color2);
@@ -621,7 +628,7 @@ body {
 }
 
 .modal button {
-	background: var(--theme-color2);
+	background: var(--theme-color1);
 	color: #fff;
 	border: none;
 	border-radius: 0.4em;
@@ -635,6 +642,7 @@ body {
 .modal button:hover,
 .modal button:focus {
 	background: var(--theme-color3);
+	color: var(--theme-color1);
 	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 	transform: translateY(-1px);
 	cursor: pointer;
@@ -657,7 +665,11 @@ body {
 	display: none;
 }
 
-/* Formularelemente im Modal (Startscreen) */
+#modal-confirm {
+	background: var(--flag-color);
+}
+
+/* Form elements in modal (start screen) */
 .modal fieldset {
 	display: flex;
 	flex-direction: column;
@@ -684,7 +696,7 @@ body {
 }
 
 /* ===========================================================
-   Toggle-Switch (Startscreen)
+   Toggle switch (start screen)
    =========================================================== */
 .toggle {
 	cursor: pointer;
@@ -741,7 +753,7 @@ body {
 }
 
 /* ===========================================================
-   Leaderboard-Modal (Einträge, Listen, Styling)
+   Leaderboard modal (entries, lists, styling)
    =========================================================== */
 #modal-leaderboard {
 	margin: 0;
@@ -784,7 +796,7 @@ body {
 }
 
 /* ===========================================================
-   Mobile-Responsive Anpassungen (max-width: 600px)
+   Mobile-responsive adjustments (max-width: 600px)
    =========================================================== */
 @media only screen and (max-width: 600px) {
 	body {
@@ -877,6 +889,14 @@ body {
 		align-items: center;
 		justify-content: center;
 		transition: background 0.2s ease, box-shadow 0.2s ease;
+		-webkit-mask-image: url("./res/fire.svg");
+		mask-image: url("./res/fire.svg");
+		-webkit-mask-repeat: no-repeat;
+		mask-repeat: no-repeat;
+		-webkit-mask-position: center;
+		mask-position: center;
+		-webkit-mask-size: contain;
+		mask-size: contain;
 	}
 	#fireball:active {
 		background: #ffe066;

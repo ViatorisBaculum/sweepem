@@ -42,10 +42,10 @@ export function showMenu(): void {
 
 function showInitialModal(): void {
 	assert(settingsForm, "No settings template found");
-	const modal = new Modal(document.body, { cancelButton: false });
+	const modal = new Modal(document.body, { cancelButton: false, showSubTitle: false });
 
-	modal.setTitle("New Game");
-	modal.setSubTitle("Welcome to DungeonSweeper");
+	modal.setTitle("Welcome to DungeonSweeper");
+	//modal.setSubTitle("lorem ipsum dolor sit amet");
 	modal.setText("This is a more elaborate version of MineSweeper with RPG elements such as classes, leveling and different enemies. Please choose your starting configuration.");
 	modal.setSlotContent(settingsForm.innerHTML);
 
