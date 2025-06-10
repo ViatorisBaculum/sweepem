@@ -11,29 +11,31 @@
 		<link rel="stylesheet" href="app.css" />
 	</head>
 	<body>
-		<div id="game">
-			<div id="app"></div>
-			<div id="menu">
-				<div id="statSheet">
-					<span id="playerClass"></span>
-					<p id="playerLevel"></p>
-					<div id="health"></div>
-					<progress id="experience" value="0" max="100"></progress>
-					<p id="score"></p>
-				</div>
-				<div id="rightMenu">
-					<button id="fireball" title="Cast Fireball (3x3 reveal)">🔥</button>
-					<button id="openLeaderboard" title="Leaderboard"></button>
-					<button id="reset" title="Reset Game"></button>
-					<button id="openSettings" title="Settings"></button>
-					<!-- /* just for debugging */ -->
-					<button
-						id="debugLevelUp"
-						title="Gain Level (Debug)"
-						style="margin: 0 0.5em; padding: 0.5em; display: none"
-					>
-						+1
-					</button>
+		<div id="game-container">
+			<div id="game">
+				<div id="app"></div>
+				<div id="menu">
+					<div id="statSheet">
+						<span id="playerClass"></span>
+						<p id="playerLevel"></p>
+						<div id="health"></div>
+						<progress id="experience" value="0" max="100"></progress>
+						<p id="score"></p>
+					</div>
+					<div id="rightMenu">
+						<button id="fireball" title="Cast Fireball (3x3 reveal)">🔥</button>
+						<button id="openLeaderboard" title="Leaderboard"></button>
+						<button id="reset" title="Reset Game"></button>
+						<button id="openSettings" title="Settings"></button>
+						<!-- /* just for debugging */ -->
+						<button
+							id="debugLevelUp"
+							title="Gain Level (Debug)"
+							style="margin: 0 0.5em; padding: 0.5em; display: none"
+						>
+							+1
+						</button>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -55,6 +57,7 @@
 				<div class="controls">
 					<button id="modal-cancel" class="cancel">Cancel</button>
 					<button id="modal-confirm" class="confirm">Confirm</button>
+					<button id="modal-secondary-confirm" class="confirm"></button>
 				</div>
 			</div>
 		</div>

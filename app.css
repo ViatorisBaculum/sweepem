@@ -122,6 +122,13 @@ body {
 /* ===========================================================
    Container für das gesamte Spiel (#game)
    =========================================================== */
+#game-container {
+	width: fit-content;
+	height: fit-content;
+	margin: auto;
+	padding: 5em;
+}
+
 #game {
 	width: fit-content;
 	height: fit-content;
@@ -330,8 +337,7 @@ body {
 @keyframes star-animation {
 	0% {
 		opacity: 0;
-		transform: translate(0, 0) scale(var(--star-scale, 1))
-			rotate(var(--star-rot, 0deg));
+		transform: translate(0, 0) scale(var(--s, 1)) rotate(var(--r, 0deg));
 	}
 	20% {
 		opacity: 1;
@@ -341,8 +347,8 @@ body {
 	}
 	100% {
 		opacity: 0;
-		transform: translate(var(--star-tx, 0), var(--star-ty, 0))
-			scale(var(--star-scale, 1.2)) rotate(var(--star-rot, 0deg));
+		transform: translate(var(--tx, 0), var(--ty, 0)) scale(var(--s, 1.2))
+			rotate(var(--r, 0deg));
 	}
 }
 
@@ -647,6 +653,10 @@ body {
 	color: #fff;
 }
 
+#modal-secondary-confirm {
+	display: none;
+}
+
 /* Formularelemente im Modal (Startscreen) */
 .modal fieldset {
 	display: flex;
@@ -781,6 +791,9 @@ body {
 		position: relative;
 		height: 100%;
 		overflow: auto;
+	}
+	#game-container {
+		padding: 10em;
 	}
 	#game {
 		margin: 2em auto;

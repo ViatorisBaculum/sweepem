@@ -2,6 +2,7 @@ import { GameMaster } from "./classes/gameMaster";
 import { Modal } from "./util/modal";
 import { ThemeManager, Theme } from "./util/theme";
 import { PC_Mage } from "./classes/PlayerClasses/PC_Mage";
+import { SaveManager } from "./classes/saveManager";
 
 type Nullable<T> = T | null;
 
@@ -25,7 +26,6 @@ export function initialize(): void {
 	ThemeManager.initialize();
 	setupThemeToggle();
 	setupFireball();
-
 	showInitialModal();
 	gameInstance.populateSettingsUIFromGameSettings();
 	hide(menu);
@@ -36,22 +36,48 @@ export function initialize(): void {
 	bind("debugLevelUp", "click", () => gameInstance.player.debugGainLevel());
 }
 
+export function showMenu(): void {
+	show(menu);
+}
+
 function showInitialModal(): void {
 	assert(settingsForm, "No settings template found");
-	const modal = new Modal(document.body);
-	modal.setTitle("New Game")
-	modal.setSubTitle("Welcome to DungeonSweeper")
-	modal.setText(
-		"This is a more elaborate version of MineSweeper with RPG elements such as classes, leveling and different enemies. Please choose your starting configuration."
-	)
+	const modal = new Modal(document.body, { cancelButton: false });
 
-	modal.setSlotContent(settingsForm.innerHTML)
+	modal.setTitle("New Game");
+	modal.setSubTitle("Welcome to DungeonSweeper");
+	modal.setText("This is a more elaborate version of MineSweeper with RPG elements such as classes, leveling and different enemies. Please choose your starting configuration.");
+	modal.setSlotContent(settingsForm.innerHTML);
+
+	// Default: New Game
+	modal.setConfirmButtonText("New Game");
 	modal.setConfirmAction((): void => {
-		toggle(menu);
+		showMenu();
 		gameInstance.resetGame();
-	})
-	modal.setDefaultClass();
+	});
 
+	// If savegame exists, add Continue button
+	if (SaveManager.hasSave()) {
+		modal.setConfirmButtonText("New Game"); // Isnt this redundant?
+		modal.setConfirmAction((): void => {
+			SaveManager.deleteSave();
+			showMenu();
+			gameInstance.resetGame();
+		});
+
+		modal.setSecondaryConfirmButtonText("Continue");
+		modal.setSecondaryConfirmAction(() => {
+			const memento = SaveManager.loadGame();
+			if (memento) {
+				gameInstance.restoreFromMemento(memento);
+				gameInstance.player.updateStatsheet();
+				gameInstance.board.redraw();
+				showMenu();
+			}
+		});
+	}
+
+	modal.setDefaultClass();
 	setupThemeToggle();
 	gameInstance.populateSettingsUIFromGameSettings();
 
@@ -113,9 +139,9 @@ function hide(el: Nullable<HTMLElement>): void {
 	if (el) el.style.display = "none";
 }
 
-// function show(el: Nullable<HTMLElement>, display = "flex"): void {
-// 	if (el) el.style.display = display;
-// }
+function show(el: Nullable<HTMLElement>, display = "flex"): void {
+	if (el) el.style.display = display;
+}
 
 function toggle(el: Nullable<HTMLElement>, display = "flex"): void {
 	if (!el) return;

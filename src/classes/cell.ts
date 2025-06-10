@@ -2,6 +2,7 @@ import { Board } from "./board";
 import { GameMaster } from "./gameMaster";
 import { CellType } from "../util/customTypes";
 import defaults from "../util/defaults";
+import { CellMemento } from "./saveManager";
 
 export class Cell {
 	type: CellType;
@@ -35,6 +36,22 @@ export class Cell {
 	/*==============*/
 	/*public methods*/
 	/*==============*/
+
+	public createMemento(): CellMemento {
+		return {
+			type: this.type,
+			value: this.value,
+			isClicked: this.isClicked,
+			isFlagged: this.isFlagged,
+		};
+	}
+
+	public restoreFromMemento(memento: CellMemento): void {
+		this.type = memento.type;
+		this.value = memento.value;
+		this.isClicked = memento.isClicked;
+		this.isFlagged = memento.isFlagged;
+	}
 
 	/** Activates the cell, revealing it and adding experience.
 	 * @param experience - The amount of experience to add.	
@@ -156,16 +173,7 @@ export class Cell {
 		if (this.isClicked) return;
 		this.isClicked = true;
 		this.animateReveal();
-
-		this.HTMLElement.classList.add("clicked");
-
-		if (this.value) this.HTMLElement.innerText = this.value.toString();
-		else if (!this.value && this.type > 0) {
-			this.HTMLElement.innerText = this.translateType(this.type);
-			// remove anything 
-			const typeClass = this.translateType(this.type).replace(/[^a-zA-Z0-9_-]/g, "");
-			this.HTMLElement.classList.add("monster", typeClass);
-		} else this.HTMLElement.innerText = "";
+		this.updateVisuals();
 	}
 
 	rightClick(e: Event) {
@@ -176,7 +184,7 @@ export class Cell {
 		}
 		if (!this.isClicked) {
 			this.isFlagged = !this.isFlagged;
-			this.toggleFlag();
+			this.updateVisuals();
 		} else {
 			this.clickNeighbors();
 		}
@@ -208,6 +216,50 @@ export class Cell {
 			return "."; // or "" or any symbol for empty
 		}
 		return "?";
+	}
+
+	public updateVisuals(): void {
+		if (this.isFlagged) {
+			this.HTMLElement.innerHTML = "💀";
+			this.HTMLElement.classList.add("flagged");
+		} else {
+			this.HTMLElement.innerHTML = "";
+			this.HTMLElement.classList.remove("flagged");
+		}
+
+		if (this.isClicked) {
+			this.HTMLElement.classList.add("clicked");
+			this.HTMLElement.classList.add("shrinked");
+
+			if (this.value) {
+				this.HTMLElement.innerText = this.value.toString();
+			} else if (!this.value && this.type > 0) {
+				this.HTMLElement.innerText = this.translateType(this.type);
+				const typeClass = this.translateType(this.type).replace(/[^a-zA-Z0-9_-]/g, "");
+				this.HTMLElement.classList.add("monster", typeClass);
+			} else {
+				this.HTMLElement.innerText = "";
+			}
+		} else {
+			// If not clicked, we only care about the flag status which is handled above
+			this.HTMLElement.classList.remove("clicked");
+			this.HTMLElement.classList.remove("shrinked");
+		}
+	}
+
+	private animateReveal() {
+		if (this.HTMLElement.checkVisibility()) {
+			this.HTMLElement.classList.remove("shrinked");
+			this.HTMLElement.classList.add("shrinked");
+
+			if (this.type > 0) {
+				this.HTMLElement.classList.remove("monster-reveal-anim");
+				// Reflow, this forces the browser to re-calculate styles
+				// This is necessary to restart the animation
+				void this.HTMLElement.offsetWidth;
+				this.HTMLElement.classList.add("monster-reveal-anim");
+			}
+		}
 	}
 
 	/*===============*/
@@ -248,10 +300,11 @@ export class Cell {
 			const tx = Math.cos(angle) * (radius + (Math.random() - 0.5) * radiusJitter);
 			const ty = Math.sin(angle) * (radius + (Math.random() - 0.5) * radiusJitter);
 
-			star.style.setProperty('--star-scale', scale.toString());
-			star.style.setProperty('--star-rot', `${rotation}deg`);
-			star.style.setProperty('--star-tx', `${tx}px`);
-			star.style.setProperty('--star-ty', `${ty}px`);
+			star.style.setProperty("--tx", `${tx}px`);
+			star.style.setProperty("--ty", `${ty}px`);
+			star.style.setProperty("--s", `${scale}`);
+			star.style.setProperty("--r", `${rotation}deg`);
+			star.style.animationDelay = `${delayIndex * delayBetweenStars}s`;
 
 			// 4. Responsiv positionieren (zentriert auf Zelle)
 			star.style.left = `${cellCenterX - starSize / 2}px`;
@@ -259,44 +312,12 @@ export class Cell {
 			star.style.width = `${starSize}px`;
 			star.style.height = `${starSize}px`;
 
-			// 5. Stagger animation start
-			const minDuration = 0.3;
-			const maxDuration = 0.5;
-			const duration = minDuration + Math.random() * (maxDuration - minDuration);
-			star.style.animationDelay = `${delayIndex * delayBetweenStars}s`;
-			star.style.animationDuration = `${duration}s`;
-
 			container.appendChild(star);
 
-			// Remove star after animation
+			// Remove the star after the animation completes
 			star.addEventListener("animationend", () => {
 				star.remove();
 			});
 		});
-	}
-
-	public toggleFlag(): void {
-		if (this.isFlagged) {
-			this.HTMLElement.innerHTML = "💀";
-			this.HTMLElement.classList.add("flagged");
-		} else {
-			this.HTMLElement.innerHTML = "";
-			this.HTMLElement.classList.remove("flagged");
-		}
-	}
-
-	private animateReveal() {
-		if (this.HTMLElement.checkVisibility()) {
-			this.HTMLElement.classList.remove("shrinked");
-			this.HTMLElement.classList.add("shrinked");
-
-			if (this.type > 0) {
-				this.HTMLElement.classList.remove("monster-reveal-anim");
-				// Reflow, this forces the browser to re-calculate styles
-				// This is necessary to restart the animation
-				void this.HTMLElement.offsetWidth;
-				this.HTMLElement.classList.add("monster-reveal-anim");
-			}
-		}
 	}
 }

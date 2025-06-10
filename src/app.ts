@@ -1,6 +1,6 @@
 import { initialize } from "./content";
-import { GameMaster } from "./classes/gameMaster"; // just for debugging purposes, delete later
+import { GameMaster } from "./classes/gameMaster";
 
 initialize();
 
-(window as any).gameInstance = GameMaster.getInstance(); // just for debugging purposes, delete later
+(window as any).gameInstance = GameMaster.getInstance();

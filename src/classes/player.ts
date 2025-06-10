@@ -1,6 +1,8 @@
 import { CellType } from "../util/customTypes";
 import defaults from "../util/defaults";
 import { GameMaster } from "./gameMaster";
+import { PC_Mage } from "./PlayerClasses/PC_Mage";
+import { PlayerMemento } from "./saveManager";
 
 interface PlayerHTMLHooks {
 	playerClassSpan: HTMLElement;
@@ -91,6 +93,42 @@ export abstract class Player {
 		this.updateStatsheet();
 		GameMaster.getInstance().playerUp();
 	}
+
+	public createMemento(): PlayerMemento {
+		const memento: PlayerMemento = {
+			className: this.className,
+			experience: this.experience,
+			health: this.health,
+			maxHealth: this.maxHealth,
+			level: this.level,
+			score: this.score,
+		};
+
+		if (this.className === "Mage") {
+			memento.fireballAvailable = (this as unknown as PC_Mage).canCastFireball();
+		}
+		return memento;
+	}
+
+	public restoreFromMemento(memento: PlayerMemento): void {
+		this._experience = memento.experience;
+		this.maxHealth = memento.maxHealth;
+		this._health = memento.health;
+		this._level = memento.level;
+		this._score = memento.score;
+
+		if (this.className === "Mage" && memento.fireballAvailable !== undefined) {
+			const mageInstance = this as unknown as PC_Mage;
+			if (memento.fireballAvailable) {
+				mageInstance.resetFireball();
+			} else {
+				// there is no setter, so we have to call the consumer
+				mageInstance.activateFireballMode();
+				mageInstance.castFireballOnCell(-10, -10); // cast on invalid cell to consume charge
+			}
+		}
+		this.updateStatsheet();
+	}
 	/*===============*/
 	/*private methods*/
 	/*===============*/
@@ -133,7 +171,7 @@ export abstract class Player {
 		};
 	}
 
-	private updateStatsheet(): void {
+	public updateStatsheet(): void {
 		this._HTMLHooks.playerClassSpan.innerText = this.className;
 		this._HTMLHooks.playerLevelDiv.innerText = this._level.toString();
 		if (this.heartContainers.length === 0) this.addHearts();

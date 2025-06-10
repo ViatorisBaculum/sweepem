@@ -7,6 +7,7 @@ import { Player } from "./player";
 import defaults from "../util/defaults";
 import { playerClasses } from "../util/customTypes";
 import { showLeaderboard, resetFireballButton } from "../content";
+import { SaveManager, GameMemento } from "./saveManager";
 
 enum GameState {
 	NotStarted,
@@ -30,7 +31,7 @@ export class GameMaster {
 	private _player?: Player;
 	private _timer?: NodeJS.Timeout;
 	private _gameTimer: number = 0;
-	private _gameSettings: GameSettings;
+	private _gameSettings!: GameSettings;
 	private _gameState: GameState = GameState.NotStarted;
 	private playerClassRegistry: Record<playerClasses, new (board: Board | undefined) => Player> = {
 		"Assassin": PC_Assassin,
@@ -43,6 +44,12 @@ export class GameMaster {
 		document.getElementById("resetButton")?.addEventListener("click", () => this.resetGame());
 		this._gameSettings = this.initializeGameSettings();
 		this.populateSettingsUIFromGameSettings();
+
+		window.addEventListener("beforeunload", () => {
+			if (this._gameState !== GameState.Ended) {
+				SaveManager.saveGame();
+			}
+		});
 	}
 
 	static getInstance() {
@@ -85,6 +92,7 @@ export class GameMaster {
 	/*==============*/
 	/*public methods*/
 	/*==============*/
+
 	public createBoard() {
 		this.board = new Board(this._gameSettings.width, this._gameSettings.height, this._gameSettings.minesFrequency, this);
 	}
@@ -185,6 +193,7 @@ export class GameMaster {
 	}
 
 	public startGame() {
+		if (this._gameState === GameState.Running) return;
 		if (document.getElementById("modal")) this.saveSettingsFromUI();
 		if (document.getElementById("modal")) this.getScores();
 		this.createBoard();
@@ -194,6 +203,7 @@ export class GameMaster {
 		this.resetTimer();
 		this._timer = setInterval(() => this.countSeconds(), 1000);
 		this._gameState = GameState.Running;
+		SaveManager.isGameEnded = false;
 	}
 
 	public winGame() {
@@ -248,6 +258,28 @@ export class GameMaster {
 		return this._gameState === GameState.Ended;
 	}
 
+	public createMemento(): GameMemento {
+		return {
+			board: this.board.createMemento(),
+			player: this.player.createMemento(),
+			gameTimer: this._gameTimer,
+			gameSettings: this._gameSettings,
+		};
+	}
+
+	public restoreFromMemento(memento: GameMemento): void {
+		this._gameSettings = memento.gameSettings;
+		this.populateSettingsUIFromGameSettings();
+		this.createBoard();
+		this.createPlayer();
+
+		this.board.restoreFromMemento(memento.board);
+		this.player.restoreFromMemento(memento.player);
+		this._gameTimer = memento.gameTimer;
+		this._gameState = GameState.Paused; // set to paused, because resumeTimer will set it to running
+		this.resumeTimer();
+	}
+
 	/*===============*/
 	/*private methods*/
 	/*===============*/
@@ -258,11 +290,11 @@ export class GameMaster {
 	}
 
 	private endGame() {
+		if (this._gameState === GameState.Ended) return;
 		this.stopTimer();
-
-		this.board.revealBoard();
-		this.board.removeEventHandler();
 		this._gameState = GameState.Ended;
+		this.board.revealBoard();
+		SaveManager.deleteSave();
 	}
 
 	private getValueFromInput(name: string) {

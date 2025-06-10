@@ -188,4 +188,36 @@ export class Modal {
 			subtree: true
 		});
 	}
+
+	setConfirmButtonText(text: string) {
+		const button = document.getElementById("modal-confirm");
+		if (button) {
+			button.innerText = text;
+		}
+	}
+
+	setCancelButtonText(text: string) {
+		const button = document.getElementById("modal-cancel");
+		if (button) {
+			button.innerText = text;
+		}
+	}
+
+	setSecondaryConfirmButtonText(text: string) {
+		const button = document.getElementById("modal-secondary-confirm");
+		if (button) {
+			button.innerText = text;
+			button.style.display = "inline-block";
+		}
+	}
+
+	setSecondaryConfirmAction(cb: Function) {
+		const button = document.getElementById("modal-secondary-confirm");
+		if (button) {
+			button.addEventListener("click", () => {
+				cb();
+				this.destroyModal();
+			});
+		}
+	}
 }

@@ -3,6 +3,8 @@ import defaults from "../util/defaults";
 import { Cell } from "./cell";
 import { GameMaster } from "./gameMaster";
 import { PC_Mage } from "./PlayerClasses/PC_Mage";
+import { SaveManager } from "./saveManager";
+import { BoardMemento } from "./saveManager";
 
 export class Board {
 	cells: Cell[][] = [];
@@ -42,6 +44,25 @@ export class Board {
 	/*==============*/
 	/*public methods*/
 	/*==============*/
+
+	public createMemento(): BoardMemento {
+		const cellMementos = this.cells.map((row) =>
+			row.map((cell) => cell.createMemento())
+		);
+		return { cells: cellMementos };
+	}
+
+	public restoreFromMemento(memento: BoardMemento): void {
+		for (let i = 0; i < this._height; i++) {
+			for (let j = 0; j < this._width; j++) {
+				this.cells[i][j].restoreFromMemento(memento.cells[i][j]);
+			}
+		}
+	}
+
+	public redraw(): void {
+		this.cells.flat().forEach((cell) => cell.updateVisuals());
+	}
 
 	evoluteMonster() {
 		const remainingMonster = this.getRemainingMonster();
@@ -104,7 +125,7 @@ export class Board {
 		this.cells.flat().forEach((cell: Cell) => {
 			if (cell.isFlagged) {
 				cell.isFlagged = false;
-				cell.toggleFlag();
+				cell.updateVisuals();
 			}
 		});
 	}
@@ -248,36 +269,38 @@ export class Board {
 				const mage = player as PC_Mage;
 				if (mage.isFireballModeActive) {
 					e.preventDefault();
-					e.stopPropagation();
 					mage.castFireballOnCell(x, y);
-					// UI updates (button state, body class) are handled within PC_Mage methods
+					SaveManager.saveGame();
 					return;
 				}
 			}
 
-			if (cell.gameInstance.invertClicks) {
+			if (gameInstance.invertClicks) {
 				cell.rightClick(e);
 			} else {
 				cell.click();
 			}
+			SaveManager.saveGame();
 		};
 	}
 
 	private createContextMenuHandler() {
 		return (e: MouseEvent) => {
-			const target = e.target as HTMLButtonElement;
-			if (!target || !target.dataset.x || !target.dataset.y) return;
 			e.preventDefault();
+			const target = e.target as HTMLButtonElement;
+			if (!target.dataset.x || !target.dataset.y) return;
 			const x = Number(target.dataset.x);
 			const y = Number(target.dataset.y);
 			const cell = this.getCell(x, y);
 			if (!cell) return;
 
-			if (cell.gameInstance.invertClicks) {
+			const gameInstance = GameMaster.getInstance();
+			if (gameInstance.invertClicks) {
 				cell.click();
 			} else {
 				cell.rightClick(e);
 			}
+			SaveManager.saveGame();
 		};
 	}
 
