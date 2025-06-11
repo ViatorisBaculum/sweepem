@@ -18,6 +18,7 @@ interface PlayerHTMLHooks {
 }
 export abstract class Player {
 	abstract className: string;
+	abstract description: string;
 	private _experience: number = 0;
 	private _health: number = 0;
 	protected maxHealth: number = 0;

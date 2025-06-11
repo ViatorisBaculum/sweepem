@@ -8,6 +8,7 @@ import { SpecialAbility } from "../player";
 
 export class PC_Mage extends Player {
 	className = "Mage";
+	description = "The mage can unleash a powerful 3x3 fireball. This ability recharges on every level up.";
 	private _fireballAvailable = true;
 	public isFireballModeActive: boolean = false;
 	private board: Board;

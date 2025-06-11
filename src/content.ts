@@ -55,6 +55,8 @@ function showInitialModal(): void {
 		gameInstance.resetGame();
 	});
 
+	modal.addCustomButton("How to Play", () => showTutorial(modal), { classes: ["tutorial-button"] });
+
 	// If savegame exists, add Continue button
 	if (SaveManager.hasSave()) {
 		modal.setConfirmButtonText("New Game"); // Isnt this redundant?
@@ -131,6 +133,65 @@ export function showLeaderboard(status = ""): void {
 		gameInstance.resumeTimer();
 		toggle(menu);
 	});
+}
+
+function showTutorial(parentModal: Modal): void {
+	parentModal.destroyModal();
+
+	const steps = [
+		{
+			title: "Welcome to DungeonSweeper!",
+			text: "The goal is to clear all tiles that don't hide a monster. A revealed tile shows a number indicating the total strength of all adjacent monsters.",
+		},
+		{
+			title: "Basic Controls",
+			text: "LEFT CLICK to reveal a tile. Be careful! If it's a monster, you'll take damage.\n\nRIGHT CLICK to place a flag on a tile you suspect hides a monster.",
+		},
+		{
+			title: "Monsters & Leveling",
+			text: "Clicking a monster damages you. Stronger monsters deal more damage. Defeat monsters and clear tiles to gain experience and level up, making you stronger and recharging your abilities!",
+		},
+		{
+			title: "Classes & Abilities",
+			text: "Each class has unique powers. The Warrior is tough, the Mage has a fireball, and the Assassin can execute enemies with a double-click. Choose wisely!",
+		},
+	];
+
+	let currentStep = 0;
+
+	const tutorialModal = new Modal(document.body, {
+		confirmButton: false,
+		cancelButton: false,
+		showClass: false,
+		showClassDescription: false,
+		showSlot: false,
+	});
+
+	const renderStep = () => {
+		tutorialModal.setTitle(`Tutorial (${currentStep + 1}/${steps.length})`);
+		tutorialModal.setText(steps[currentStep].text);
+		prevButton.style.display = currentStep === 0 ? "none" : "inline-block";
+		nextButton.innerText = currentStep === steps.length - 1 ? "Finish" : "Next";
+	};
+
+	const prevButton = tutorialModal.addCustomButton("Previous", () => {
+		if (currentStep > 0) {
+			currentStep--;
+			renderStep();
+		}
+	});
+
+	const nextButton = tutorialModal.addCustomButton("Next", () => {
+		if (currentStep < steps.length - 1) {
+			currentStep++;
+			renderStep();
+		} else {
+			tutorialModal.destroyModal();
+			showInitialModal();
+		}
+	});
+
+	renderStep();
 }
 
 // Generic show/hide/toggle helpers

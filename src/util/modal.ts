@@ -1,4 +1,5 @@
 import defaults from "./defaults";
+import { GameMaster } from "../classes/gameMaster";
 interface modalSettings {
 	cancelButton?: boolean;
 	confirmButton?: boolean;
@@ -21,6 +22,7 @@ export class Modal {
 	};
 	parentNode: HTMLElement;
 	node: Node;
+	controlsContainer: HTMLElement;
 
 	constructor(parentNode: HTMLElement, modalSettings?: modalSettings) {
 		this.parentNode = parentNode;
@@ -30,13 +32,17 @@ export class Modal {
 		this.node = (template as HTMLTemplateElement).content.cloneNode(true);
 		this.node = parentNode.appendChild(this.node);
 
+		const controls = document.querySelector(".controls");
+		if (!controls) throw new Error("No controls container found in modal template");
+		this.controlsContainer = controls as HTMLElement;
+
 		this.setCancelAction();
 		this.parseModalSettings();
 		this.setClassTitle(defaults.playerClass);
 		this.addEventListener();
 	}
 
-	private destroyModal() {
+	public destroyModal() {
 		document.getElementById("modal-bg")?.remove();
 	}
 
@@ -59,10 +65,20 @@ export class Modal {
 			document.getElementById("modal-subtitle")?.remove();
 	}
 
+	private setClassDescription() {
+		const game = GameMaster.getInstance();
+		const description = game.player?.description || "";
+		const modal = document.getElementById("modal-classDescription");
+		if (modal) {
+			modal.innerText = description;
+		}
+	}
+
 	setSubTitle(title: string) {
 		const modal = document.getElementById("modal-subtitle");
 		if (modal) {
 			modal.innerText = title;
+			this.setClassTitle(title); // Update the description as well
 		}
 	}
 	setTitle(title: string) {
@@ -75,7 +91,6 @@ export class Modal {
 		const modal = document.getElementById("modal-class");
 		if (modal) {
 			modal.innerText = title;
-			this.setClassText(title);
 		}
 	}
 	setClassText(title: string) {
@@ -83,7 +98,7 @@ export class Modal {
 		if (modal) {
 			switch (title) {
 				case "Assassin":
-					modal.innerText = "The assassin can kill Monster on his Level \n" +
+					modal.innerText = "The assassin can kill monsters on his Level \n" +
 						"• Right click on a monster on the same level to kill it without taking damage \n" +
 						"• Right click on a lower level monster will give you 1 damage \n" +
 						"• Opening an area with right click will give you 1 damage when the area contains a monster on the same level or higher";
@@ -133,7 +148,7 @@ export class Modal {
 		if (select) {
 			select.value = playerClass;
 			this.setClassTitle(playerClass); // Update the description as well
-			this.setClassText(playerClass);
+			this.setClassDescription();
 		}
 	}
 
@@ -154,6 +169,19 @@ export class Modal {
 			}
 		}
 		return classValue;
+	}
+
+	addCustomButton(text: string, cb: () => void, options?: { classes?: string[] }): HTMLButtonElement {
+		const button = document.createElement("button");
+		button.innerText = text;
+		button.addEventListener("click", cb);
+
+		if (options?.classes) {
+			button.classList.add(...options.classes);
+		}
+
+		this.controlsContainer.appendChild(button);
+		return button;
 	}
 
 	setConfirmAction(cb: Function) {
@@ -178,7 +206,12 @@ export class Modal {
 		const observer = new MutationObserver((_, obs) => {
 			const select = document.getElementById("selectClass") as HTMLSelectElement;
 			if (select) {
-				select.addEventListener("change", () => this.setClassTitle(select.value));
+				select.addEventListener("change", () => {
+					GameMaster.getInstance().updateClassDescription(select.value as any);
+					this.setClassTitle(select.value);
+				});
+				// Also trigger it once on init
+				GameMaster.getInstance().updateClassDescription(select.value as any);
 				obs.disconnect(); // Stop observing once found
 			}
 		});

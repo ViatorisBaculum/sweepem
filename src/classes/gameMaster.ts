@@ -315,14 +315,27 @@ export class GameMaster {
 	}
 
 	private trySetToggleValue(id: string, checked: boolean): void {
-		const input = document.getElementById(id);
-		if (input) (input as HTMLInputElement).checked = checked;
-		else console.warn(`HTML input (checkbox/toggle) element with id '${id}' not found for setting value.`);
+		const toggle = document.getElementById(id) as HTMLInputElement | null;
+		if (toggle) toggle.checked = checked;
+	}
+
+	public updateClassDescription(className: playerClasses): void {
+		const PlayerClass = this.playerClassRegistry[className];
+		if (PlayerClass) {
+			// Create a temporary instance just to get the description
+			const tempPlayer = new PlayerClass(undefined);
+			const descriptionElement = document.getElementById("modal-classDescription");
+			if (descriptionElement) {
+				descriptionElement.innerText = tempPlayer.description;
+			}
+		}
 	}
 
 	private resetTimer() {
 		this.stopTimer();
 		this._gameTimer = 0;
+		const timerElement = document.getElementById("timer");
+		if (timerElement) timerElement.innerText = "00:00";
 	}
 
 	private stopTimer() {
