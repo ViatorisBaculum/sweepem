@@ -9,4 +9,8 @@ export class PC_Warrior extends Player {
 		this.health = 3;
 		this.maxHealth = this.health;
 	}
+
+	override onLevelUp(): void {
+		this.gainHealth();
+	}
 }

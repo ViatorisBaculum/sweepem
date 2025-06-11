@@ -2,8 +2,6 @@ import { typeDistribution, CellType } from "../util/customTypes";
 import defaults from "../util/defaults";
 import { Cell } from "./cell";
 import { GameMaster } from "./gameMaster";
-import { PC_Mage } from "./PlayerClasses/PC_Mage";
-import { SaveManager } from "./saveManager";
 import { BoardMemento } from "./saveManager";
 
 export class Board {
@@ -255,52 +253,33 @@ export class Board {
 
 	private createClickHandler() {
 		return (e: MouseEvent) => {
-			const target = e.target as HTMLButtonElement;
-			if (!target || !target.dataset.x || !target.dataset.y) return;
-			const x = Number(target.dataset.x);
-			const y = Number(target.dataset.y);
-			const cell = this.getCell(x, y);
-			if (!cell) return;
+			const target = e.target as HTMLElement;
+			if (!target.dataset.x || !target.dataset.y) return;
+			const clickedCell = this.cells[Number(target.dataset.x)][Number(target.dataset.y)];
 
-			const gameInstance = GameMaster.getInstance();
-			const player = gameInstance.player;
-
-			if (player.className === "Mage") {
-				const mage = player as PC_Mage;
-				if (mage.isFireballModeActive) {
-					e.preventDefault();
-					mage.castFireballOnCell(x, y);
-					SaveManager.saveGame();
-					return;
+			if (e.button === 0) {
+				// Normal left click
+				if (this.gameInstance.invertClicks) {
+					this.gameInstance.player.onSecondaryAction(clickedCell, e);
+				} else {
+					this.gameInstance.player.onPrimaryAction(clickedCell);
 				}
 			}
-
-			if (gameInstance.invertClicks) {
-				cell.rightClick(e);
-			} else {
-				cell.click();
-			}
-			SaveManager.saveGame();
 		};
 	}
 
 	private createContextMenuHandler() {
 		return (e: MouseEvent) => {
 			e.preventDefault();
-			const target = e.target as HTMLButtonElement;
+			const target = e.target as HTMLElement;
 			if (!target.dataset.x || !target.dataset.y) return;
-			const x = Number(target.dataset.x);
-			const y = Number(target.dataset.y);
-			const cell = this.getCell(x, y);
-			if (!cell) return;
+			const clickedCell = this.cells[Number(target.dataset.x)][Number(target.dataset.y)];
 
-			const gameInstance = GameMaster.getInstance();
-			if (gameInstance.invertClicks) {
-				cell.click();
+			if (this.gameInstance.invertClicks) {
+				this.gameInstance.player.onPrimaryAction(clickedCell);
 			} else {
-				cell.rightClick(e);
+				this.gameInstance.player.onSecondaryAction(clickedCell, e);
 			}
-			SaveManager.saveGame();
 		};
 	}
 

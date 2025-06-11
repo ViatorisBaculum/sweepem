@@ -1,11 +1,14 @@
 import { Player } from "../player";
 import { Board } from "../board";
 import { CellType } from "../../util/customTypes";
-import { resetFireballButton } from "../../content";
+import { updateSpecialAbilityButton } from "../../content";
+import { PlayerMemento } from "../saveManager";
+import { Cell } from "../cell";
+import { SpecialAbility } from "../player";
 
 export class PC_Mage extends Player {
 	className = "Mage";
-	private fireballAvailable = true;
+	private _fireballAvailable = true;
 	public isFireballModeActive: boolean = false;
 	private board: Board;
 
@@ -19,17 +22,40 @@ export class PC_Mage extends Player {
 		this.board = board;
 	}
 
+	override getSpecialAbility(): SpecialAbility {
+		return {
+			isReady: this.canCastFireball() && !this.isFireballModeActive,
+			isWaiting: this.isFireballModeActive,
+		};
+	}
+
+	override useSpecialAbility(): void {
+		if (this.isFireballModeActive) {
+			this.deactivateFireballMode();
+		} else {
+			this.activateFireballMode();
+		}
+	}
+
+	override onPrimaryAction(cell: Cell): void {
+		if (this.isFireballModeActive) {
+			this.castFireballOnCell(cell.x, cell.y);
+		} else {
+			super.onPrimaryAction(cell);
+		}
+	}
+
 	public canCastFireball(): boolean {
-		return this.fireballAvailable;
+		return this._fireballAvailable;
 	}
 
 	private consumeFireballCharge(): void {
-		this.fireballAvailable = false;
+		this._fireballAvailable = false;
 	}
 
 	public resetFireball(): void {
-		this.fireballAvailable = true;
-		resetFireballButton();
+		this._fireballAvailable = true;
+		updateSpecialAbilityButton();
 	}
 
 	public activateFireballMode(): boolean {
@@ -38,14 +64,14 @@ export class PC_Mage extends Player {
 		}
 		this.isFireballModeActive = true;
 		document.body.classList.add("fireball-mode-active");
-		resetFireballButton();
+		updateSpecialAbilityButton();
 		return true;
 	}
 
 	public deactivateFireballMode(): void {
 		this.isFireballModeActive = false;
 		document.body.classList.remove("fireball-mode-active");
-		resetFireballButton();
+		updateSpecialAbilityButton();
 	}
 
 	public castFireballOnCell(x: number, y: number): void {
@@ -64,5 +90,27 @@ export class PC_Mage extends Player {
 
 		this.consumeFireballCharge();
 		this.deactivateFireballMode();
+	}
+
+	public override createMemento(): PlayerMemento {
+		const memento = super.createMemento();
+		memento.fireballAvailable = this.canCastFireball();
+		return memento;
+	}
+
+	public override restoreFromMemento(memento: PlayerMemento): void {
+		super.restoreFromMemento(memento);
+		if (memento.fireballAvailable !== undefined) {
+			this._fireballAvailable = memento.fireballAvailable;
+			if (this._fireballAvailable) {
+				this.resetFireball();
+			}
+		}
+		updateSpecialAbilityButton();
+	}
+
+	override onLevelUp(): void {
+		super.onLevelUp();
+		this.resetFireball();
 	}
 }

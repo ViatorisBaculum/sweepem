@@ -1,8 +1,13 @@
 import { CellType } from "../util/customTypes";
 import defaults from "../util/defaults";
 import { GameMaster } from "./gameMaster";
-import { PC_Mage } from "./PlayerClasses/PC_Mage";
 import { PlayerMemento } from "./saveManager";
+import { Cell } from "./cell";
+
+export interface SpecialAbility {
+	isReady: boolean;
+	isWaiting: boolean;
+}
 
 interface PlayerHTMLHooks {
 	playerClassSpan: HTMLElement;
@@ -20,9 +25,6 @@ export abstract class Player {
 	private _score: number = 0;
 	private _HTMLHooks: PlayerHTMLHooks;
 	private heartContainers: HTMLImageElement[] = [];
-
-	canCastFireball?(): boolean;
-	useFireball?(): void;
 
 	constructor() {
 		this._HTMLHooks = this.loadHTMLHooks();
@@ -66,9 +68,24 @@ export abstract class Player {
 	/*==============*/
 	/*public methods*/
 	/*==============*/
+	public onPrimaryAction(cell: Cell): void {
+		cell.click();
+	}
+
+	public onSecondaryAction(cell: Cell, e: MouseEvent): void {
+		cell.rightClick(e);
+	}
+
 	calculateScore(time: number): void {
 		this.score = this.experience - time;
 		if (this.score < 0) this.score = 0;
+	}
+
+	calculateDamage(cell: Cell): number {
+		if (cell.type === CellType.Boss && this.level >= 5) {
+			return 0;
+		}
+		return cell.type - this.level + 1;
 	}
 
 	getAttacked(damage: number): void {
@@ -86,12 +103,9 @@ export abstract class Player {
 	}
 
 	debugGainLevel(): void {
-		if (this.level <= 4) {
-			this.level += 1;
+		if (this.level < 5) {
+			this.experience = defaults.expToNextLevel[this.level - 1];
 		}
-		this.experience = defaults.expToNextLevel[this.level - 1];
-		this.updateStatsheet();
-		GameMaster.getInstance().playerUp();
 	}
 
 	public createMemento(): PlayerMemento {
@@ -103,10 +117,6 @@ export abstract class Player {
 			level: this.level,
 			score: this.score,
 		};
-
-		if (this.className === "Mage") {
-			memento.fireballAvailable = (this as unknown as PC_Mage).canCastFireball();
-		}
 		return memento;
 	}
 
@@ -117,28 +127,32 @@ export abstract class Player {
 		this._level = memento.level;
 		this._score = memento.score;
 
-		if (this.className === "Mage" && memento.fireballAvailable !== undefined) {
-			const mageInstance = this as unknown as PC_Mage;
-			if (memento.fireballAvailable) {
-				mageInstance.resetFireball();
-			} else {
-				// there is no setter, so we have to call the consumer
-				mageInstance.activateFireballMode();
-				mageInstance.castFireballOnCell(-10, -10); // cast on invalid cell to consume charge
-			}
-		}
 		this.updateStatsheet();
 	}
+
+	public getSpecialAbility(): SpecialAbility | null {
+		return null;
+	}
+
+	public useSpecialAbility(): void {
+		// Base implementation does nothing
+	}
+
 	/*===============*/
 	/*private methods*/
 	/*===============*/
 
 	private gainLevel(): void {
-		if (this.experience > defaults.expToNextLevel[this.level - 1]) {
+		if (this._level < 5 && this.experience >= defaults.expToNextLevel[this.level - 1]) {
 			this.level += 1;
 			GameMaster.getInstance().playerUp();
-			if (this.className === "Warrior") this.gainHealth();
+			this.onLevelUp();
 		}
+	}
+
+	public onLevelUp(): void {
+		// This is a hook for subclasses to add specific behavior on level up.
+		// For example, the Warrior class can override this to gain health.
 	}
 
 	// When the Warrior gains a level, he gains a heart

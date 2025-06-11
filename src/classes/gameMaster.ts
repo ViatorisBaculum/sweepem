@@ -6,7 +6,7 @@ import { Board } from "./board";
 import { Player } from "./player";
 import defaults from "../util/defaults";
 import { playerClasses } from "../util/customTypes";
-import { showLeaderboard, resetFireballButton } from "../content";
+import { showLeaderboard } from "../content";
 import { SaveManager, GameMemento } from "./saveManager";
 
 enum GameState {
@@ -100,17 +100,10 @@ export class GameMaster {
 	public createPlayer() {
 		const PlayerClassConstructor = this.playerClassRegistry[this._gameSettings.playerClass];
 		if (PlayerClassConstructor) {
-			if (this._gameSettings.playerClass === "Mage") {
-				if (!this._board) {
-					throw new Error("Board must be initialized before creating a Mage player.");
-				}
-				this.player = new PlayerClassConstructor(this._board);
-			} else {
-				this.player = new PlayerClassConstructor(undefined);
-			}
+			this.player = new PlayerClassConstructor(this._board);
 		} else {
 			console.error(`Unknown player class: ${this._gameSettings.playerClass}. Defaulting to Warrior.`);
-			this.player = new PC_Warrior(undefined);
+			this.player = new PC_Warrior(this._board);
 		}
 	}
 
@@ -154,10 +147,6 @@ export class GameMaster {
 		this.board.indicateLevelGain(this.player.level);
 		this.board.evoluteMonster();
 		if (this._gameSettings.removeFlags) this.board.removeAllFlags();
-		if (this.player.className === "Mage") {
-			const mage = this.player as PC_Mage;
-			mage.resetFireball();
-		}
 	}
 
 	public resetGame() {
@@ -174,7 +163,6 @@ export class GameMaster {
 
 		this.resetHeartContainer();
 		this.startGame();
-		resetFireballButton();
 	}
 
 	public saveSettingsFromUI(): void {

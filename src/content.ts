@@ -1,7 +1,6 @@
 import { GameMaster } from "./classes/gameMaster";
 import { Modal } from "./util/modal";
 import { ThemeManager, Theme } from "./util/theme";
-import { PC_Mage } from "./classes/PlayerClasses/PC_Mage";
 import { SaveManager } from "./classes/saveManager";
 
 type Nullable<T> = T | null;
@@ -25,7 +24,7 @@ function bind(
 export function initialize(): void {
 	ThemeManager.initialize();
 	setupThemeToggle();
-	setupFireball();
+	setupSpecialAbilityButton();
 	showInitialModal();
 	gameInstance.populateSettingsUIFromGameSettings();
 	hide(menu);
@@ -160,66 +159,28 @@ function assert<T>(cond: T, message: string): asserts cond {
 	if (!cond) throw new Error(message);
 }
 
-function setupFireball() {
-	const fireballBtn = document.getElementById("fireball") as HTMLButtonElement | null;
-	if (!fireballBtn) return;
+function setupSpecialAbilityButton() {
+	const specialAbilityBtn = document.getElementById("specialAbility") as HTMLButtonElement | null;
+	if (!specialAbilityBtn) return;
 
-	const eventType = 'click';
-
-	fireballBtn.addEventListener(eventType, (e) => {
+	specialAbilityBtn.addEventListener('click', (e) => {
 		e.preventDefault();
 		e.stopPropagation();
-
-		if (gameInstance.player.className !== "Mage") {
-			return;
-		}
-		const mage = gameInstance.player as PC_Mage;
-
-		if (mage.isFireballModeActive) {
-			mage.deactivateFireballMode();
-		} else {
-			// activateFireballMode now returns a boolean indicating success
-			if (!mage.activateFireballMode()) {
-				console.log("Fireball not ready or player cannot cast.");
-			}
-		}
-		// UI updates are now handled within PC_Mage methods via resetFireballButton call
+		gameInstance.player.useSpecialAbility();
 	});
 }
 
-export function resetFireballButton() {
-	const fireballBtn = document.getElementById("fireball") as HTMLButtonElement | null;
-	if (!fireballBtn) return;
+export function updateSpecialAbilityButton() {
+	const specialAbilityBtn = document.getElementById("specialAbility") as HTMLButtonElement | null;
+	if (!specialAbilityBtn) return;
 
-	const setButtonAppearance = (isWaiting: boolean, isReady: boolean) => {
-		if (isWaiting) {
-			fireballBtn.classList.add("fireball-waiting");
-		} else {
-			fireballBtn.classList.remove("fireball-waiting");
-		}
+	const specialAbility = gameInstance.player.getSpecialAbility();
 
-		if (isReady) {
-			fireballBtn.classList.add("fireball-ready");
-		} else {
-			fireballBtn.classList.remove("fireball-ready");
-		}
-	};
-
-	const player = gameInstance.player;
-
-	if (player.className === "Mage") {
-		const mage = player as PC_Mage;
-		fireballBtn.style.display = "";
-
-		if (mage.isFireballModeActive) {
-			setButtonAppearance(true, false);
-		} else if (mage.canCastFireball()) {
-			setButtonAppearance(false, true);
-		} else {
-			setButtonAppearance(false, false);
-		}
+	if (specialAbility) {
+		specialAbilityBtn.style.display = "";
+		specialAbilityBtn.classList.toggle("ability-waiting", specialAbility.isWaiting);
+		specialAbilityBtn.classList.toggle("ability-ready", specialAbility.isReady);
 	} else {
-		fireballBtn.style.display = "none";
-		setButtonAppearance(false, false);
+		specialAbilityBtn.style.display = "none";
 	}
 }

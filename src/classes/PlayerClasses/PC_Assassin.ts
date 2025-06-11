@@ -1,5 +1,7 @@
 import { Player } from "../player";
 import { Board } from "../board";
+import { Cell } from "../cell";
+import { CellType } from "../../util/customTypes";
 
 export class PC_Assassin extends Player {
 	className = "Assassin";
@@ -8,5 +10,22 @@ export class PC_Assassin extends Player {
 		super();
 		this.health = 2;
 		this.maxHealth = this.health;
+	}
+
+	public override onSecondaryAction(cell: Cell, e: MouseEvent): void {
+		e.preventDefault();
+		if (!cell.isClicked) {
+			cell.activateCell(0);
+
+			if (this.level === cell.type || (cell.type === CellType.Boss && this.level >= 5)) {
+				cell.attackPlayer(0);
+			} else if (this.level < cell.type) {
+				cell.attackPlayer();
+			} else {
+				cell.attackPlayer(1);
+			}
+		} else {
+			cell.clickNeighbors();
+		}
 	}
 }

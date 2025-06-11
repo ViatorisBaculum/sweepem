@@ -76,20 +76,15 @@ export class Cell {
 		if (this.type === CellType.Empty) return;
 		console.log("Monster attack! Type:", this.type, "at", this.x, this.y);
 
-		if (this.gameInstance.player.className === "Assassin" && this.type === CellType.Boss && damage === undefined) {
-			// Assassin wins, no damage taken
-			damage = 1;
-		}
+		const calculatedDamage = damage ?? this.gameInstance.player.calculateDamage(this);
 
-		if (!damage && damage !== 0) damage = this.type - this.gameInstance.player.level + 1;
-
-		if (this.gameInstance.player.level >= 5 && this.type === CellType.Boss && damage > 0) {
+		if (this.gameInstance.player.level >= 5 && this.type === CellType.Boss && calculatedDamage > 0) {
 			// Boss fight at level 5, player takes no damage	
 			damage = 0;
 		}
 
-		if (damage > 0) {
-			this.gameInstance.player.getAttacked(damage);
+		if (calculatedDamage > 0) {
+			this.gameInstance.player.getAttacked(calculatedDamage);
 		}
 
 		this.addExperience(this.type * defaults.experienceGain.multiplicator);
@@ -183,31 +178,9 @@ export class Cell {
 
 	rightClick(e: Event) {
 		e.preventDefault();
-		if (this.gameInstance.player.className === "Assassin") {
-			this.rightClickAssassin(e);
-			return;
-		}
 		if (!this.isClicked) {
 			this.isFlagged = !this.isFlagged;
 			this.updateVisuals();
-		} else {
-			this.clickNeighbors();
-		}
-	}
-
-	rightClickAssassin(e: Event) {
-		e.preventDefault();
-		if (!this.isClicked) {
-			this.activateCell(0);
-			// this.type + this.gameInstance.player.level === 11 means the player is at level 5 and the cell is a boss (type 6)
-			// so the player can attack the boss without taking damage
-			if (this.gameInstance.player.level === this.type || this.type + this.gameInstance.player.level === 11) {
-				this.attackPlayer(0);
-			} else if (this.gameInstance.player.level < this.type) {
-				this.attackPlayer();
-			} else {
-				this.attackPlayer(1);
-			}
 		} else {
 			this.clickNeighbors();
 		}
