@@ -147,7 +147,8 @@ function showTutorial(parentModal: Modal): void {
 		},
 		{
 			title: "Basic Controls",
-			text: "LEFT CLICK to reveal a tile. Be careful! If it's a monster, you'll take damage.\n\nRIGHT CLICK to place a flag on a tile you suspect hides a monster.",
+			text: "LEFT CLICK to reveal a tile. Be careful! If it's a monster, you'll take damage.\n\nRIGHT CLICK to place a flag on a tile you suspect hides a monster." +
+				"\n\nOn mobile you have to touch and hold on the tile to imitate an right click.",
 			image: "./res/tutorial1.png",
 		},
 		{
