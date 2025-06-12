@@ -55,7 +55,7 @@ function showInitialModal(): void {
 		gameInstance.resetGame();
 	});
 
-	modal.addCustomButton("How to Play", () => showTutorial(modal), { classes: ["tutorial-button"] });
+	modal.addCustomButton("How to Play", () => showTutorial(modal), { classes: ["tutorial-button"], position: 'start' });
 
 	// If savegame exists, add Continue button
 	if (SaveManager.hasSave()) {
@@ -141,19 +141,26 @@ function showTutorial(parentModal: Modal): void {
 	const steps = [
 		{
 			title: "Welcome to DungeonSweeper!",
-			text: "The goal is to clear all tiles that don't hide a monster. A revealed tile shows a number indicating the total strength of all adjacent monsters.",
+			text: "The goal is to kill the boss. A revealed tile shows a number indicating the total strength of all adjacent monsters. \n\n" +
+				"The highlighted 4 indicates, that the sum of the adjacent monsters is 4. So, in this case, the 3 and the 1 are adjacent to the 4.",
+			image: "./res/tutorial4.png",
 		},
 		{
 			title: "Basic Controls",
 			text: "LEFT CLICK to reveal a tile. Be careful! If it's a monster, you'll take damage.\n\nRIGHT CLICK to place a flag on a tile you suspect hides a monster.",
+			image: "./res/tutorial1.png",
 		},
 		{
 			title: "Monsters & Leveling",
-			text: "Clicking a monster damages you. Stronger monsters deal more damage. Defeat monsters and clear tiles to gain experience and level up, making you stronger and recharging your abilities!",
+			text: "Clicking a monster damages you. \n\nStronger monsters deal more damage. \n\nDefeat monsters and clear tiles to gain experience and level up, making you stronger and recharging your abilities!",
+			image: "./res/tutorial2.png",
 		},
 		{
 			title: "Classes & Abilities",
-			text: "Each class has unique powers. The Warrior is tough, the Mage has a fireball, and the Assassin can execute enemies with a double-click. Choose wisely!",
+			text: "Each class has unique powers. The Warrior gains health on level up, the Mage has a fireball, and the Assassin can execute enemies with a right-click. Choose wisely! \n\n" +
+				"To use the fireball, you have to click the fireball button and then click on a tile you want to attack. This opens a 3x3 area." +
+				"\n\nTo use the Assassin's special ability, you have to click on a monster with a right click. If the monster is of the same level as you, you won't take any damage.",
+			image: "", // Placeholder for classes image
 		},
 	];
 
@@ -167,9 +174,21 @@ function showTutorial(parentModal: Modal): void {
 		showSlot: false,
 	});
 
+	const imageElement = document.getElementById("modal-image") as HTMLImageElement;
+
 	const renderStep = () => {
+		const step = steps[currentStep];
 		tutorialModal.setTitle(`Tutorial (${currentStep + 1}/${steps.length})`);
-		tutorialModal.setText(steps[currentStep].text);
+		tutorialModal.setSubTitle(step.title);
+		tutorialModal.setText(step.text);
+
+		if (step.image && imageElement) {
+			imageElement.src = step.image;
+			imageElement.style.display = "block";
+		} else if (imageElement) {
+			imageElement.style.display = "none";
+		}
+
 		prevButton.style.display = currentStep === 0 ? "none" : "inline-block";
 		nextButton.innerText = currentStep === steps.length - 1 ? "Finish" : "Next";
 	};

@@ -1,5 +1,7 @@
 import defaults from "./defaults";
 import { GameMaster } from "../classes/gameMaster";
+import { playerClasses } from "../util/customTypes";
+
 interface modalSettings {
 	cancelButton?: boolean;
 	confirmButton?: boolean;
@@ -11,6 +13,7 @@ interface modalSettings {
 	showSlot?: boolean;
 	showSubTitle?: boolean;
 }
+
 export class Modal {
 	private modalSettings: modalSettings = {
 		cancelButton: false,
@@ -63,15 +66,6 @@ export class Modal {
 			document.getElementById("modal-slot")?.remove();
 		if (!this.modalSettings.showSubTitle)
 			document.getElementById("modal-subtitle")?.remove();
-	}
-
-	private setClassDescription() {
-		const game = GameMaster.getInstance();
-		const description = game.player?.description || "";
-		const modal = document.getElementById("modal-classDescription");
-		if (modal) {
-			modal.innerText = description;
-		}
 	}
 
 	setSubTitle(title: string) {
@@ -142,13 +136,12 @@ export class Modal {
 		}
 	}
 	setDefaultClass() {
-		const storedPlayerClass = this.getStoredPlayerClass();
+		const storedPlayerClass = this.getStoredPlayerClass() as playerClasses;
 		const playerClass = storedPlayerClass ? storedPlayerClass : defaults.playerClass;
 		const select = document.getElementById("selectClass") as HTMLSelectElement;
 		if (select) {
 			select.value = playerClass;
-			this.setClassTitle(playerClass); // Update the description as well
-			this.setClassDescription();
+			this.setClassTitle(playerClass);
 		}
 	}
 
@@ -171,7 +164,7 @@ export class Modal {
 		return classValue;
 	}
 
-	addCustomButton(text: string, cb: () => void, options?: { classes?: string[] }): HTMLButtonElement {
+	public addCustomButton(text: string, cb: () => void, options?: { classes?: string[], position?: 'start' | 'end' }): HTMLButtonElement {
 		const button = document.createElement("button");
 		button.innerText = text;
 		button.addEventListener("click", cb);
@@ -180,7 +173,12 @@ export class Modal {
 			button.classList.add(...options.classes);
 		}
 
-		this.controlsContainer.appendChild(button);
+		if (options?.position === 'start') {
+			this.controlsContainer.prepend(button);
+		} else {
+			this.controlsContainer.appendChild(button);
+		}
+
 		return button;
 	}
 
@@ -206,12 +204,12 @@ export class Modal {
 		const observer = new MutationObserver((_, obs) => {
 			const select = document.getElementById("selectClass") as HTMLSelectElement;
 			if (select) {
-				select.addEventListener("change", () => {
-					GameMaster.getInstance().updateClassDescription(select.value as any);
-					this.setClassTitle(select.value);
-				});
-				// Also trigger it once on init
-				GameMaster.getInstance().updateClassDescription(select.value as any);
+				const game = GameMaster.getInstance();
+				const updateDescription = () => game.updateClassDescription(select.value as playerClasses);
+
+				select.addEventListener("change", updateDescription);
+				updateDescription(); // Initial call
+
 				obs.disconnect(); // Stop observing once found
 			}
 		});

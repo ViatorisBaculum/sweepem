@@ -6,7 +6,7 @@ import { Board } from "./board";
 import { Player } from "./player";
 import defaults from "../util/defaults";
 import { playerClasses } from "../util/customTypes";
-import { showLeaderboard } from "../content";
+import { showLeaderboard, updateSpecialAbilityButton } from "../content";
 import { SaveManager, GameMemento } from "./saveManager";
 
 enum GameState {
@@ -33,7 +33,7 @@ export class GameMaster {
 	private _gameTimer: number = 0;
 	private _gameSettings!: GameSettings;
 	private _gameState: GameState = GameState.NotStarted;
-	private playerClassRegistry: Record<playerClasses, new (board: Board | undefined) => Player> = {
+	private playerClassRegistry: Record<playerClasses, (new (board: Board | undefined) => Player) & { description: string }> = {
 		"Assassin": PC_Assassin,
 		"Mage": PC_Mage,
 		"Paladin": PC_Paladin,
@@ -186,6 +186,7 @@ export class GameMaster {
 		if (document.getElementById("modal")) this.getScores();
 		this.createBoard();
 		this.createPlayer();
+		updateSpecialAbilityButton();
 		this._board?.openStartArea();
 
 		this.resetTimer();
@@ -322,11 +323,9 @@ export class GameMaster {
 	public updateClassDescription(className: playerClasses): void {
 		const PlayerClass = this.playerClassRegistry[className];
 		if (PlayerClass) {
-			// Create a temporary instance just to get the description
-			const tempPlayer = new PlayerClass(undefined);
 			const descriptionElement = document.getElementById("modal-classDescription");
 			if (descriptionElement) {
-				descriptionElement.innerText = tempPlayer.description;
+				descriptionElement.innerText = PlayerClass.description;
 			}
 		}
 	}
