@@ -5,6 +5,7 @@ import { CellType } from "../../util/customTypes";
 
 export class PC_Assassin extends Player {
 	className = "Assassin";
+	static description = "The assassin is a master of targeted strikes. They can instantly defeat any monster of the same level with a double-click.";
 
 	constructor(_board?: Board) {
 		super();

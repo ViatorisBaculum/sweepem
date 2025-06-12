@@ -389,7 +389,7 @@ body {
 	width: 95%;
 	max-width: 600px;
 	margin: 0 auto 1em auto;
-	display: flex;
+	display: none;
 	justify-content: space-between;
 	align-items: center;
 	background-color: var(--theme-color1);
@@ -620,6 +620,13 @@ body {
 	margin: 1em 0;
 }
 
+.modal-image {
+	max-width: 90%;
+	margin: 1em auto 1rem;
+	border-radius: 8px;
+	object-fit: contain;
+}
+
 .modal .controls {
 	display: flex;
 	justify-content: flex-end;
@@ -766,7 +773,7 @@ body {
 	margin: 0;
 }
 #modal-leaderboard li {
-	background: var(--theme-color2);
+	background: var(--theme-color1);
 	color: var(--theme-color4);
 	margin: 0.3em 0;
 	padding: 0.6em 1em;
@@ -813,7 +820,6 @@ body {
 	}
 	#app {
 		overflow: auto;
-		margin-bottom: 2em;
 	}
 	#menu {
 		position: fixed;
@@ -850,12 +856,8 @@ body {
 		font-weight: lighter;
 		padding: 0;
 	}
-	#openSettings {
-		margin-right: 1.5em;
-	}
 	.modal {
 		width: 100vw;
-		max-height: 90vh;
 		overflow-y: auto;
 		margin: 0;
 		padding: 1.5em 1em;

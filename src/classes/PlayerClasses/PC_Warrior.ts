@@ -3,6 +3,7 @@ import { Board } from "../board";
 
 export class PC_Warrior extends Player {
 	className = "Warrior";
+	static description = "The warrior is exceptionally sturdy. They start with more health and gain an additional heart container on every level up.";
 
 	constructor(_board?: Board) {
 		super();
