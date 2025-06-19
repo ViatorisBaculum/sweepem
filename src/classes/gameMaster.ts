@@ -282,7 +282,7 @@ export class GameMaster {
 		if (this._gameState === GameState.Ended) return;
 		this.stopTimer();
 		this._gameState = GameState.Ended;
-		this.board.revealBoard();
+		this.board.revealBoard(true);
 		SaveManager.deleteSave();
 	}
 

@@ -169,10 +169,10 @@ export class Cell {
 		return false;
 	}
 
-	revealCell() {
+	revealCell(instant = false) {
 		if (this.isClicked) return;
 		this.isClicked = true;
-		this.animateReveal();
+		this.animateReveal(instant);
 		this.updateVisuals();
 	}
 
@@ -225,11 +225,14 @@ export class Cell {
 		}
 	}
 
-	private animateReveal() {
+	private animateReveal(instant = false) {
+		if (instant) {
+			this.HTMLElement.classList.remove("shrinked", "monster-reveal-anim");
+			return;
+		}
 		if (this.HTMLElement.checkVisibility()) {
 			this.HTMLElement.classList.remove("shrinked");
 			this.HTMLElement.classList.add("shrinked");
-
 			if (this.type > 0) {
 				this.HTMLElement.classList.remove("monster-reveal-anim");
 				// Reflow, this forces the browser to re-calculate styles

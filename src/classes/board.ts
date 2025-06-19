@@ -128,11 +128,11 @@ export class Board {
 		});
 	}
 
-	public revealBoard() {
+	public revealBoard(instant = false) {
 		this.cells.flat().forEach((cell: Cell) => {
 			if (!cell.isClicked) {
 				cell.HTMLElement.classList.add("notClicked");
-				cell.revealCell();
+				cell.revealCell(instant);
 				if (cell.isFlagged) cell.isFlagged = false;
 			}
 		});
