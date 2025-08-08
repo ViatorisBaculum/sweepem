@@ -56,6 +56,11 @@ export class GameMaster {
 		document.addEventListener("visibilitychange", () => {
 			if (document.visibilityState === "hidden") {
 				trySave();
+				this.pauseTimer();
+			} else if (document.visibilityState === "visible") {
+				if (this._gameState === GameState.Paused) {
+					this.resumeTimer();
+				}
 			}
 		});
 	}

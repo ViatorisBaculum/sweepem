@@ -837,10 +837,10 @@ body {
 #modal-leaderboard li:hover ~ li {
 	transform: translateX(-2px);
 }
-#modal-leaderboard h3 {
+.leaderboard-modal h1 {
 	margin-top: 5em;
 	margin-bottom: 0.7em;
-	text-align: center;
+	text-align: left;
 	letter-spacing: 0.05em;
 	color: var(--theme-color3);
 }

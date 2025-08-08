@@ -259,39 +259,39 @@ export class Board {
 		else throw new Error("Provided typeDistribution doesn't sum to 1. Sum of proportions is " + proportionSum);
 	}
 
-       private createClickHandler() {
-               let clickTimeout: ReturnType<typeof setTimeout> | null = null;
-               let lastCell: Cell | null = null;
-               const doubleClickDelay = 250;
+	private createClickHandler() {
+		let clickTimeout: ReturnType<typeof setTimeout> | null = null;
+		let lastCell: Cell | null = null;
+		const doubleClickDelay = 100;
 
-               return (e: MouseEvent) => {
-                       const target = e.target as HTMLElement;
-                       if (!target.dataset.x || !target.dataset.y) return;
-                       const clickedCell = this.cells[Number(target.dataset.x)][Number(target.dataset.y)];
+		return (e: MouseEvent) => {
+			const target = e.target as HTMLElement;
+			if (!target.dataset.x || !target.dataset.y) return;
+			const clickedCell = this.cells[Number(target.dataset.x)][Number(target.dataset.y)];
 
-                       if (e.button !== 0) return;
+			if (e.button !== 0) return;
 
-                       if (clickTimeout && lastCell === clickedCell) {
-                               clearTimeout(clickTimeout);
-                               clickTimeout = null;
-                               lastCell = null;
-                               const dblClickEvent = new MouseEvent("dblclick", { detail: 2 });
-                               this.gameInstance.player.onPrimaryAction(clickedCell, dblClickEvent);
-                               return;
-                       }
+			if (clickTimeout && lastCell === clickedCell) {
+				clearTimeout(clickTimeout);
+				clickTimeout = null;
+				lastCell = null;
+				const dblClickEvent = new MouseEvent("dblclick", { detail: 2 });
+				this.gameInstance.player.onPrimaryAction(clickedCell, dblClickEvent);
+				return;
+			}
 
-                       lastCell = clickedCell;
-                       clickTimeout = setTimeout(() => {
-                               if (this.gameInstance.invertClicks) {
-                                       this.gameInstance.player.onSecondaryAction(clickedCell, e);
-                               } else {
-                                       this.gameInstance.player.onPrimaryAction(clickedCell, e);
-                               }
-                               clickTimeout = null;
-                               lastCell = null;
-                       }, doubleClickDelay);
-               };
-       }
+			lastCell = clickedCell;
+			clickTimeout = setTimeout(() => {
+				if (this.gameInstance.invertClicks) {
+					this.gameInstance.player.onSecondaryAction(clickedCell, e);
+				} else {
+					this.gameInstance.player.onPrimaryAction(clickedCell, e);
+				}
+				clickTimeout = null;
+				lastCell = null;
+			}, doubleClickDelay);
+		};
+	}
 
 	private createContextMenuHandler() {
 		return (e: MouseEvent) => {
@@ -300,11 +300,11 @@ export class Board {
 			if (!target.dataset.x || !target.dataset.y) return;
 			const clickedCell = this.cells[Number(target.dataset.x)][Number(target.dataset.y)];
 
-                        if (this.gameInstance.invertClicks) {
-                                this.gameInstance.player.onPrimaryAction(clickedCell, e);
-                        } else {
-                                this.gameInstance.player.onSecondaryAction(clickedCell, e);
-                        }
+			if (this.gameInstance.invertClicks) {
+				this.gameInstance.player.onPrimaryAction(clickedCell, e);
+			} else {
+				this.gameInstance.player.onSecondaryAction(clickedCell, e);
+			}
 		};
 	}
 

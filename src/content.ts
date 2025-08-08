@@ -129,6 +129,7 @@ export function showLeaderboard(status = ""): void {
 		showClass: false,
 		showClassDescription: false,
 		showSlot: false,
+		customClass: "leaderboard-modal",
 	});
 
 	modal.setTitle("Leaderboard")

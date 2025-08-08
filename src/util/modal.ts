@@ -12,6 +12,7 @@ interface modalSettings {
 	showClassDescription?: boolean;
 	showSlot?: boolean;
 	showSubTitle?: boolean;
+	customClass?: string;
 }
 
 export class Modal {
@@ -38,6 +39,11 @@ export class Modal {
 		const controls = document.querySelector(".controls");
 		if (!controls) throw new Error("No controls container found in modal template");
 		this.controlsContainer = controls as HTMLElement;
+
+		if (modalSettings?.customClass) {
+			const modalElement = document.querySelector(".modal");
+			modalElement?.classList.add(modalSettings.customClass);
+		}
 
 		this.setCancelAction();
 		this.parseModalSettings();
