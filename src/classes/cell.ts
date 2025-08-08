@@ -212,7 +212,7 @@ export class Cell {
 			if (this.value) {
 				this.HTMLElement.innerText = this.value.toString();
 			} else if (!this.value && this.type > 0) {
-				this.HTMLElement.innerText = this.translateType(this.type);
+				this.HTMLElement.innerText = this.type.toString();
 				const typeClass = this.translateType(this.type).replace(/[^a-zA-Z0-9_-]/g, "");
 				this.HTMLElement.classList.add("monster", typeClass);
 			} else {
