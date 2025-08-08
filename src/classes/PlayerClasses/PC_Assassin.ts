@@ -13,10 +13,10 @@ export class PC_Assassin extends Player {
 		this.maxHealth = this.health;
 	}
 
-        public override onPrimaryAction(cell: Cell, e?: MouseEvent): void {
-                if (e && e.detail === 2) {
-                        if (!cell.isClicked) {
-                                cell.activateCell(0);
+       public override onPrimaryAction(cell: Cell, e?: MouseEvent): void {
+               if (e && (e.detail === 2 || e.type === "dblclick")) {
+                       if (!cell.isClicked) {
+                               cell.activateCell(0);
 
                                 if (this.level === cell.type || (cell.type === CellType.Boss && this.level >= 5)) {
                                         cell.attackPlayer(0);
