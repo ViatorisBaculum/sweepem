@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1, maximum-scale=10, user-scalable=yes"
+		/>
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title></title>
+		<link rel="stylesheet" href="app.css" />
+		<script defer type="module" src="bundle.js"></script>
+	</head>
+	<body>
+		<div id="game-container">
+			<div id="game">
+				<div id="app"></div>
+				<div id="menu">
+					<div id="statSheet">
+						<span id="playerClass"></span>
+						<p id="playerLevel"></p>
+						<div id="health"></div>
+						<progress id="experience" value="0" max="100"></progress>
+						<p id="score"></p>
+					</div>
+					<div id="rightMenu">
+						<button
+							id="specialAbility"
+							title="Cast Fireball (3x3 reveal)"
+						></button>
+						<button id="openLeaderboard" title="Leaderboard"></button>
+						<button id="reset" title="Reset Game"></button>
+						<button id="openSettings" title="Settings"></button>
+						<!-- /* just for debugging */ -->
+						<button
+							id="debugLevelUp"
+							title="Gain Level (Debug)"
+							style="margin: 0 0.5em; padding: 0.5em; display: none"
+						>
+							+1
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+	<template id="template-modal">
+		<div id="modal-bg" class="modal-bg">
+			<div id="modal" class="modal">
+				<h1 id="modal-title"></h1>
+				<div id="modal-content">
+					<h2 id="modal-subtitle"></h2>
+					<div id="modal-text"></div>
+					<img
+						id="modal-image"
+						class="modal-image"
+						src=""
+						alt="Tutorial Image"
+						style="display: none"
+					/>
+					<h2 id="modal-class"></h2>
+					<div id="modal-classDescription"></div>
+					<div id="modal-slot"></div>
+					<div id="modal-leaderboard"></div>
+				</div>
+				<div class="controls">
+					<button id="modal-cancel" class="cancel">Cancel</button>
+					<button id="modal-confirm" class="confirm">Confirm</button>
+					<button id="modal-secondary-confirm" class="confirm"></button>
+				</div>
+			</div>
+		</div>
+	</template>
+	<template id="template-settings">
+		<fieldset>
+			<legend>Game Settings</legend>
+			<label for="selectClass">Player class</label>
+			<select id="selectClass">
+				<option value="Warrior">Warrior</option>
+				<option value="Assassin">Assassin</option>
+				<option value="Paladin">Paladin</option>
+				<option value="Mage">Mage</option>
+			</select>
+			<label for="inputWidth">Board width</label>
+			<input id="inputWidth" type="number" step="1" value="40" />
+			<label for="inputHeight">Board height</label>
+			<input id="inputHeight" type="number" step="1" value="20" />
+			<label for="minesFrequency">Enemy frequency</label>
+			<input
+				id="minesFrequency"
+				type="number"
+				value="0.15"
+				step="0.01"
+				min="0.01"
+				max="0.99"
+			/>
+			<label class="toggle">
+				<input
+					id="invertClicks"
+					class="toggle-checkbox"
+					type="checkbox"
+					checked
+				/>
+				<div class="toggle-switch"></div>
+				<span class="toggle-label"
+					>Invert mouse buttons, respectively open area on tap</span
+				>
+			</label>
+			<label class="toggle">
+				<input id="removeFlags" class="toggle-checkbox" type="checkbox" />
+				<div class="toggle-switch"></div>
+				<span class="toggle-label">Remove flags on level up</span>
+			</label>
+			<label id="modal-debug" class="toggle">
+				<input id="showDebug" class="toggle-checkbox" type="checkbox" />
+				<div class="toggle-switch"></div>
+				<span class="toggle-label">Debug-Modus anzeigen</span>
+			</label>
+			<label class="theme-label" for="themeSelect">Theme Mode</label>
+			<select id="themeSelect" name="theme">
+				<option value="light">☀️ Light</option>
+				<option value="dark">🌙 Dark</option>
+				<option value="system">💻 System</option>
+			</select>
+		</fieldset>
+	</template>
+	<template id="template-leaderboard">
+		<div class="leaderboard-content">
+			<h3>Leaderboard</h3>
+			<div id="leaderboard-entries"></div>
+		</div>
+	</template>
+</html>

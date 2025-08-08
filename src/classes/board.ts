@@ -111,7 +111,15 @@ export class Board {
 			startCell = this.cells[x][y];
 		}
 		startCell.click();
-		startCell.HTMLElement.scrollIntoView({ behavior: "smooth", block: "center", inline: "center" });
+
+		requestAnimationFrame(() => {
+			startCell.HTMLElement.focus();
+			startCell.HTMLElement.scrollIntoView({
+				behavior: "smooth",
+				block: "center",
+				inline: "center"
+			});
+		});
 	}
 
 	public removeEventHandler() {
@@ -252,19 +260,36 @@ export class Board {
 	}
 
 	private createClickHandler() {
+		let clickTimeout: ReturnType<typeof setTimeout> | null = null;
+		let lastCell: Cell | null = null;
+		const doubleClickDelay = 100;
+
 		return (e: MouseEvent) => {
 			const target = e.target as HTMLElement;
 			if (!target.dataset.x || !target.dataset.y) return;
 			const clickedCell = this.cells[Number(target.dataset.x)][Number(target.dataset.y)];
 
-			if (e.button === 0) {
-				// Normal left click
+			if (e.button !== 0) return;
+
+			if (clickTimeout && lastCell === clickedCell) {
+				clearTimeout(clickTimeout);
+				clickTimeout = null;
+				lastCell = null;
+				const dblClickEvent = new MouseEvent("dblclick", { detail: 2 });
+				this.gameInstance.player.onPrimaryAction(clickedCell, dblClickEvent);
+				return;
+			}
+
+			lastCell = clickedCell;
+			clickTimeout = setTimeout(() => {
 				if (this.gameInstance.invertClicks) {
 					this.gameInstance.player.onSecondaryAction(clickedCell, e);
 				} else {
-					this.gameInstance.player.onPrimaryAction(clickedCell);
+					this.gameInstance.player.onPrimaryAction(clickedCell, e);
 				}
-			}
+				clickTimeout = null;
+				lastCell = null;
+			}, doubleClickDelay);
 		};
 	}
 
@@ -276,7 +301,7 @@ export class Board {
 			const clickedCell = this.cells[Number(target.dataset.x)][Number(target.dataset.y)];
 
 			if (this.gameInstance.invertClicks) {
-				this.gameInstance.player.onPrimaryAction(clickedCell);
+				this.gameInstance.player.onPrimaryAction(clickedCell, e);
 			} else {
 				this.gameInstance.player.onSecondaryAction(clickedCell, e);
 			}

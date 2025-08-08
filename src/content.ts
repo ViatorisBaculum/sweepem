@@ -91,6 +91,9 @@ function showSettings(): void {
 	assert(settingsForm, "No settings template found");
 	const modal = new Modal(document.body, { cancelButton: true });
 
+	// pause the game timer
+	gameInstance.pauseTimer();
+
 	modal.setTitle("Game Settings")
 	modal.setText("Please choose the settings for your next round")
 	modal.setSlotContent(settingsForm.innerHTML)
@@ -98,7 +101,10 @@ function showSettings(): void {
 		gameInstance.resetGame();
 		toggle(menu);
 	})
-	modal.setCancelAction((): void => toggle(menu))
+	modal.setCancelAction((): void => {
+		toggle(menu);
+		gameInstance.resumeTimer();
+	})
 	modal.setDefaultClass();
 
 	toggle(menu);
@@ -123,6 +129,7 @@ export function showLeaderboard(status = ""): void {
 		showClass: false,
 		showClassDescription: false,
 		showSlot: false,
+		customClass: "leaderboard-modal",
 	});
 
 	modal.setTitle("Leaderboard")
@@ -265,3 +272,13 @@ export function updateSpecialAbilityButton() {
 		specialAbilityBtn.style.display = "none";
 	}
 }
+
+// Prevent double-tap zoom on mobile
+document.addEventListener('touchstart', function (e) {
+	if (e.touches.length > 1) {
+		e.preventDefault();
+	}
+}, { passive: false });
+
+// Prevent pull-to-refresh
+document.body.style.overscrollBehavior = 'none';
