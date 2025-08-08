@@ -111,7 +111,15 @@ export class Board {
 			startCell = this.cells[x][y];
 		}
 		startCell.click();
-		startCell.HTMLElement.scrollIntoView({ behavior: "smooth", block: "center", inline: "center" });
+
+		requestAnimationFrame(() => {
+			startCell.HTMLElement.focus();
+			startCell.HTMLElement.scrollIntoView({
+				behavior: "smooth",
+				block: "center",
+				inline: "center"
+			});
+		});
 	}
 
 	public removeEventHandler() {

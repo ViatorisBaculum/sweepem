@@ -91,6 +91,9 @@ function showSettings(): void {
 	assert(settingsForm, "No settings template found");
 	const modal = new Modal(document.body, { cancelButton: true });
 
+	// pause the game timer
+	gameInstance.pauseTimer();
+
 	modal.setTitle("Game Settings")
 	modal.setText("Please choose the settings for your next round")
 	modal.setSlotContent(settingsForm.innerHTML)
@@ -98,7 +101,10 @@ function showSettings(): void {
 		gameInstance.resetGame();
 		toggle(menu);
 	})
-	modal.setCancelAction((): void => toggle(menu))
+	modal.setCancelAction((): void => {
+		toggle(menu);
+		gameInstance.resumeTimer();
+	})
 	modal.setDefaultClass();
 
 	toggle(menu);

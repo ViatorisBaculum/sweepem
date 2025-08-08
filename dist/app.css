@@ -121,17 +121,20 @@ body {
 	height: fit-content;
 	margin: auto;
 	padding: 5em;
+	overflow: auto;
+	-webkit-overflow-scrolling: touch;
+	scroll-behavior: smooth;
 }
 
 #game {
 	width: fit-content;
 	height: fit-content;
-	margin: 3em auto; /* Etwas weniger Abstand oben, um kompakter zu wirken */
+	margin: 3em auto;
 	overflow: auto;
 	background: var(--app-background);
 	border-radius: 8px;
 	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-	padding: 1em; /* Innenabstand für einen freundlichen Rahmen */
+	padding: 1em;
 }
 
 /* ===========================================================
@@ -157,11 +160,13 @@ body {
 	background-color: var(--app-background);
 	grid-template-columns: repeat(var(--cols), 1fr);
 	grid-template-rows: repeat(var(--rows), 1fr);
-	/* gap: 1px;*/
 	width: fit-content;
 	user-select: none;
 	overflow: auto;
 	border-radius: 4px;
+	margin: auto;
+	position: relative;
+	touch-action: pan-x pan-y;
 }
 #app.level-2 {
 	--button-color: var(--board-color-level-2);
@@ -827,7 +832,8 @@ body {
 	#menu {
 		position: fixed;
 		bottom: 0;
-		width: 95%;
+		width: 90%;
+		padding: 0.6em 0.8em;
 		left: 50%;
 		transform: translateX(-50%);
 		margin: 0.5em auto;
@@ -861,9 +867,12 @@ body {
 	}
 	.modal {
 		width: 100vw;
+		height: 100vh;
+		border-radius: unset;
 		overflow-y: auto;
 		margin: 0;
 		padding: 1.5em 1em;
+		padding-top: 3em;
 		box-sizing: border-box;
 		position: absolute;
 		top: 0;
@@ -925,6 +934,6 @@ body {
 @media screen and (display-mode: standalone) {
 	:root {
 		--safe-area-inset-top: env(safe-area-inset-top);
-		padding-top: var(--safe-area-inset-top);
+		padding-top: var(--safe-area-inset-top) + 1em;
 	}
 }
