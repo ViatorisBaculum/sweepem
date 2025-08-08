@@ -68,9 +68,9 @@ export abstract class Player {
 	/*==============*/
 	/*public methods*/
 	/*==============*/
-	public onPrimaryAction(cell: Cell): void {
-		cell.click();
-	}
+        public onPrimaryAction(cell: Cell, _e?: MouseEvent): void {
+                cell.click();
+        }
 
 	public onSecondaryAction(cell: Cell, e: MouseEvent): void {
 		cell.rightClick(e);

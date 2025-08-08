@@ -13,20 +13,27 @@ export class PC_Assassin extends Player {
 		this.maxHealth = this.health;
 	}
 
-	public override onSecondaryAction(cell: Cell, e: MouseEvent): void {
-		e.preventDefault();
-		if (!cell.isClicked) {
-			cell.activateCell(0);
+        public override onPrimaryAction(cell: Cell, e?: MouseEvent): void {
+                if (e && e.detail === 2) {
+                        if (!cell.isClicked) {
+                                cell.activateCell(0);
 
-			if (this.level === cell.type || (cell.type === CellType.Boss && this.level >= 5)) {
-				cell.attackPlayer(0);
-			} else if (this.level < cell.type) {
-				cell.attackPlayer();
-			} else {
-				cell.attackPlayer(1);
-			}
-		} else {
-			cell.clickNeighbors();
-		}
-	}
+                                if (this.level === cell.type || (cell.type === CellType.Boss && this.level >= 5)) {
+                                        cell.attackPlayer(0);
+                                } else if (this.level < cell.type) {
+                                        cell.attackPlayer();
+                                } else {
+                                        cell.attackPlayer(1);
+                                }
+                        } else {
+                                cell.clickNeighbors();
+                        }
+                } else {
+                        super.onPrimaryAction(cell, e);
+                }
+        }
+
+        public override onSecondaryAction(cell: Cell, e: MouseEvent): void {
+                super.onSecondaryAction(cell, e);
+        }
 }
