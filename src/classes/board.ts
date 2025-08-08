@@ -267,11 +267,11 @@ export class Board {
 
 			if (e.button === 0) {
 				// Normal left click
-				if (this.gameInstance.invertClicks) {
-					this.gameInstance.player.onSecondaryAction(clickedCell, e);
-				} else {
-					this.gameInstance.player.onPrimaryAction(clickedCell);
-				}
+                                if (this.gameInstance.invertClicks) {
+                                        this.gameInstance.player.onSecondaryAction(clickedCell, e);
+                                } else {
+                                        this.gameInstance.player.onPrimaryAction(clickedCell, e);
+                                }
 			}
 		};
 	}
@@ -283,11 +283,11 @@ export class Board {
 			if (!target.dataset.x || !target.dataset.y) return;
 			const clickedCell = this.cells[Number(target.dataset.x)][Number(target.dataset.y)];
 
-			if (this.gameInstance.invertClicks) {
-				this.gameInstance.player.onPrimaryAction(clickedCell);
-			} else {
-				this.gameInstance.player.onSecondaryAction(clickedCell, e);
-			}
+                        if (this.gameInstance.invertClicks) {
+                                this.gameInstance.player.onPrimaryAction(clickedCell, e);
+                        } else {
+                                this.gameInstance.player.onSecondaryAction(clickedCell, e);
+                        }
 		};
 	}
 
