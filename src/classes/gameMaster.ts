@@ -45,12 +45,21 @@ export class GameMaster {
 		this._gameSettings = this.initializeGameSettings();
 		this.populateSettingsUIFromGameSettings();
 
-		window.addEventListener("beforeunload", () => {
+		const trySave = () => {
 			if (this._gameState !== GameState.Ended) {
 				SaveManager.saveGame();
 			}
+		};
+
+		window.addEventListener("beforeunload", trySave);
+
+		document.addEventListener("visibilitychange", () => {
+			if (document.visibilityState === "hidden") {
+				trySave();
+			}
 		});
 	}
+
 
 	static getInstance() {
 		if (!GameMaster.instance) {

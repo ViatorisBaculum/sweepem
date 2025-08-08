@@ -456,12 +456,21 @@ body {
 	gap: 0.3em;
 }
 
-#health img {
+#health .heart {
 	width: 1.2em;
 	height: 1.2em;
-	vertical-align: middle;
+	background-color: var(--theme-color4);
+	-webkit-mask-image: url("./res/heart.svg");
+	mask-image: url("./res/heart.svg");
+	-webkit-mask-repeat: no-repeat;
+	mask-repeat: no-repeat;
+	-webkit-mask-position: center;
+	mask-position: center;
+	-webkit-mask-size: contain;
+	mask-size: contain;
 }
-#health img.colored {
+
+#health .heart.colored {
 	opacity: 0.4;
 }
 

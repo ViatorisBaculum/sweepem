@@ -24,7 +24,7 @@ export abstract class Player {
 	private _level: number = 1;
 	private _score: number = 0;
 	private _HTMLHooks: PlayerHTMLHooks;
-	private heartContainers: HTMLImageElement[] = [];
+	private heartContainers: HTMLDivElement[] = [];
 
 	constructor() {
 		this._HTMLHooks = this.loadHTMLHooks();
@@ -68,9 +68,9 @@ export abstract class Player {
 	/*==============*/
 	/*public methods*/
 	/*==============*/
-        public onPrimaryAction(cell: Cell, _e?: MouseEvent): void {
-                cell.click();
-        }
+	public onPrimaryAction(cell: Cell, _e?: MouseEvent): void {
+		cell.click();
+	}
 
 	public onSecondaryAction(cell: Cell, e: MouseEvent): void {
 		cell.rightClick(e);
@@ -196,12 +196,10 @@ export abstract class Player {
 
 	private addHearts(): void {
 		for (let i = 0; i < this.maxHealth; i++) {
-			const img = document.createElement("img");
-			img.src = "./res/heart.svg";
-			img.alt = "Health";
-			img.classList.add("heart");
-			this.heartContainers.push(img);
-			this._HTMLHooks.playerHealthDiv.appendChild(img);
+			const heart = document.createElement("div");
+			heart.classList.add("heart");
+			this.heartContainers.push(heart);
+			this._HTMLHooks.playerHealthDiv.appendChild(heart);
 		}
 	}
 
