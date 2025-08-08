@@ -256,33 +256,58 @@ body {
 
 /* Special monster or special buttons */
 #app button.monster {
-	background-color: #96e1ff;
-	border: 1px solid #6a93c9;
 	z-index: 3;
+	-webkit-mask-size: 100%;
+	mask-size: 100%;
+	-webkit-mask-position: center;
+	mask-position: center;
+	-webkit-mask-repeat: no-repeat;
+	mask-repeat: no-repeat;
+	color: black;
+	position: relative;
 }
-#app button.R {
-	background-color: var(--monster-r-bg);
-	border: 1px solid var(--monster-r-border);
+
+/* Monster backgrounds */
+#app button.monster::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: var(--monster-current-bg);
+	z-index: -1;
 }
-#app button.Z {
-	background-color: var(--monster-z-bg);
-	border: 1px solid var(--monster-z-border);
+
+#app button.monster.R {
+	-webkit-mask-image: url("./res/1.svg");
+	mask-image: url("./res/1.svg");
+	--monster-current-bg: var(--monster-r-bg);
 }
-#app button.S {
-	background-color: var(--monster-s-bg);
-	border: 1px solid var(--monster-s-border);
+#app button.monster.Z {
+	-webkit-mask-image: url("./res/2.svg");
+	mask-image: url("./res/2.svg");
+	--monster-current-bg: var(--monster-z-bg);
 }
-#app button.G {
-	background-color: var(--monster-g-bg);
-	border: 1px solid var(--monster-g-border);
+#app button.monster.S {
+	-webkit-mask-image: url("./res/3.svg");
+	mask-image: url("./res/3.svg");
+	--monster-current-bg: var(--monster-s-bg);
 }
-#app button.W {
-	background-color: var(--monster-w-bg);
-	border: 1px solid var(--monster-w-border);
+#app button.monster.G {
+	-webkit-mask-image: url("./res/4.svg");
+	mask-image: url("./res/4.svg");
+	--monster-current-bg: var(--monster-g-bg);
 }
-#app button.B {
-	background-color: var(--monster-b-bg);
-	border: 1px solid var(--monster-b-border);
+#app button.monster.W {
+	-webkit-mask-image: url("./res/5.svg");
+	mask-image: url("./res/5.svg");
+	--monster-current-bg: var(--monster-w-bg);
+}
+#app button.monster.B {
+	-webkit-mask-image: url("./res/6.svg");
+	mask-image: url("./res/6.svg");
+	--monster-current-bg: var(--monster-b-bg);
 }
 
 /* Monster-Animation: Shake/Pop */
@@ -813,6 +838,7 @@ body {
 	transform: translateX(-2px);
 }
 #modal-leaderboard h3 {
+	margin-top: 5em;
 	margin-bottom: 0.7em;
 	text-align: center;
 	letter-spacing: 0.05em;
