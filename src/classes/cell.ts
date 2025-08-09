@@ -181,7 +181,7 @@ export class Cell {
 		if (!this.isClicked) {
 			this.isFlagged = !this.isFlagged;
 			this.updateVisuals();
-		} else {
+		} else if (this.type === CellType.Empty) {
 			this.clickNeighbors();
 		}
 	}
