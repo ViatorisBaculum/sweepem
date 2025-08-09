@@ -282,6 +282,7 @@ export class GameMaster {
 		this.createPlayer();
 
 		this.board.restoreFromMemento(memento.board);
+		this.board.centerOnOpenedCell();
 		this.player.restoreFromMemento(memento.player);
 		this._gameTimer = memento.gameTimer;
 		this._gameState = GameState.Paused; // set to paused, because resumeTimer will set it to running

@@ -62,6 +62,20 @@ export class Board {
 		this.cells.flat().forEach((cell) => cell.updateVisuals());
 	}
 
+	public centerOnOpenedCell() {
+		const openedCell = this.cells.flat().find(cell => cell.isClicked && cell.type === CellType.Empty);
+		if (openedCell) {
+			requestAnimationFrame(() => {
+				openedCell.HTMLElement.focus();
+				openedCell.HTMLElement.scrollIntoView({
+					behavior: "smooth",
+					block: "center",
+					inline: "center"
+				});
+			});
+		}
+	}
+
 	evoluteMonster() {
 		const remainingMonster = this.getRemainingMonster();
 
@@ -129,7 +143,7 @@ export class Board {
 
 	public removeAllFlags() {
 		this.cells.flat().forEach((cell: Cell) => {
-			if (cell.isFlagged) {
+			if (cell.isFlagged && cell.type < this.gameInstance.player.level) {
 				cell.isFlagged = false;
 				cell.updateVisuals();
 			}
@@ -260,36 +274,18 @@ export class Board {
 	}
 
 	private createClickHandler() {
-		let clickTimeout: ReturnType<typeof setTimeout> | null = null;
-		let lastCell: Cell | null = null;
-		const doubleClickDelay = 100;
-
 		return (e: MouseEvent) => {
 			const target = e.target as HTMLElement;
 			if (!target.dataset.x || !target.dataset.y) return;
 			const clickedCell = this.cells[Number(target.dataset.x)][Number(target.dataset.y)];
 
-			if (e.button !== 0) return;
-
-			if (clickTimeout && lastCell === clickedCell) {
-				clearTimeout(clickTimeout);
-				clickTimeout = null;
-				lastCell = null;
-				const dblClickEvent = new MouseEvent("dblclick", { detail: 2 });
-				this.gameInstance.player.onPrimaryAction(clickedCell, dblClickEvent);
-				return;
-			}
-
-			lastCell = clickedCell;
-			clickTimeout = setTimeout(() => {
+			if (e.button === 0) {
 				if (this.gameInstance.invertClicks) {
 					this.gameInstance.player.onSecondaryAction(clickedCell, e);
 				} else {
 					this.gameInstance.player.onPrimaryAction(clickedCell, e);
 				}
-				clickTimeout = null;
-				lastCell = null;
-			}, doubleClickDelay);
+			}
 		};
 	}
 
