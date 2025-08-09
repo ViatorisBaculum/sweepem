@@ -642,6 +642,22 @@ body {
 	margin-top: 0.5em;
 }
 
+.leaderboard-modal #modal-title,
+.leaderboard-modal #modal-subtitle,
+.leaderboard-modal #modal-text,
+.leaderboard-modal #modal-class,
+.leaderboard-modal #modal-classDescription {
+	padding: 0;
+}
+
+#modal-title,
+#modal-subtitle,
+#modal-text,
+#modal-class,
+#modal-classDescription {
+	padding: 0 1rem;
+}
+
 .modal h1,
 .modal h2,
 .modal h3 {

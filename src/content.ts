@@ -44,11 +44,9 @@ function showInitialModal(): void {
 	const modal = new Modal(document.body, { cancelButton: false, showSubTitle: false });
 
 	modal.setTitle("Welcome to DungeonSweeper");
-	//modal.setSubTitle("lorem ipsum dolor sit amet");
 	modal.setText("This is a more elaborate version of MineSweeper with RPG elements such as classes, leveling and different enemies. Please choose your starting configuration.");
 	modal.setSlotContent(settingsForm.innerHTML);
 
-	// Default: New Game
 	modal.setConfirmButtonText("New Game");
 	modal.setConfirmAction((): void => {
 		showMenu();
