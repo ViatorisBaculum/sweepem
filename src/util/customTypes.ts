@@ -17,4 +17,18 @@ export enum CellType {
 	Boss
 };
 
+export enum BoardSize {
+	Small = "small",
+	Medium = "medium",
+	Large = "large",
+	Enormous = "enormous"
+}
+
+export enum Difficulty {
+	Beginner = "beginner",
+	Intermediate = "intermediate",
+	Expert = "expert",
+	Master = "master"
+}
+
 export type playerClasses = "Assassin" | "Warrior" | "Paladin" | "Mage";

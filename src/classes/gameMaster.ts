@@ -4,10 +4,11 @@ import { PC_Paladin } from "./PlayerClasses/PC_Paladin";
 import { PC_Warrior } from "./PlayerClasses/PC_Warrior";
 import { Board } from "./board";
 import { Player } from "./player";
+import { playerClasses, BoardSize, Difficulty } from "../util/customTypes";
 import defaults from "../util/defaults";
-import { playerClasses } from "../util/customTypes";
 import { showLeaderboard, updateSpecialAbilityButton } from "../content";
 import { SaveManager, GameMemento } from "./saveManager";
+import { BoardDimensions, DifficultySettings } from "../util/defaults";
 
 enum GameState {
 	NotStarted,
@@ -17,10 +18,9 @@ enum GameState {
 }
 
 interface GameSettings {
-	width: number;
-	height: number;
-	minesFrequency: number;
-	playerClass: playerClasses;
+	boardSize: BoardSize;          // "small" | "medium" | "large" | "enormous"
+	difficulty: Difficulty;        // "beginner" | "intermediate" | "expert" | "master"
+	playerClass: playerClasses;    // "Assassin" | "Mage" | "Paladin" | "Warrior"
 	invertClicks: boolean;
 	removeFlags: boolean;
 }
@@ -33,6 +33,7 @@ export class GameMaster {
 	private _gameTimer: number = 0;
 	private _gameSettings!: GameSettings;
 	private _gameState: GameState = GameState.NotStarted;
+
 	private playerClassRegistry: Record<playerClasses, (new (board: Board | undefined) => Player) & { description: string }> = {
 		"Assassin": PC_Assassin,
 		"Mage": PC_Mage,
@@ -64,7 +65,6 @@ export class GameMaster {
 			}
 		});
 	}
-
 
 	static getInstance() {
 		if (!GameMaster.instance) {
@@ -103,12 +103,15 @@ export class GameMaster {
 	public get removeFlags(): boolean {
 		return this._gameSettings.removeFlags;
 	}
+
 	/*==============*/
 	/*public methods*/
 	/*==============*/
 
 	public createBoard() {
-		this.board = new Board(this._gameSettings.width, this._gameSettings.height, this._gameSettings.minesFrequency, this);
+		const dims = BoardDimensions[this._gameSettings.boardSize];
+		const minesFrequency = DifficultySettings[this._gameSettings.difficulty].minesFrequency;
+		this.board = new Board(dims.width, dims.height, minesFrequency, this);
 	}
 
 	public createPlayer() {
@@ -123,9 +126,8 @@ export class GameMaster {
 
 	private loadDefaultSettings(): GameSettings {
 		return {
-			width: defaults.boardDefaults.width,
-			height: defaults.boardDefaults.height,
-			minesFrequency: defaults.boardDefaults.minesFrequency,
+			boardSize: BoardSize.Medium,
+			difficulty: Difficulty.Beginner,
 			playerClass: defaults.playerClass,
 			invertClicks: defaults.boardDefaults.invertClicks,
 			removeFlags: defaults.boardDefaults.removeFlags
@@ -133,28 +135,23 @@ export class GameMaster {
 	}
 
 	private initializeGameSettings(): GameSettings {
-		const defaultSettings = this.loadDefaultSettings();
-		const localSettings = localStorage.getItem("instance");
-		if (localSettings) {
-			try {
-				const storedSettings = JSON.parse(localSettings) as Partial<GameSettings>;
-				return {
-					...defaultSettings,
-					...storedSettings,
-					width: storedSettings.width !== undefined ? +storedSettings.width : defaultSettings.width,
-					height: storedSettings.height !== undefined ? +storedSettings.height : defaultSettings.height,
-					minesFrequency: storedSettings.minesFrequency !== undefined ? +storedSettings.minesFrequency : defaultSettings.minesFrequency,
-					playerClass: storedSettings.playerClass || defaultSettings.playerClass,
-					invertClicks: typeof storedSettings.invertClicks === 'boolean' ? storedSettings.invertClicks : defaultSettings.invertClicks,
-					removeFlags: typeof storedSettings.removeFlags === 'boolean' ? storedSettings.removeFlags : defaultSettings.removeFlags,
-				};
-			} catch (error) {
-				console.error("Failed to parse stored settings, using defaults and removing corrupted item.", error);
-				localStorage.removeItem("instance");
-				return defaultSettings;
+		const defaults_ = this.loadDefaultSettings();
+		const raw = localStorage.getItem("instance");
+		if (!raw) return defaults_;
+
+		try {
+			const parsed = JSON.parse(raw);
+			if (!this.isValidGameSettings(parsed)) {
+				console.warn("Invalid stored settings found. Clearing and using defaults.");
+				localStorage.removeItem("instance");      // Alte/kaputte Stände einfach löschen
+				return defaults_;
 			}
+			return parsed as GameSettings;
+		} catch (e) {
+			console.error("Failed to parse stored settings. Clearing and using defaults.", e);
+			localStorage.removeItem("instance");          // Kaputte Stände löschen
+			return defaults_;
 		}
-		return defaultSettings;
 	}
 
 	public playerUp() {
@@ -181,9 +178,11 @@ export class GameMaster {
 
 	public saveSettingsFromUI(): void {
 		try {
-			this._gameSettings.width = +this.getValueFromInput("inputWidth");
-			this._gameSettings.height = +this.getValueFromInput("inputHeight");
-			this._gameSettings.minesFrequency = +this.getValueFromInput("minesFrequency");
+			const boardSize = this.getValueFromInput("boardSize") as BoardSize;       // "small" | "medium" | ...
+			const difficulty = this.getValueFromInput("difficulty") as Difficulty;     // "beginner" | "intermediate" | ...
+
+			this._gameSettings.boardSize = boardSize;
+			this._gameSettings.difficulty = difficulty;
 			this._gameSettings.playerClass = this.getValueFromInput("selectClass") as playerClasses;
 			this._gameSettings.invertClicks = this.getCheckedFromToggle("invertClicks");
 			this._gameSettings.removeFlags = this.getCheckedFromToggle("removeFlags");
@@ -240,11 +239,9 @@ export class GameMaster {
 		const leaderboard: number[] = JSON.parse(localStorage.getItem(leaderboardKey) || "[]");
 
 		leaderboard.push(score);
-
 		leaderboard.sort((a, b) => b - a);
 
 		const topScores = leaderboard.slice(0, 10);
-
 		localStorage.setItem(leaderboardKey, JSON.stringify(topScores));
 	}
 
@@ -271,7 +268,15 @@ export class GameMaster {
 	}
 
 	public restoreFromMemento(memento: GameMemento): void {
-		this._gameSettings = memento.gameSettings;
+		// Check if the memento is valid
+		if (!this.isValidGameSettings(memento.gameSettings)) {
+			console.warn("Invalid game settings in memento. Deleting save and using defaults.");
+			SaveManager.deleteSave();
+			this._gameSettings = this.loadDefaultSettings();
+		} else {
+			this._gameSettings = memento.gameSettings as GameSettings;
+		}
+
 		this.populateSettingsUIFromGameSettings();
 		this.createBoard();
 		this.createPlayer();
@@ -313,9 +318,8 @@ export class GameMaster {
 	}
 
 	public populateSettingsUIFromGameSettings(): void {
-		this.trySetInputValue("inputWidth", this._gameSettings.width.toString());
-		this.trySetInputValue("inputHeight", this._gameSettings.height.toString());
-		this.trySetInputValue("minesFrequency", this._gameSettings.minesFrequency.toString());
+		this.trySetInputValue("boardSize", this._gameSettings.boardSize);       // "small" | "medium" | ...
+		this.trySetInputValue("difficulty", this._gameSettings.difficulty);     // "beginner" | "intermediate" | ...
 		this.trySetInputValue("selectClass", this._gameSettings.playerClass);
 		this.trySetToggleValue("invertClicks", this._gameSettings.invertClicks);
 		this.trySetToggleValue("removeFlags", this._gameSettings.removeFlags);
@@ -323,9 +327,7 @@ export class GameMaster {
 
 	private trySetInputValue(id: string, value: string): void {
 		const input = document.getElementById(id) as HTMLInputElement | HTMLSelectElement | null;
-		if (input) {
-			input.value = value;
-		}
+		if (input) input.value = value;
 		else console.warn(`HTML input element with id '${id}' not found for setting value.`);
 	}
 
@@ -358,5 +360,18 @@ export class GameMaster {
 	private resetHeartContainer() {
 		const hearts = document.getElementById("health");
 		if (hearts) hearts.innerHTML = "";
+	}
+
+	// Strikte Validierung: falls etwas nicht passt -> altes Save wird verworfen
+	private isValidGameSettings(data: any): data is GameSettings {
+		if (!data || typeof data !== "object") return false;
+
+		const validBoardSize = Object.values(BoardSize).includes(data.boardSize);
+		const validDifficulty = Object.values(Difficulty).includes(data.difficulty);
+		const validPlayerClass = typeof data.playerClass === "string" && (data.playerClass in this.playerClassRegistry);
+		const validInvert = typeof data.invertClicks === "boolean";
+		const validRemove = typeof data.removeFlags === "boolean";
+
+		return !!(validBoardSize && validDifficulty && validPlayerClass && validInvert && validRemove);
 	}
 }

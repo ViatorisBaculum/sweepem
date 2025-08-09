@@ -81,19 +81,23 @@
 				<option value="Paladin">Paladin</option>
 				<option value="Mage">Mage</option>
 			</select>
-			<label for="inputWidth">Board width</label>
-			<input id="inputWidth" type="number" step="1" value="40" />
-			<label for="inputHeight">Board height</label>
-			<input id="inputHeight" type="number" step="1" value="20" />
-			<label for="minesFrequency">Enemy frequency</label>
-			<input
-				id="minesFrequency"
-				type="number"
-				value="0.15"
-				step="0.01"
-				min="0.01"
-				max="0.99"
-			/>
+
+			<label for="boardSize">Board Size</label>
+			<select id="boardSize">
+				<option value="small">Small (20x10)</option>
+				<option value="medium" selected>Medium (40x20)</option>
+				<option value="large">Large (60x30)</option>
+				<option value="enormous">Enormous (80x40)</option>
+			</select>
+
+			<label for="difficulty">Difficulty</label>
+			<select id="difficulty">
+				<option value="beginner" selected>Beginner (15% enemies)</option>
+				<option value="intermediate">Intermediate (20% enemies)</option>
+				<option value="expert">Expert (25% enemies)</option>
+				<option value="master">Master (30% enemies)</option>
+			</select>
+
 			<label class="toggle">
 				<input
 					id="invertClicks"
@@ -104,16 +108,19 @@
 				<div class="toggle-switch"></div>
 				<span class="toggle-label">Invert mouse buttons</span>
 			</label>
+
 			<label class="toggle">
 				<input id="removeFlags" class="toggle-checkbox" type="checkbox" />
 				<div class="toggle-switch"></div>
 				<span class="toggle-label">Remove flags on level up</span>
 			</label>
+
 			<label id="modal-debug" class="toggle">
 				<input id="showDebug" class="toggle-checkbox" type="checkbox" />
 				<div class="toggle-switch"></div>
 				<span class="toggle-label">Debug-Modus anzeigen</span>
 			</label>
+
 			<label class="theme-label" for="themeSelect">Theme Mode</label>
 			<select id="themeSelect" name="theme">
 				<option value="light">☀️ Light</option>

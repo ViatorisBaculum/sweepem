@@ -1,4 +1,4 @@
-import { typeDistribution, playerClasses } from "./customTypes";
+import { typeDistribution, playerClasses, BoardSize, Difficulty } from "./customTypes";
 
 const typeDistribution: typeDistribution = {
 	Rat: 0.4,
@@ -20,6 +20,20 @@ const boardDefaults = {
 	removeFlags: false
 };
 
+export const BoardDimensions = {
+	[BoardSize.Small]: { width: 20, height: 10 },
+	[BoardSize.Medium]: { width: 40, height: 20 },
+	[BoardSize.Large]: { width: 60, height: 30 },
+	[BoardSize.Enormous]: { width: 80, height: 40 }
+};
+
+export const DifficultySettings = {
+	[Difficulty.Beginner]: { minesFrequency: 0.15, evolutionRate: 0.1 },
+	[Difficulty.Intermediate]: { minesFrequency: 0.2, evolutionRate: 0.2 },
+	[Difficulty.Expert]: { minesFrequency: 0.25, evolutionRate: 0.3 },
+	[Difficulty.Master]: { minesFrequency: 0.3, evolutionRate: 0.4 }
+};
+
 const monsterKeys = {
 	0: "E",
 	1: "R¹",
@@ -39,4 +53,4 @@ const playerClass: playerClasses = "Warrior";
 
 export const revealDelayPerCell = 40;
 
-export default { typeDistribution, expToNextLevel, boardDefaults, playerClass, monsterKeys, experienceGain, revealDelayPerCell };
+export default { typeDistribution, expToNextLevel, boardDefaults, playerClass, monsterKeys, experienceGain, revealDelayPerCell } as const;
