@@ -628,7 +628,7 @@ body {
 	border-radius: 1em;
 	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), 0 4px 12px rgba(0, 0, 0, 0.08);
 	padding: 2em 1.5em 1.2em 1.5em;
-	width: 90vw;
+	width: 25em;
 	max-width: 40em;
 	min-width: 20em;
 	margin: 0.5em auto;
@@ -866,21 +866,9 @@ body {
 	background: var(--flag-color);
 }
 
-/* Form elements in modal (start screen) */
-.modal fieldset {
-	display: flex;
-	flex-direction: column;
-	margin: 1em 0 0 0;
-	border: 1px solid var(--theme-color2);
-	border-radius: 0.5em;
-	padding: 0.8em 1em;
-	background: var(--modal-background);
-}
-
-.modal fieldset select,
-.modal fieldset input {
+#themeSelect {
 	border: none;
-	background-color: var(--theme-color2);
+	background-color: var(--theme-color1);
 	padding: 0.5em 0.8em;
 	color: var(--theme-color3);
 	font-weight: 500;

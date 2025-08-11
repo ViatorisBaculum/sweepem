@@ -81,8 +81,6 @@ function showInitialModal(): void {
 	}
 
 	modal.setDefaultClass();
-	setupThemeToggle();
-	gameInstance.populateSettingsUIFromGameSettings();
 
 	// Remove debug switch from settings HTML before injecting
 	const debugLabel = document.getElementById("modal-debug");
@@ -90,11 +88,22 @@ function showInitialModal(): void {
 
 	// Setup arrow button event listeners after modal is created
 	setupArrowButtonEventListeners();
+
+	// Add event listener for settings icon in start screen
+	const startScreenSettingsIcon = document.querySelector('.start-modal .icon-btn.settings');
+	if (startScreenSettingsIcon) {
+		startScreenSettingsIcon.addEventListener('click', () => {
+			modal.destroyModal();
+			showSettings();
+		});
+	}
+
+	gameInstance.populateSettingsUIFromGameSettings();
 }
 
 function showSettings(): void {
 	assert(settingsForm, "No settings template found");
-	const modal = new Modal(document.body, { cancelButton: true });
+	const modal = new Modal(document.body, { cancelButton: false, confirmButton: false });
 
 	// pause the game timer
 	gameInstance.pauseTimer();
@@ -102,17 +111,16 @@ function showSettings(): void {
 	modal.setTitle("Game Settings")
 	modal.setText("Please choose the settings for your next round")
 	modal.setSlotContent(settingsForm.innerHTML)
-	modal.setConfirmAction((): void => {
-		gameInstance.resetGame();
-		toggle(menu);
-	})
-	modal.setCancelAction((): void => {
-		toggle(menu);
-		gameInstance.resumeTimer();
-	})
-	modal.setDefaultClass();
 
-	toggle(menu);
+	// Add "Back to Start" button
+	modal.addCustomButton("Back to Start", () => {
+		// save settings before going back
+		gameInstance.saveSettingsFromUI();
+		modal.destroyModal();
+		showInitialModal();
+	}, { position: 'start' });
+
+	modal.setDefaultClass();
 	setupThemeToggle();
 	gameInstance.populateSettingsUIFromGameSettings();
 
@@ -181,7 +189,7 @@ function showTutorial(parentModal: Modal): void {
 
 	const tutorialModal = new Modal(document.body, {
 		confirmButton: false,
-		cancelButton: false,
+		cancelButton: true,
 		showClass: false,
 		showClassDescription: false,
 		showSlot: false,
@@ -205,6 +213,10 @@ function showTutorial(parentModal: Modal): void {
 		prevButton.style.display = currentStep === 0 ? "none" : "inline-block";
 		nextButton.innerText = currentStep === steps.length - 1 ? "Finish" : "Next";
 	};
+
+	tutorialModal.setCancelAction((): void => {
+		showInitialModal();
+	});
 
 	const prevButton = tutorialModal.addCustomButton("Previous", () => {
 		if (currentStep > 0) {

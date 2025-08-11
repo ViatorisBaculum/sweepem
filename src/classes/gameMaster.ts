@@ -178,14 +178,36 @@ export class GameMaster {
 
 	public saveSettingsFromUI(): void {
 		try {
-			const boardSize = this.getValueFromInput("boardSize") as BoardSize;       // "small" | "medium" | ...
-			const difficulty = this.getValueFromInput("difficulty") as Difficulty;     // "beginner" | "intermediate" | ...
+			// Try to save each setting individually so that if one fails, others can still be saved
+			try {
+				this._gameSettings.boardSize = this.getValueFromInput("boardSize") as BoardSize;
+			} catch (e) {
+				console.warn("Could not save boardSize setting:", e);
+			}
 
-			this._gameSettings.boardSize = boardSize;
-			this._gameSettings.difficulty = difficulty;
-			this._gameSettings.playerClass = this.getValueFromInput("selectClass") as playerClasses;
-			this._gameSettings.invertClicks = this.getCheckedFromToggle("invertClicks");
-			this._gameSettings.removeFlags = this.getCheckedFromToggle("removeFlags");
+			try {
+				this._gameSettings.difficulty = this.getValueFromInput("difficulty") as Difficulty;
+			} catch (e) {
+				console.warn("Could not save difficulty setting:", e);
+			}
+
+			try {
+				this._gameSettings.playerClass = this.getValueFromInput("selectClass") as playerClasses;
+			} catch (e) {
+				console.warn("Could not save playerClass setting:", e);
+			}
+
+			try {
+				this._gameSettings.invertClicks = this.getCheckedFromToggle("invertClicks");
+			} catch (e) {
+				console.warn("Could not save invertClicks setting:", e);
+			}
+
+			try {
+				this._gameSettings.removeFlags = this.getCheckedFromToggle("removeFlags");
+			} catch (e) {
+				console.warn("Could not save removeFlags setting:", e);
+			}
 
 			localStorage.setItem("instance", JSON.stringify(this._gameSettings));
 		} catch (error) {
@@ -308,7 +330,7 @@ export class GameMaster {
 
 	private getValueFromInput(name: string) {
 		const input = document.getElementById(name);
-		if (input) return (input as HTMLInputElement).value;
+		if (input) return (input as HTMLSelectElement).value;
 		else throw new Error(`HTML input element with id '${name}' not found.`);
 	}
 
