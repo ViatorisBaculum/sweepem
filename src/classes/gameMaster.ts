@@ -85,6 +85,11 @@ export class GameMaster {
 		if (!this._board) throw new Error("Board was not initialized!");
 		return this._board;
 	}
+	public getBoardElement(): HTMLElement {
+		const boardElement = document.getElementById("app");
+		if (!boardElement) throw new Error("Board element not found in the DOM!");
+		return boardElement;
+	}
 
 	public set player(player: Player) {
 		this._player = player;

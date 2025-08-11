@@ -552,10 +552,10 @@ body {
 	border: none;
 	cursor: pointer;
 	transition: filter 0.2s ease;
-	-webkit-mask-repeat: no-repeat;
-	mask-repeat: no-repeat;
 	-webkit-mask-size: contain;
 	mask-size: contain;
+	-webkit-mask-repeat: no-repeat;
+	mask-repeat: no-repeat;
 }
 #openSettings:hover,
 #reset:hover,
@@ -563,8 +563,8 @@ body {
 	filter: brightness(1.1);
 }
 #openSettings {
-	-webkit-mask-image: url("./res/gear.svg");
-	mask-image: url("./res/gear.svg");
+	-webkit-mask-image: url("./res/house.svg");
+	mask-image: url("./res/house.svg");
 }
 #reset {
 	-webkit-mask-image: url("./res/refresh.svg");
@@ -628,7 +628,7 @@ body {
 	border-radius: 1em;
 	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), 0 4px 12px rgba(0, 0, 0, 0.08);
 	padding: 2em 1.5em 1.2em 1.5em;
-	width: 90vw;
+	width: 25em;
 	max-width: 40em;
 	min-width: 20em;
 	margin: 0.5em auto;
@@ -643,72 +643,90 @@ body {
 }
 
 .start-modal {
-	min-height: 100dvh;
 	max-width: 25em;
 	margin: auto;
 	padding: 1em;
 	display: flex;
 	flex-direction: column;
-	gap: 16px;
 }
-
+.logo {
+	width: 100%;
+	height: 10em;
+	margin-top: 5em;
+	background: url("./res/logo.png") no-repeat center center;
+	background-size: contain;
+}
 .topbar {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 }
 .icon-btn {
-	background: transparent;
-	border: 0;
-	color: var(--text);
+	background: var(--theme-color4);
+	width: 3em;
+	height: 3em;
 	cursor: pointer;
 	display: grid;
 	place-items: center;
+
+	-webkit-mask-size: contain;
+	mask-size: contain;
+	-webkit-mask-repeat: no-repeat;
+	mask-repeat: no-repeat;
+	-webkit-mask-position: center;
+	mask-position: center;
 }
 .icon-btn.info {
-	width: 70px;
-	height: 70px;
-	border-radius: 50%;
-	border: 3px solid var(--text);
-	font-size: 40px;
-	box-shadow: var(--shadow);
+	-webkit-mask-image: url("./res/info.svg");
+	mask-image: url("./res/info.svg");
 }
 .icon-btn.settings {
-	width: 64px;
-	height: 64px;
-	border-radius: 14px;
+	-webkit-mask-image: url("./res/cog.svg");
+	mask-image: url("./res/cog.svg");
 }
-.icon-btn.settings svg {
-	width: 42px;
-	height: 42px;
-	opacity: 0.9;
-}
-
-/* Pickers */
 .pickers {
 	display: flex;
 	flex-direction: column;
-	gap: 28px;
-	margin-top: 8px;
+	gap: 1em;
+	margin-top: 3em;
 }
 .picker {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	gap: 12px;
+	gap: 0.5em;
 }
 .picker-icons {
 	display: flex;
-	gap: 18px;
+	width: 3em;
+	height: 3em;
 	align-items: center;
 	justify-content: center;
-	opacity: 0.95;
 }
-.picker-icons svg {
-	width: 64px;
-	height: 64px;
-	stroke: var(--text);
+.picker-icons > div {
+	width: 100%;
+	height: 100%;
+	-webkit-mask-size: contain;
+	mask-size: contain;
+	-webkit-mask-repeat: no-repeat;
+	mask-repeat: no-repeat;
+	-webkit-mask-position: center;
+	mask-position: center;
+	background: var(--theme-color4);
 }
+.picker-icons .difficulty {
+	-webkit-mask-image: url("./res/difficulty.svg");
+	mask-image: url("./res/difficulty.svg");
+}
+.picker-icons .dimension {
+	-webkit-mask-image: url("./res/ruler.svg");
+	mask-image: url("./res/ruler.svg");
+}
+.picker-icons .classes {
+	-webkit-mask-image: url("./res/sword.svg");
+	mask-image: url("./res/sword.svg");
+}
+
 .picker-row {
 	width: 100%;
 	display: grid;
@@ -724,24 +742,25 @@ body {
 	outline: none;
 }
 .arrow {
-	width: 0;
-	height: 0;
-	background: transparent;
+	width: 2em;
+	height: 2em;
+	background: var(--modal-background);
 	border: none;
 	cursor: pointer;
-	filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.35));
+
+	-webkit-mask-size: contain;
+	mask-size: contain;
+	-webkit-mask-repeat: no-repeat;
+	mask-repeat: no-repeat;
+	-webkit-mask-image: url("./res/arrow_select.svg");
+	mask-image: url("./res/arrow_select.svg");
 }
 .arrow.left {
-	border-top: 18px solid transparent;
-	border-bottom: 18px solid transparent;
-	border-right: 28px solid var(--text);
-	justify-self: start;
+	justify-self: end;
+	transform: rotate(180deg);
 }
 .arrow.right {
-	border-top: 18px solid transparent;
-	border-bottom: 18px solid transparent;
-	border-left: 28px solid var(--text);
-	justify-self: end;
+	justify-self: start;
 }
 .picker-select {
 	width: 100%;
@@ -749,10 +768,11 @@ body {
 	background: #23282d;
 	color: var(--text);
 	border: 1px solid rgba(255, 255, 255, 0.15);
-	border-radius: 12px;
-	padding: 12px 14px;
-	font-size: 16px;
+	border-radius: 0.5em;
+	padding: 0.4em 0.8em;
+	font-size: 1em;
 	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+	text-align: center;
 }
 
 .leaderboard-modal #modal-title,
@@ -801,7 +821,7 @@ body {
 	display: flex;
 	justify-content: flex-end;
 	gap: 0.5em;
-	margin-top: 0;
+	margin-top: 2em;
 }
 
 .modal button {
@@ -846,21 +866,9 @@ body {
 	background: var(--flag-color);
 }
 
-/* Form elements in modal (start screen) */
-.modal fieldset {
-	display: flex;
-	flex-direction: column;
-	margin: 1em 0 0 0;
-	border: 1px solid var(--theme-color2);
-	border-radius: 0.5em;
-	padding: 0.8em 1em;
-	background: var(--modal-background);
-}
-
-.modal fieldset select,
-.modal fieldset input {
+#themeSelect {
 	border: none;
-	background-color: var(--theme-color2);
+	background-color: var(--theme-color1);
 	padding: 0.5em 0.8em;
 	color: var(--theme-color3);
 	font-weight: 500;

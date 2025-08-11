@@ -30,7 +30,9 @@ export function initialize(): void {
 	gameInstance.populateSettingsUIFromGameSettings();
 	hide(menu);
 
-	bind("openSettings", "click", showSettings);
+	bind("openSettings", "click", () => {
+		// reload entire web app to get back home
+	});
 	bind("reset", "click", () => gameInstance.resetGame());
 	bind("openLeaderboard", "click", () => showLeaderboard());
 	bind("debugLevelUp", "click", () => gameInstance.player.debugGainLevel());
@@ -189,7 +191,7 @@ function showTutorial(parentModal: Modal): void {
 
 	const tutorialModal = new Modal(document.body, {
 		confirmButton: false,
-		cancelButton: true,
+		cancelButton: false,
 		showClass: false,
 		showClassDescription: false,
 		showSlot: false,
@@ -213,10 +215,6 @@ function showTutorial(parentModal: Modal): void {
 		prevButton.style.display = currentStep === 0 ? "none" : "inline-block";
 		nextButton.innerText = currentStep === steps.length - 1 ? "Finish" : "Next";
 	};
-
-	tutorialModal.setCancelAction((): void => {
-		showInitialModal();
-	});
 
 	const prevButton = tutorialModal.addCustomButton("Previous", () => {
 		if (currentStep > 0) {
@@ -384,4 +382,4 @@ document.addEventListener('touchstart', function (e) {
 }, { passive: false });
 
 // Prevent pull-to-refresh
-document.body.style.overscrollBehavior = 'none';
+//document.body.style.overscrollBehavior = 'none';

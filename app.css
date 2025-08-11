@@ -552,10 +552,10 @@ body {
 	border: none;
 	cursor: pointer;
 	transition: filter 0.2s ease;
-	-webkit-mask-repeat: no-repeat;
-	mask-repeat: no-repeat;
 	-webkit-mask-size: contain;
 	mask-size: contain;
+	-webkit-mask-repeat: no-repeat;
+	mask-repeat: no-repeat;
 }
 #openSettings:hover,
 #reset:hover,
@@ -563,8 +563,8 @@ body {
 	filter: brightness(1.1);
 }
 #openSettings {
-	-webkit-mask-image: url("./res/gear.svg");
-	mask-image: url("./res/gear.svg");
+	-webkit-mask-image: url("./res/house.svg");
+	mask-image: url("./res/house.svg");
 }
 #reset {
 	-webkit-mask-image: url("./res/refresh.svg");
