@@ -6,6 +6,7 @@ import { SaveManager } from "./classes/saveManager";
 type Nullable<T> = T | null;
 
 const gameInstance = GameMaster.getInstance();
+const startScreen = document.getElementById("template-startScreen") as Nullable<HTMLTemplateElement>;
 const settingsForm = document.getElementById("template-settings") as Nullable<HTMLTemplateElement>;
 const menu = document.getElementById("menu") as Nullable<HTMLElement>;
 const leaderboardTemplate = document.getElementById("template-leaderboard") as Nullable<HTMLTemplateElement>;
@@ -33,6 +34,9 @@ export function initialize(): void {
 	bind("reset", "click", () => gameInstance.resetGame());
 	bind("openLeaderboard", "click", () => showLeaderboard());
 	bind("debugLevelUp", "click", () => gameInstance.player.debugGainLevel());
+
+	// Add keyboard event listener for arrow key navigation
+	document.addEventListener('keydown', handleKeyDown);
 }
 
 export function showMenu(): void {
@@ -41,11 +45,11 @@ export function showMenu(): void {
 
 function showInitialModal(): void {
 	assert(settingsForm, "No settings template found");
-	const modal = new Modal(document.body, { cancelButton: false, showSubTitle: false });
+	assert(startScreen, "No game initials template found");
+	const modal = new Modal(document.body, { cancelButton: false, showSubTitle: false, showClass: false, showClassDescription: false, customClass: "start-modal" });
 
-	modal.setTitle("Welcome to DungeonSweeper");
-	modal.setText("This is a more elaborate version of MineSweeper with RPG elements such as classes, leveling and different enemies. Please choose your starting configuration.");
-	modal.setSlotContent(settingsForm.innerHTML);
+	//modal.setTitle("sweepit");
+	modal.setSlotContent(startScreen.innerHTML);
 
 	modal.setConfirmButtonText("New Game");
 	modal.setConfirmAction((): void => {
@@ -83,6 +87,9 @@ function showInitialModal(): void {
 	// Remove debug switch from settings HTML before injecting
 	const debugLabel = document.getElementById("modal-debug");
 	if (debugLabel) debugLabel.remove();
+
+	// Setup arrow button event listeners after modal is created
+	setupArrowButtonEventListeners();
 }
 
 function showSettings(): void {
@@ -268,6 +275,92 @@ export function updateSpecialAbilityButton() {
 		specialAbilityBtn.classList.toggle("ability-ready", specialAbility.isReady);
 	} else {
 		specialAbilityBtn.style.display = "none";
+	}
+}
+
+// Function to handle arrow button clicks for select elements
+function setupArrowButtonEventListeners(): void {
+	// Wait for the modal content to be added to the DOM
+	setTimeout(() => {
+		// Get all arrow buttons
+		const leftArrows = document.querySelectorAll('.arrow.left');
+		const rightArrows = document.querySelectorAll('.arrow.right');
+
+		// Add event listeners to left arrows
+		leftArrows.forEach(arrow => {
+			arrow.addEventListener('click', function (this: HTMLElement) {
+				const pickerRow = this.closest('.picker-row');
+				if (pickerRow) {
+					const select = pickerRow.querySelector('select');
+					if (select) {
+						moveSelectOption(select as HTMLSelectElement, 'left');
+					}
+				}
+			});
+		});
+
+		// Add event listeners to right arrows
+		rightArrows.forEach(arrow => {
+			arrow.addEventListener('click', function (this: HTMLElement) {
+				const pickerRow = this.closest('.picker-row');
+				if (pickerRow) {
+					const select = pickerRow.querySelector('select');
+					if (select) {
+						moveSelectOption(select as HTMLSelectElement, 'right');
+					}
+				}
+			});
+		});
+	}, 100); // Small delay to ensure modal content is in DOM
+}
+
+// Function to move select option based on direction
+function moveSelectOption(select: HTMLSelectElement, direction: 'left' | 'right'): void {
+	const options = Array.from(select.options);
+	const currentIndex = select.selectedIndex;
+	const loop = select.closest('.picker')?.getAttribute('data-loop') === 'true';
+
+	if (direction === 'right') {
+		// Move to next option
+		if (currentIndex < options.length - 1) {
+			select.selectedIndex = currentIndex + 1;
+		} else if (loop) {
+			// Loop back to first option
+			select.selectedIndex = 0;
+		}
+	} else if (direction === 'left') {
+		// Move to previous option
+		if (currentIndex > 0) {
+			select.selectedIndex = currentIndex - 1;
+		} else if (loop) {
+			// Loop back to last option
+			select.selectedIndex = options.length - 1;
+		}
+	}
+
+	// Trigger change event to update any listeners
+	select.dispatchEvent(new Event('change'));
+}
+
+// Function to handle keyboard arrow key events
+function handleKeyDown(event: KeyboardEvent): void {
+	// Only handle arrow keys
+	if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') {
+		return;
+	}
+
+	// Check if a select element is currently focused
+	const focusedElement = document.activeElement;
+	if (focusedElement && focusedElement.tagName === 'SELECT') {
+		event.preventDefault();
+		const select = focusedElement as HTMLSelectElement;
+
+		// Determine direction based on key pressed
+		if (event.key === 'ArrowRight') {
+			moveSelectOption(select, 'right');
+		} else if (event.key === 'ArrowLeft') {
+			moveSelectOption(select, 'left');
+		}
 	}
 }
 

@@ -642,6 +642,135 @@ body {
 	margin-top: 0.5em;
 }
 
+.start-modal {
+	min-height: 100dvh;
+	max-width: 25em;
+	margin: auto;
+	padding: 1em;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+.topbar {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+.icon-btn {
+	background: transparent;
+	border: 0;
+	color: var(--text);
+	cursor: pointer;
+	display: grid;
+	place-items: center;
+}
+.icon-btn.info {
+	width: 70px;
+	height: 70px;
+	border-radius: 50%;
+	border: 3px solid var(--text);
+	font-size: 40px;
+	box-shadow: var(--shadow);
+}
+.icon-btn.settings {
+	width: 64px;
+	height: 64px;
+	border-radius: 14px;
+}
+.icon-btn.settings svg {
+	width: 42px;
+	height: 42px;
+	opacity: 0.9;
+}
+
+/* Pickers */
+.pickers {
+	display: flex;
+	flex-direction: column;
+	gap: 28px;
+	margin-top: 8px;
+}
+.picker {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 12px;
+}
+.picker-icons {
+	display: flex;
+	gap: 18px;
+	align-items: center;
+	justify-content: center;
+	opacity: 0.95;
+}
+.picker-icons svg {
+	width: 64px;
+	height: 64px;
+	stroke: var(--text);
+}
+.picker-row {
+	width: 100%;
+	display: grid;
+	grid-template-columns: 56px 1fr 56px;
+	align-items: center;
+	gap: 12px;
+}
+.picker-label {
+	text-align: center;
+	font-size: 42px;
+	font-weight: 600;
+	letter-spacing: 0.5px;
+	outline: none;
+}
+.arrow {
+	width: 0;
+	height: 0;
+	background: transparent;
+	border: none;
+	cursor: pointer;
+	filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.35));
+}
+.arrow.left {
+	border-top: 18px solid transparent;
+	border-bottom: 18px solid transparent;
+	border-right: 28px solid var(--text);
+	justify-self: start;
+}
+.arrow.right {
+	border-top: 18px solid transparent;
+	border-bottom: 18px solid transparent;
+	border-left: 28px solid var(--text);
+	justify-self: end;
+}
+.picker-select {
+	width: 100%;
+	appearance: none;
+	background: #23282d;
+	color: var(--text);
+	border: 1px solid rgba(255, 255, 255, 0.15);
+	border-radius: 12px;
+	padding: 12px 14px;
+	font-size: 16px;
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.leaderboard-modal #modal-title,
+.leaderboard-modal #modal-subtitle,
+.leaderboard-modal #modal-text,
+.leaderboard-modal #modal-class,
+.leaderboard-modal #modal-classDescription {
+	padding: 0;
+}
+
+#modal-title,
+#modal-subtitle,
+#modal-text,
+#modal-class,
+#modal-classDescription {
+	padding: 0 1rem;
+}
+
 .modal h1,
 .modal h2,
 .modal h3 {
