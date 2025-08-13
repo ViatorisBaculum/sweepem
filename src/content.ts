@@ -55,7 +55,6 @@ function showInitialModal(): void {
 	assert(startScreen, "No game initials template found");
 	const modal = new Modal(document.body, { showTitle: false, cancelButton: false, showSubTitle: false, showClass: false, showClassDescription: false, customClass: "start-modal" });
 
-	//modal.setTitle("sweepit");
 	modal.setSlotContent(startScreen.innerHTML);
 
 	modal.setConfirmButtonText("New Game");
@@ -222,7 +221,12 @@ function showTutorial(parentModal: Modal): void {
 		},
 		{
 			title: "Classes & Abilities",
-			text: "Each class has unique powers. The Warrior gains health on level up, the Mage has a fireball, and the Assassin can execute enemies with a right-click. Choose wisely! \n\n" +
+			text:
+				"Warrior\nGains health on level up\n" +
+				"Mage\nHas a fireball ability, which opens a 3x3 area\n" +
+				"Assassin\nHas the ability to execute monsters on his level\n" +
+				"Paladin\nHas high health to begin with\n" +
+				"\n\nEach class has unique powers. The Warrior gains health on level up, the Mage has a fireball, and the Assassin can execute enemies with a right-click. Choose wisely! \n\n" +
 				"To use the fireball, you have to click the fireball button and then click on a tile you want to attack. This opens a 3x3 area." +
 				"\n\nTo use the Assassin's special ability, you have to click on a monster with a right click. If the monster is of the same level as you, you won't take any damage.",
 			image: "", // Placeholder for classes image
@@ -258,6 +262,13 @@ function showTutorial(parentModal: Modal): void {
 		prevButton.style.display = currentStep === 0 ? "none" : "inline-block";
 		nextButton.innerText = currentStep === steps.length - 1 ? "Finish" : "Next";
 	};
+
+	// add custom button to cancel the tutorial
+	tutorialModal.addCustomButton("Cancel", () => {
+		tutorialModal.destroyModal();
+		showInitialModal();
+	});
+
 
 	const prevButton = tutorialModal.addCustomButton("Previous", () => {
 		if (currentStep > 0) {

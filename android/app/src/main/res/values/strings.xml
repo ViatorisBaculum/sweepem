@@ -1,7 +1,7 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='utf-8' ?>
 <resources>
-    <string name="app_name">sweepit</string>
-    <string name="title_activity_main">sweepit</string>
-    <string name="package_name">com.example.sweepit</string>
-    <string name="custom_url_scheme">com.example.sweepit</string>
+    <string name="app_name">sweepem</string>
+    <string name="title_activity_main">sweepem</string>
+    <string name="package_name">com.example.sweepem</string>
+    <string name="custom_url_scheme">com.example.sweepem</string>
 </resources>
