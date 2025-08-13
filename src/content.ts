@@ -237,6 +237,7 @@ function showTutorial(parentModal: Modal): void {
 		showClass: false,
 		showClassDescription: false,
 		showSlot: false,
+		customClass: "tutorial-modal",
 	});
 
 	const imageElement = document.getElementById("modal-image") as HTMLImageElement;

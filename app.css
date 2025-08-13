@@ -515,7 +515,7 @@ body {
 	height: 2em;
 	font-size: 1em;
 	padding: 0;
-	margin-left: 0.5em;
+	margin-left: 0.8em;
 	background: transparent;
 	background-color: var(--theme-color3);
 	border: none;
@@ -542,6 +542,7 @@ body {
 #openLeaderboard {
 	-webkit-mask-image: url("./res/leaderboard.svg");
 	mask-image: url("./res/leaderboard.svg");
+	transform: scale(1.4);
 }
 #specialAbility {
 	transform: scaleX(1.5);
@@ -860,6 +861,26 @@ body {
 	background: var(--flag-color);
 }
 
+/* Tutorial modal specific styles */
+.tutorial-modal {
+	height: 90vh;
+	max-height: 90vh;
+	display: flex;
+	flex-direction: column;
+}
+
+.tutorial-modal #modal-content {
+	flex-grow: 1;
+	overflow-y: auto;
+	display: flex;
+	flex-direction: column;
+}
+
+.tutorial-modal .controls {
+	margin-top: auto;
+	flex-shrink: 0;
+}
+
 #themeSelect {
 	border: none;
 	background-color: var(--theme-color1);
@@ -1045,6 +1066,8 @@ body {
 		position: absolute;
 		top: 0;
 		left: 0;
+		display: flex;
+		flex-direction: column;
 	}
 	.modal-bg {
 		align-items: flex-start;
@@ -1054,6 +1077,8 @@ body {
 	}
 	.modal #modal-content {
 		padding-bottom: 2em;
+		overflow-y: auto;
+		flex-grow: 1;
 	}
 	.leaderboard-modal h1 {
 		margin-top: 5em;
@@ -1084,5 +1109,24 @@ body {
 	#specialAbility:active {
 		background: #ffe066;
 		box-shadow: 0 4px 16px rgba(24, 61, 61, 0.25);
+	}
+
+	/* Tutorial modal specific styles */
+	.tutorial-modal {
+		height: 100vh;
+		display: flex;
+		flex-direction: column;
+	}
+
+	.tutorial-modal #modal-content {
+		flex-grow: 1;
+		overflow-y: auto;
+		display: flex;
+		flex-direction: column;
+	}
+
+	.tutorial-modal .controls {
+		margin-top: auto;
+		flex-shrink: 0;
 	}
 }
