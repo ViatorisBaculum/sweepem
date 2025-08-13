@@ -185,6 +185,7 @@ function showInfoModal(): void {
 
 	// Add the back button
 	modal.addCustomButton("", () => { // Empty text as it's an icon
+		modal.destroyModal(); // Destroy the current modal first
 		showInitialModal();
 	}, { classes: ["icon-btn", "back"], position: 'start' }); // Use 'start' for top-left
 
