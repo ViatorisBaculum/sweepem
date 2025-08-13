@@ -65,7 +65,6 @@ export class Modal {
 		if (this.modalSettings.title) this.setTitle(this.modalSettings.title);
 		if (this.modalSettings.subtitle)
 			this.setSubTitle(this.modalSettings.subtitle);
-		else document.getElementById("modal-subtitle")?.remove();
 		if (this.modalSettings.text) this.setText(this.modalSettings.text);
 		if (!this.modalSettings.showClass)
 			document.getElementById("modal-class")?.remove();

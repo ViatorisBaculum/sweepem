@@ -437,43 +437,6 @@ body {
 	display: flex;
 	align-items: center;
 }
-
-#specialAbility {
-	width: 1em;
-	height: 1em;
-	font-size: 1.5rem;
-	padding: 0;
-	border-radius: 50%;
-	box-shadow: 0 2px 8px rgba(24, 61, 61, 0.18);
-	background: var(--theme-color4);
-	color: var(--theme-color4);
-	border: 1px solid var(--theme-color3);
-	align-items: center;
-	justify-content: center;
-	transition: background 0.2s ease, box-shadow 0.2s ease;
-	display: none;
-	-webkit-mask-image: url("./res/fire.svg");
-	mask-image: url("./res/fire.svg");
-	-webkit-mask-repeat: no-repeat;
-	mask-repeat: no-repeat;
-	-webkit-mask-position: center;
-	mask-position: center;
-	-webkit-mask-size: contain;
-	mask-size: contain;
-}
-#specialAbility:active,
-#specialAbility:hover {
-	background: #ffe066;
-	box-shadow: 0 4px 16px rgba(24, 61, 61, 0.25);
-}
-#specialAbility.ability-ready,
-#specialAbility.ability-waiting {
-	display: block;
-}
-#specialAbility.ability-waiting {
-	background: #ffe066;
-	box-shadow: 0 4px 16px rgba(24, 61, 61, 0.25);
-}
 /* Lebens- und Erfahrungsbalken (#health / #experience) */
 #health {
 	display: flex;
@@ -543,10 +506,13 @@ body {
 /* Icons im Menü (#openSettings, #reset, #openLeaderboard) */
 #openSettings,
 #reset,
-#openLeaderboard {
+#openLeaderboard,
+#specialAbility {
 	width: 2em;
 	height: 2em;
 	font-size: 1em;
+	padding: 0;
+	margin-left: 0.5em;
 	background: transparent;
 	background-color: var(--theme-color3);
 	border: none;
@@ -560,7 +526,7 @@ body {
 #openSettings:hover,
 #reset:hover,
 #openLeaderboard:hover {
-	filter: brightness(1.1);
+	filter: brightness(1.5);
 }
 #openSettings {
 	-webkit-mask-image: url("./res/house.svg");
@@ -573,6 +539,23 @@ body {
 #openLeaderboard {
 	-webkit-mask-image: url("./res/leaderboard.svg");
 	mask-image: url("./res/leaderboard.svg");
+}
+#specialAbility {
+	transform: scaleX(1.5);
+	-webkit-mask-image: url("./res/fire.svg");
+	mask-image: url("./res/fire.svg");
+	transition: background 0.5s ease;
+}
+#specialAbility:active,
+#specialAbility:hover {
+	background: #ffe066;
+}
+#specialAbility.ability-ready,
+#specialAbility.ability-waiting {
+	display: block;
+}
+#specialAbility.ability-waiting {
+	background: #ffe066;
 }
 
 /* ===========================================================
@@ -653,7 +636,7 @@ body {
 	width: 100%;
 	height: 10em;
 	margin-top: 5em;
-	background: url("./res/logo.png") no-repeat center center;
+	background: url("./res/logo.svg") no-repeat center center;
 	background-size: contain;
 }
 .topbar {
@@ -681,8 +664,8 @@ body {
 	mask-image: url("./res/info.svg");
 }
 .icon-btn.settings {
-	-webkit-mask-image: url("./res/cog.svg");
-	mask-image: url("./res/cog.svg");
+	-webkit-mask-image: url("./res/gear.svg");
+	mask-image: url("./res/gear.svg");
 }
 .pickers {
 	display: flex;
@@ -728,7 +711,7 @@ body {
 }
 
 .picker-row {
-	width: 100%;
+	width: 80%;
 	display: grid;
 	grid-template-columns: 56px 1fr 56px;
 	align-items: center;
@@ -744,7 +727,7 @@ body {
 .arrow {
 	width: 2em;
 	height: 2em;
-	background: var(--modal-background);
+	background: var(--theme-color3);
 	border: none;
 	cursor: pointer;
 
@@ -773,6 +756,8 @@ body {
 	font-size: 1em;
 	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
 	text-align: center;
+	-webkit-user-select: none;
+	user-select: none;
 }
 
 .leaderboard-modal #modal-title,
@@ -787,7 +772,8 @@ body {
 #modal-subtitle,
 #modal-text,
 #modal-class,
-#modal-classDescription {
+#modal-classDescription,
+#modal-slot {
 	padding: 0 1rem;
 }
 
@@ -877,6 +863,11 @@ body {
 }
 
 .theme-label {
+	margin-top: 1em;
+	display: inline-flex;
+}
+#themeSelect {
+	display: block;
 	margin-top: 0.5em;
 }
 
@@ -913,7 +904,7 @@ body {
 .toggle-switch:before {
 	content: "";
 	display: block;
-	background: linear-gradient(to bottom, #fff 0%, #eee 100%);
+	background: var(--theme-color4);
 	border-radius: 50%;
 	box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25);
 	width: 26px;
@@ -925,7 +916,7 @@ body {
 }
 
 .toggle-checkbox:checked + .toggle-switch {
-	background: var(--theme-color2);
+	background: var(--board-color-level-5);
 }
 
 .toggle-checkbox:checked + .toggle-switch:before {
@@ -1041,7 +1032,7 @@ body {
 		overflow-y: auto;
 		margin: 0;
 		padding: 1.5em 1em;
-		padding-top: 3em;
+		padding-top: 4em;
 		box-sizing: border-box;
 		position: absolute;
 		top: 0;
@@ -1085,27 +1076,5 @@ body {
 	#specialAbility:active {
 		background: #ffe066;
 		box-shadow: 0 4px 16px rgba(24, 61, 61, 0.25);
-	}
-}
-
-/* Touch optimizations */
-#app button {
-	min-width: 44px; /* Minimum touch target size */
-	min-height: 44px;
-	touch-action: manipulation;
-}
-
-/* Prevent text selection */
-* {
-	-webkit-touch-callout: none;
-	-webkit-user-select: none;
-	user-select: none;
-}
-
-/* Status bar color */
-@media screen and (display-mode: standalone) {
-	:root {
-		--safe-area-inset-top: env(safe-area-inset-top);
-		padding-top: var(--safe-area-inset-top) + 1em;
 	}
 }
