@@ -428,12 +428,12 @@ function handleKeyDown(event: KeyboardEvent): void {
 	}
 }
 
-// Prevent double-tap zoom on mobile
-document.addEventListener('touchstart', function (e) {
-	if (e.touches.length > 1) {
-		e.preventDefault();
-	}
-}, { passive: false });
+// // Prevent double-tap zoom on mobile
+// document.addEventListener('touchstart', function (e) {
+// 	if (e.touches.length > 1) {
+// 		e.preventDefault();
+// 	}
+// }, { passive: false });
 
 // Prevent pull-to-refresh
 //document.body.style.overscrollBehavior = 'none';

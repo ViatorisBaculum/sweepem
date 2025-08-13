@@ -166,7 +166,6 @@ body {
 	border-radius: 4px;
 	margin: auto;
 	position: relative;
-	touch-action: pan-x pan-y;
 }
 #app.level-2 {
 	--button-color: var(--board-color-level-2);
