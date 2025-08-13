@@ -676,11 +676,15 @@ body {
 	mask-image: url("./res/back.svg");
 	background: var(--theme-color4);
 }
+.pickers {
+	margin-top: 3em;
+}
 .picker {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	gap: 0.5em;
+	margin-top: 1em;
 }
 .picker-icons {
 	display: flex;
