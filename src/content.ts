@@ -48,7 +48,7 @@ export function showMenu(): void {
 function showInitialModal(): void {
 	assert(settingsForm, "No settings template found");
 	assert(startScreen, "No game initials template found");
-	const modal = new Modal(document.body, { cancelButton: false, showSubTitle: false, showClass: false, showClassDescription: false, customClass: "start-modal" });
+	const modal = new Modal(document.body, { showTitle: false, cancelButton: false, showSubTitle: false, showClass: false, showClassDescription: false, customClass: "start-modal" });
 
 	//modal.setTitle("sweepit");
 	modal.setSlotContent(startScreen.innerHTML);
