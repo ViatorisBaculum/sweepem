@@ -181,6 +181,40 @@ export class GameMaster {
 		this.startGame();
 	}
 
+	public stopGame(): void {
+		// Save the current game state before stopping
+		try {
+			if (this._gameState !== GameState.Ended) {
+				SaveManager.saveGame();
+			}
+		} catch (error) {
+			console.error("Error saving game state:", error);
+		}
+
+		// Stop any active timers
+		this.stopTimer();
+
+		// Set game state to ended to prevent further actions
+		this._gameState = GameState.Ended;
+
+		// Remove event handlers to prevent background processes
+		if (this._board) {
+			this._board.removeEventHandler();
+		}
+
+		// Hide the game board
+		const boardElement = document.getElementById("app");
+		if (boardElement) {
+			boardElement.innerHTML = "";
+		}
+
+		// Reset UI elements
+		this.resetHeartContainer();
+
+		// Ensure no new game is automatically started
+		// We don't call startGame() here, which is what resetGame does
+	}
+
 	public saveSettingsFromUI(): void {
 		try {
 			// Try to save each setting individually so that if one fails, others can still be saved

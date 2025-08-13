@@ -293,16 +293,19 @@ body {
 	-webkit-mask-image: url("./res/3.svg");
 	mask-image: url("./res/3.svg");
 	--monster-current-bg: var(--monster-s-bg);
+	padding-top: 0.3em;
 }
 #app button.monster.G {
 	-webkit-mask-image: url("./res/4.svg");
 	mask-image: url("./res/4.svg");
 	--monster-current-bg: var(--monster-g-bg);
+	padding-right: 0.3em;
 }
 #app button.monster.W {
 	-webkit-mask-image: url("./res/5.svg");
 	mask-image: url("./res/5.svg");
 	--monster-current-bg: var(--monster-w-bg);
+	padding-top: 0.3em;
 }
 #app button.monster.B {
 	-webkit-mask-image: url("./res/6.svg");
@@ -666,6 +669,11 @@ body {
 .icon-btn.settings {
 	-webkit-mask-image: url("./res/gear.svg");
 	mask-image: url("./res/gear.svg");
+}
+.icon-btn.back {
+	-webkit-mask-image: url("./res/back.svg");
+	mask-image: url("./res/back.svg");
+	background: var(--theme-color4);
 }
 .pickers {
 	display: flex;

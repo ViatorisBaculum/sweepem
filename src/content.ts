@@ -31,7 +31,12 @@ export function initialize(): void {
 	hide(menu);
 
 	bind("openSettings", "click", () => {
-		// reload entire web app to get back home
+		// Stop the current game cleanly
+		gameInstance.stopGame();
+
+		// Hide menu and show initial modal
+		hide(menu);
+		showInitialModal();
 	});
 	bind("reset", "click", () => gameInstance.resetGame());
 	bind("openLeaderboard", "click", () => showLeaderboard());
@@ -100,6 +105,15 @@ function showInitialModal(): void {
 		});
 	}
 
+	// Add event listener for info icon in start screen
+	const startScreenInfoIcon = document.querySelector('.start-modal .icon-btn.info');
+	if (startScreenInfoIcon) {
+		startScreenInfoIcon.addEventListener('click', () => {
+			modal.destroyModal(); // Destroy the current modal (start screen)
+			showInfoModal(); // Show the info modal
+		});
+	}
+
 	gameInstance.populateSettingsUIFromGameSettings();
 }
 
@@ -155,6 +169,27 @@ export function showLeaderboard(status = ""): void {
 		gameInstance.resumeTimer();
 		toggle(menu);
 	});
+}
+
+// New function for info modal
+function showInfoModal(): void {
+	const modal = new Modal(document.body, {
+		cancelButton: false, // Changed to false
+		confirmButton: false,
+		showSubTitle: false, // No subtitle for this modal
+		showClass: false,
+		showClassDescription: false,
+		showSlot: false,
+		customClass: "info-modal", // Custom class for potential styling
+	});
+
+	// Add the back button
+	modal.addCustomButton("", () => { // Empty text as it's an icon
+		showInitialModal();
+	}, { classes: ["icon-btn", "back"], position: 'start' }); // Use 'start' for top-left
+
+	modal.setTitle("About DungeonSweeper");
+	modal.setText("DungeonSweeper is a game inspired by Minesweeper, with RPG elements. Explore dungeons, defeat monsters, and level up your hero!");
 }
 
 function showTutorial(parentModal: Modal): void {
