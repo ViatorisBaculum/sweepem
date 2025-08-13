@@ -337,6 +337,7 @@
 		"yargs-parser": "^21.1.1"
 	},
 	"devDependencies": {
+		"@capacitor/assets": "^3.0.5",
 		"@types/bonjour": "^3.5.13",
 		"clean-webpack-plugin": "^4.0.0",
 		"copy-webpack-plugin": "^13.0.0",
