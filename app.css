@@ -299,7 +299,7 @@ body {
 	-webkit-mask-image: url("./res/4.svg");
 	mask-image: url("./res/4.svg");
 	--monster-current-bg: var(--monster-g-bg);
-	padding-right: 0.3em;
+	padding-right: 0.1em;
 }
 #app button.monster.W {
 	-webkit-mask-image: url("./res/5.svg");
@@ -545,6 +545,7 @@ body {
 	transform: scale(1.4);
 }
 #specialAbility {
+	display: none;
 	transform: scaleX(1.5);
 	-webkit-mask-image: url("./res/fire.svg");
 	mask-image: url("./res/fire.svg");
@@ -705,6 +706,9 @@ body {
 	background: var(--theme-color4);
 }
 .picker-icons .difficulty {
+	padding-top: 1em;
+	-webkit-mask-position: bottom;
+	mask-position: bottom;
 	-webkit-mask-image: url("./res/difficulty.svg");
 	mask-image: url("./res/difficulty.svg");
 }
@@ -756,7 +760,7 @@ body {
 	width: 100%;
 	appearance: none;
 	background: #23282d;
-	color: var(--text);
+	color: var(--modal-background);
 	border: 1px solid rgba(255, 255, 255, 0.15);
 	border-radius: 0.5em;
 	padding: 0.4em 0.8em;
@@ -867,8 +871,8 @@ body {
 
 /* Tutorial modal specific styles */
 .tutorial-modal {
-	height: 90vh;
-	max-height: 90vh;
+	height: 100vh;
+	max-height: 100vh;
 	display: flex;
 	flex-direction: column;
 }
@@ -1095,24 +1099,12 @@ body {
 		width: 3em;
 		height: 3em;
 		font-size: 1em;
-		border-radius: 50%;
-		box-shadow: 0 2px 8px rgba(24, 61, 61, 0.18);
-		border: 2px solid #aaa;
 		align-items: center;
 		justify-content: center;
-		transition: background 0.2s ease, box-shadow 0.2s ease;
-		-webkit-mask-image: url("./res/fire.svg");
-		mask-image: url("./res/fire.svg");
-		-webkit-mask-repeat: no-repeat;
-		mask-repeat: no-repeat;
-		-webkit-mask-position: center;
-		mask-position: center;
-		-webkit-mask-size: contain;
-		mask-size: contain;
+		transition: background 0.2s ease;
 	}
 	#specialAbility:active {
 		background: #ffe066;
-		box-shadow: 0 4px 16px rgba(24, 61, 61, 0.25);
 	}
 
 	/* Tutorial modal specific styles */
