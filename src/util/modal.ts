@@ -11,6 +11,7 @@ interface modalSettings {
 	showClass?: boolean;
 	showClassDescription?: boolean;
 	showSlot?: boolean;
+	showTitle?: boolean;
 	showSubTitle?: boolean;
 	customClass?: string;
 }
@@ -22,6 +23,7 @@ export class Modal {
 		showClass: true,
 		showClassDescription: true,
 		showSlot: true,
+		showTitle: true,
 		showSubTitle: true
 	};
 	parentNode: HTMLElement;
@@ -63,7 +65,6 @@ export class Modal {
 		if (this.modalSettings.title) this.setTitle(this.modalSettings.title);
 		if (this.modalSettings.subtitle)
 			this.setSubTitle(this.modalSettings.subtitle);
-		else document.getElementById("modal-subtitle")?.remove();
 		if (this.modalSettings.text) this.setText(this.modalSettings.text);
 		if (!this.modalSettings.showClass)
 			document.getElementById("modal-class")?.remove();
@@ -71,6 +72,8 @@ export class Modal {
 			document.getElementById("modal-classDescription")?.remove();
 		if (!this.modalSettings.showSlot)
 			document.getElementById("modal-slot")?.remove();
+		if (!this.modalSettings.showTitle)
+			document.getElementById("modal-title")?.remove();
 		if (!this.modalSettings.showSubTitle)
 			document.getElementById("modal-subtitle")?.remove();
 	}

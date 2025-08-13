@@ -71,63 +71,94 @@
 			</div>
 		</div>
 	</template>
+	<template id="template-startScreen">
+		<div class="topbar">
+			<div class="icon-btn info" aria-label="Info"></div>
+			<div class="icon-btn settings" aria-label="settings"></div>
+		</div>
+
+		<div class="logo"></div>
+
+		<section class="pickers">
+			<div class="picker" data-loop="true">
+				<div class="picker-icons">
+					<div class="classes"></div>
+				</div>
+				<div class="picker-row">
+					<div class="arrow left" aria-label="previous class"></div>
+					<select id="selectClass" class="picker-select">
+						<option value="Warrior">Warrior</option>
+						<option value="Assassin">Assassin</option>
+						<option value="Paladin">Paladin</option>
+						<option value="Mage">Mage</option>
+					</select>
+					<div class="arrow right" aria-label="next class"></div>
+				</div>
+			</div>
+
+			<div class="picker" data-loop="true">
+				<div class="picker-icons">
+					<div class="dimension"></div>
+				</div>
+				<div class="picker-row">
+					<div class="arrow left" aria-label="previous class"></div>
+					<select id="boardSize" class="picker-select">
+						<option value="small">Small</option>
+						<option value="medium" selected>Medium</option>
+						<option value="large">Large</option>
+						<option value="enormous">Enormous</option>
+					</select>
+					<div class="arrow right" aria-label="next class"></div>
+				</div>
+			</div>
+
+			<div class="picker" data-loop="true">
+				<div class="picker-icons">
+					<div class="difficulty"></div>
+				</div>
+				<div class="picker-row">
+					<div class="arrow left" aria-label="previous class"></div>
+					<select id="difficulty" class="picker-select">
+						<option value="beginner" selected>Beginner</option>
+						<option value="intermediate">Intermediate</option>
+						<option value="expert">Expert</option>
+						<option value="master">Spicy</option>
+					</select>
+					<div class="arrow right" aria-label="next class"></div>
+				</div>
+			</div>
+		</section>
+	</template>
 	<template id="template-settings">
-		<fieldset>
-			<legend>Game Settings</legend>
-			<label for="selectClass">Player class</label>
-			<select id="selectClass">
-				<option value="Warrior">Warrior</option>
-				<option value="Assassin">Assassin</option>
-				<option value="Paladin">Paladin</option>
-				<option value="Mage">Mage</option>
-			</select>
+		<label class="toggle">
+			<input
+				id="invertClicks"
+				class="toggle-checkbox"
+				type="checkbox"
+				checked
+			/>
+			<div class="toggle-switch"></div>
+			<span class="toggle-label">Invert mouse buttons</span>
+		</label>
 
-			<label for="boardSize">Board Size</label>
-			<select id="boardSize">
-				<option value="small">Small (20x10)</option>
-				<option value="medium" selected>Medium (40x20)</option>
-				<option value="large">Large (60x30)</option>
-				<option value="enormous">Enormous (80x40)</option>
-			</select>
+		<label class="toggle">
+			<input id="removeFlags" class="toggle-checkbox" type="checkbox" />
+			<div class="toggle-switch"></div>
+			<span class="toggle-label">Remove flags on level up</span>
+		</label>
 
-			<label for="difficulty">Difficulty</label>
-			<select id="difficulty">
-				<option value="beginner" selected>Beginner (15% enemies)</option>
-				<option value="intermediate">Intermediate (20% enemies)</option>
-				<option value="expert">Expert (25% enemies)</option>
-				<option value="master">Master (30% enemies)</option>
-			</select>
+		<label id="modal-debug" class="toggle">
+			<input id="showDebug" class="toggle-checkbox" type="checkbox" />
+			<div class="toggle-switch"></div>
+			<span class="toggle-label">Debug-Modus anzeigen</span>
+		</label>
 
-			<label class="toggle">
-				<input
-					id="invertClicks"
-					class="toggle-checkbox"
-					type="checkbox"
-					checked
-				/>
-				<div class="toggle-switch"></div>
-				<span class="toggle-label">Invert mouse buttons</span>
-			</label>
-
-			<label class="toggle">
-				<input id="removeFlags" class="toggle-checkbox" type="checkbox" />
-				<div class="toggle-switch"></div>
-				<span class="toggle-label">Remove flags on level up</span>
-			</label>
-
-			<label id="modal-debug" class="toggle">
-				<input id="showDebug" class="toggle-checkbox" type="checkbox" />
-				<div class="toggle-switch"></div>
-				<span class="toggle-label">Debug-Modus anzeigen</span>
-			</label>
-
-			<label class="theme-label" for="themeSelect">Theme Mode</label>
-			<select id="themeSelect" name="theme">
-				<option value="light">☀️ Light</option>
-				<option value="dark">🌙 Dark</option>
-				<option value="system">💻 System</option>
-			</select>
-		</fieldset>
+		<label class="theme-label" for="themeSelect">Theme Mode</label>
+		<select id="themeSelect" name="theme">
+			<option value="light">☀️ Light</option>
+			<option value="dark">🌙 Dark</option>
+			<option value="system">💻 System</option>
+		</select>
 	</template>
 	<template id="template-leaderboard">
 		<div class="leaderboard-content">

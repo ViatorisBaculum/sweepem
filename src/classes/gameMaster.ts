@@ -85,6 +85,11 @@ export class GameMaster {
 		if (!this._board) throw new Error("Board was not initialized!");
 		return this._board;
 	}
+	public getBoardElement(): HTMLElement {
+		const boardElement = document.getElementById("app");
+		if (!boardElement) throw new Error("Board element not found in the DOM!");
+		return boardElement;
+	}
 
 	public set player(player: Player) {
 		this._player = player;
@@ -176,16 +181,72 @@ export class GameMaster {
 		this.startGame();
 	}
 
+	public stopGame(): void {
+		// Save the current game state before stopping
+		try {
+			if (this._gameState !== GameState.Ended) {
+				SaveManager.saveGame();
+			}
+		} catch (error) {
+			console.error("Error saving game state:", error);
+		}
+
+		// Stop any active timers
+		this.stopTimer();
+
+		// Set game state to ended to prevent further actions
+		this._gameState = GameState.Ended;
+
+		// Remove event handlers to prevent background processes
+		if (this._board) {
+			this._board.removeEventHandler();
+		}
+
+		// Hide the game board
+		const boardElement = document.getElementById("app");
+		if (boardElement) {
+			boardElement.innerHTML = "";
+		}
+
+		// Reset UI elements
+		this.resetHeartContainer();
+
+		// Ensure no new game is automatically started
+		// We don't call startGame() here, which is what resetGame does
+	}
+
 	public saveSettingsFromUI(): void {
 		try {
-			const boardSize = this.getValueFromInput("boardSize") as BoardSize;       // "small" | "medium" | ...
-			const difficulty = this.getValueFromInput("difficulty") as Difficulty;     // "beginner" | "intermediate" | ...
+			// Try to save each setting individually so that if one fails, others can still be saved
+			try {
+				this._gameSettings.boardSize = this.getValueFromInput("boardSize") as BoardSize;
+			} catch (e) {
+				console.warn("Could not save boardSize setting:", e);
+			}
 
-			this._gameSettings.boardSize = boardSize;
-			this._gameSettings.difficulty = difficulty;
-			this._gameSettings.playerClass = this.getValueFromInput("selectClass") as playerClasses;
-			this._gameSettings.invertClicks = this.getCheckedFromToggle("invertClicks");
-			this._gameSettings.removeFlags = this.getCheckedFromToggle("removeFlags");
+			try {
+				this._gameSettings.difficulty = this.getValueFromInput("difficulty") as Difficulty;
+			} catch (e) {
+				console.warn("Could not save difficulty setting:", e);
+			}
+
+			try {
+				this._gameSettings.playerClass = this.getValueFromInput("selectClass") as playerClasses;
+			} catch (e) {
+				console.warn("Could not save playerClass setting:", e);
+			}
+
+			try {
+				this._gameSettings.invertClicks = this.getCheckedFromToggle("invertClicks");
+			} catch (e) {
+				console.warn("Could not save invertClicks setting:", e);
+			}
+
+			try {
+				this._gameSettings.removeFlags = this.getCheckedFromToggle("removeFlags");
+			} catch (e) {
+				console.warn("Could not save removeFlags setting:", e);
+			}
 
 			localStorage.setItem("instance", JSON.stringify(this._gameSettings));
 		} catch (error) {
@@ -308,7 +369,7 @@ export class GameMaster {
 
 	private getValueFromInput(name: string) {
 		const input = document.getElementById(name);
-		if (input) return (input as HTMLInputElement).value;
+		if (input) return (input as HTMLSelectElement).value;
 		else throw new Error(`HTML input element with id '${name}' not found.`);
 	}
 
