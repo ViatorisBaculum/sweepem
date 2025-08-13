@@ -675,12 +675,6 @@ body {
 	mask-image: url("./res/back.svg");
 	background: var(--theme-color4);
 }
-.pickers {
-	display: flex;
-	flex-direction: column;
-	gap: 1em;
-	margin-top: 3em;
-}
 .picker {
 	display: flex;
 	flex-direction: column;
@@ -816,6 +810,12 @@ body {
 	justify-content: flex-end;
 	gap: 0.5em;
 	margin-top: 2em;
+}
+
+.info-modal .controls {
+	justify-content: start;
+	margin-top: 0;
+	margin-left: 1rem;
 }
 
 .modal button {

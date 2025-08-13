@@ -183,11 +183,17 @@ function showInfoModal(): void {
 		customClass: "info-modal", // Custom class for potential styling
 	});
 
-	// Add the back button
-	modal.addCustomButton("", () => { // Empty text as it's an icon
-		modal.destroyModal(); // Destroy the current modal first
+	modal.addCustomButton("", () => {
+		modal.destroyModal();
 		showInitialModal();
-	}, { classes: ["icon-btn", "back"], position: 'start' }); // Use 'start' for top-left
+	}, { classes: ["icon-btn", "back"], position: 'start' });
+
+	// Move the back button to the beginning of the modal content
+	const modalElement = document.querySelector('.info-modal');
+	if (modalElement) {
+		const controls = document.getElementById("modal-controls") as HTMLElement;
+		modalElement.insertBefore(controls, modalElement.firstChild);
+	}
 
 	modal.setTitle("About DungeonSweeper");
 	modal.setText("DungeonSweeper is a game inspired by Minesweeper, with RPG elements. Explore dungeons, defeat monsters, and level up your hero!");
