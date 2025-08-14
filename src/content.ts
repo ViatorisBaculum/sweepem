@@ -26,6 +26,7 @@ export function initialize(): void {
 	ThemeManager.initialize();
 	setupThemeToggle();
 	setupSpecialAbilityButton();
+	setupFixedMenuOnZoom();
 	showInitialModal();
 	gameInstance.populateSettingsUIFromGameSettings();
 	hide(menu);
@@ -437,3 +438,45 @@ function handleKeyDown(event: KeyboardEvent): void {
 
 // Prevent pull-to-refresh
 //document.body.style.overscrollBehavior = 'none';
+
+function setupFixedMenuOnZoom(): void {
+	const updateMenu = () => {
+		const menu = document.getElementById('menu');
+		const viewport = window.visualViewport;
+
+		assert(menu, "Menu element not found");
+		assert(viewport, "Visual viewport not available");
+
+		const scale = viewport.scale;
+		const margin = 10;
+		const layoutWidth = document.documentElement.clientWidth;
+		const layoutHeight = document.documentElement.clientHeight;
+
+		// Menügröße konstant halten
+		menu.style.transform = `scale(${1 / scale})`;
+		menu.style.transformOrigin = 'left bottom';
+
+		// horizontale Position & Breite
+		menu.style.left = `${viewport.offsetLeft + margin / scale}px`;
+		menu.style.width = `${layoutWidth - 4 * margin}px`;
+
+		// vertikale Position (optional ebenfalls mit Abstand)
+		menu.style.bottom = `${layoutHeight - (viewport.offsetTop + viewport.height)
+			}px`;
+	}
+	const viewport = window.visualViewport;
+	assert(viewport, "Visual viewport not available");
+	viewport.addEventListener('resize', updateMenu);
+	viewport.addEventListener('scroll', updateMenu);
+	updateMenu();
+}
+
+// Prevent double-tap zoom while allowing pinch-to-zoom
+let lastTouchEnd = 0;
+document.addEventListener('touchend', function (e) {
+	const now = Date.now();
+	if (now - lastTouchEnd <= 300) {
+		e.preventDefault();
+	}
+	lastTouchEnd = now;
+}, { passive: false });
