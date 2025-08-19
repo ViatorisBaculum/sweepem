@@ -70,7 +70,7 @@
 	--button-clicked-color: #2d333b;
 	--button-notclicked-color: #4b515b;
 	--button-clicked-border-color: #36393e;
-	--button-hover-color: #5b616b;
+	--button-hover-color: #f2668b;
 	--button-border-color: #4b515b;
 
 	--body-background: #181a1b;
@@ -599,9 +599,10 @@ body {
 }
 
 .modal button:hover,
-.modal button:focus {
-	background: var(--theme-color3);
-	color: var(--theme-color1);
+.modal button:focus,
+.icon-btn:hover {
+	background: var(--theme-color5);
+	color: var(--theme-color2);
 	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 	transform: translateY(-1px);
 	cursor: pointer;
@@ -626,6 +627,11 @@ body {
 
 #modal-confirm {
 	background: var(--theme-color5);
+}
+
+#modal-confirm:hover,
+#modal-confirm:focus {
+	background: var(--theme-color3);
 }
 
 /* Specific Modal Types */
@@ -662,14 +668,7 @@ body {
 
 #modal-leaderboard {
 	margin: 0;
-	padding: 0;
-}
-
-#modal-leaderboard ul,
-#modal-leaderboard ol {
-	list-style: none;
-	padding: 0;
-	margin: 0;
+	padding: 0 1rem;
 }
 
 #modal-leaderboard li {
@@ -745,6 +744,7 @@ body {
 	-webkit-mask-image: url("./res/back.svg");
 	mask-image: url("./res/back.svg");
 	background: var(--theme-color0);
+	margin-bottom: 2rem;
 }
 
 /* --- Pickers (Class, Size, Difficulty) --- */
@@ -1111,9 +1111,6 @@ body {
 	}
 	.modal .controls {
 		margin-top: 0;
-	}
-	.leaderboard-modal h1 {
-		margin-top: 5em;
 	}
 	#specialAbility {
 		position: fixed;

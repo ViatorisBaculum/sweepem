@@ -186,13 +186,13 @@ export function showLeaderboard(status = ""): void {
 // New function for info modal
 function showInfoModal(): void {
 	const modal = new Modal(document.body, {
-		cancelButton: false, // Changed to false
+		cancelButton: false,
 		confirmButton: false,
-		showSubTitle: false, // No subtitle for this modal
+		showSubTitle: false,
 		showClass: false,
 		showClassDescription: false,
 		showSlot: false,
-		customClass: "info-modal", // Custom class for potential styling
+		customClass: "info-modal",
 	});
 
 	modal.addCustomButton("", () => {
@@ -207,8 +207,23 @@ function showInfoModal(): void {
 		modalElement.insertBefore(controls, modalElement.firstChild);
 	}
 
-	modal.setTitle("About DungeonSweeper");
-	modal.setText("DungeonSweeper is a game inspired by Minesweeper, with RPG elements. Explore dungeons, defeat monsters, and level up your hero!");
+	modal.setTitle("About");
+
+	const infoText = `
+		<p><strong>sweepem</strong> is a strategic blend of classic Minesweeper and a captivating RPG.</p>
+		<p>Your goal? Uncover the board and find the boss. But be warned: one wrong move could be your last! Every game is a new, randomly generated adventure. Are you ready to climb the leaderboards? ⚔️</p>
+		<hr>
+		<h4>Crafted with ❤️</h4>
+		<p>Developed and designed by <strong>Waldemar Stab</strong>.</p>
+		<p>This game is a passion project. If you find a bug or have an idea for a new feature, please let me know!</p>
+		<ul style="list-style: none; padding: 0; text-align: left;">
+			<li><strong>Feedback & Bugs:</strong> <a href="https://github.com/wstab/dungeonsweeper" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+		</ul>
+		<hr>
+		<p style="text-align:center; font-size: 0.8em; opacity: 0.7;">Version 1.0.0<br>© 2025 Waldemar Stab. All rights reserved.</p>
+	`;
+
+	modal.setTextAsHTML(infoText);
 }
 
 function showTutorial(parentModal: Modal): void {
@@ -219,7 +234,7 @@ function showTutorial(parentModal: Modal): void {
 			title: "Welcome to DungeonSweeper!",
 			text: "The goal is to kill the boss. A revealed tile shows a number indicating the total strength of all adjacent monsters. \n\n" +
 				"The highlighted 4 indicates, that the sum of the adjacent monsters is 4. So, in this case, the 3 and the 1 are adjacent to the 4.",
-			image: "./res/tutorial4.png",
+			image: "./res/tutorial1.png",
 		},
 		{
 			title: "Basic Controls",

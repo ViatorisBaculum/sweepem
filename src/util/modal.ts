@@ -148,6 +148,12 @@ export class Modal {
 			modal.innerText = text;
 		}
 	}
+	setTextAsHTML(html: string) {
+		const modal = document.getElementById("modal-text");
+		if (modal) {
+			modal.innerHTML = html;
+		}
+	}
 	setLeaderboardContent(content: number[]) {
 		const modal = document.getElementById("modal-leaderboard");
 		if (modal) {
