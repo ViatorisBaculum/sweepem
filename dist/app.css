@@ -5,6 +5,8 @@
 	--cols: 40;
 	--rows: 20;
 	color-scheme: light dark;
+	--ion-safe-area-top: 3em;
+	--ion-statusbar-padding: 3em;
 
 	/* Farbpalette */
 	--theme-color1: #74b9b3;
@@ -627,6 +629,8 @@ body {
 	top: 0;
 	gap: 0.6em;
 	margin-top: 0.5em;
+	/* Default padding-top that will be overridden by JavaScript when needed */
+	padding-top: 2em;
 }
 
 .start-modal {
@@ -1009,11 +1013,6 @@ body {
    Mobile-responsive adjustments (max-width: 600px)
    =========================================================== */
 @media only screen and (max-width: 600px) {
-	body {
-		position: relative;
-		height: 100%;
-		overflow: auto;
-	}
 	#game-container {
 		padding: 10em;
 	}
@@ -1062,16 +1061,14 @@ body {
 	}
 	.modal {
 		width: 100%;
-		height: 100vh;
+		height: 100%;
 		border-radius: unset;
 		overflow-y: auto;
 		margin: 0;
-		padding: 1.5em 1em;
-		padding-top: 4em;
+		padding: 1em 1em;
+		/* This will be overridden by JavaScript when running in Capacitor */
+		padding-top: env(safe-area-inset-top, 2em);
 		box-sizing: border-box;
-		position: absolute;
-		top: 0;
-		left: 0;
 		display: flex;
 		flex-direction: column;
 	}
@@ -1080,11 +1077,15 @@ body {
 		padding: 0;
 		position: fixed;
 		overflow-y: auto;
+		height: 100dvh;
 	}
 	.modal #modal-content {
-		padding-bottom: 2em;
+		padding-bottom: 0em;
 		overflow-y: auto;
 		flex-grow: 1;
+	}
+	.modal .controls {
+		margin-top: 0;
 	}
 	.leaderboard-modal h1 {
 		margin-top: 5em;
@@ -1120,7 +1121,7 @@ body {
 	}
 
 	.tutorial-modal .controls {
-		margin-top: auto;
+		margin-top: 0;
 		flex-shrink: 0;
 	}
 }

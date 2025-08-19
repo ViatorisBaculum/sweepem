@@ -1,6 +1,7 @@
 import defaults from "./defaults";
 import { GameMaster } from "../classes/gameMaster";
 import { playerClasses } from "../util/customTypes";
+import { isCapacitorEnvironment, adjustModalPaddingForStatusBar } from "./capacitorUtils";
 
 interface modalSettings {
 	cancelButton?: boolean;
@@ -13,6 +14,7 @@ interface modalSettings {
 	showSlot?: boolean;
 	showTitle?: boolean;
 	showSubTitle?: boolean;
+	showLeaderboard?: boolean;
 	customClass?: string;
 }
 
@@ -24,6 +26,7 @@ export class Modal {
 		showClassDescription: true,
 		showSlot: true,
 		showTitle: true,
+		showLeaderboard: true,
 		showSubTitle: true
 	};
 	parentNode: HTMLElement;
@@ -45,6 +48,16 @@ export class Modal {
 		if (modalSettings?.customClass) {
 			const modalElement = document.querySelector(".modal");
 			modalElement?.classList.add(modalSettings.customClass);
+		}
+
+		// Adjust modal padding for Capacitor environment
+		if (isCapacitorEnvironment()) {
+			const modalElement = document.querySelector(".modal") as HTMLElement | null;
+			if (modalElement) {
+				adjustModalPaddingForStatusBar(modalElement).catch(error => {
+					console.warn('Error adjusting modal padding for status bar:', error);
+				});
+			}
 		}
 
 		this.setCancelAction();
@@ -76,6 +89,8 @@ export class Modal {
 			document.getElementById("modal-title")?.remove();
 		if (!this.modalSettings.showSubTitle)
 			document.getElementById("modal-subtitle")?.remove();
+		if (!this.modalSettings.showLeaderboard)
+			document.getElementById("modal-leaderboard")?.remove();
 	}
 
 	setSubTitle(title: string) {
