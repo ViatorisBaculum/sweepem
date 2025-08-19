@@ -119,7 +119,7 @@ function showInitialModal(): void {
 
 function showSettings(): void {
 	assert(settingsForm, "No settings template found");
-	const modal = new Modal(document.body, { cancelButton: false, confirmButton: false });
+	const modal = new Modal(document.body, { showClass: false, showClassDescription: false, showLeaderboard: false, cancelButton: false, confirmButton: false, customClass: "settings-modal" });
 
 	// pause the game timer
 	gameInstance.pauseTimer();
@@ -440,6 +440,9 @@ function handleKeyDown(event: KeyboardEvent): void {
 //document.body.style.overscrollBehavior = 'none';
 
 function setupFixedMenuOnZoom(): void {
+	// only run this if the device is a mobile device
+
+
 	const updateMenu = () => {
 		const menu = document.getElementById('menu');
 		const viewport = window.visualViewport;
@@ -468,7 +471,11 @@ function setupFixedMenuOnZoom(): void {
 	assert(viewport, "Visual viewport not available");
 	viewport.addEventListener('resize', updateMenu);
 	viewport.addEventListener('scroll', updateMenu);
-	updateMenu();
+
+	// only run this if the device is a mobile device
+	if (viewport.scale !== 1) {
+		updateMenu();
+	}
 }
 
 // Prevent double-tap zoom while allowing pinch-to-zoom
