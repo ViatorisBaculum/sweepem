@@ -745,6 +745,7 @@ body {
 	mask-image: url("./res/back.svg");
 	background: var(--theme-color0);
 	margin-bottom: 2rem;
+	flex: 0 0 auto; /* Prevent flex sizing */
 }
 
 /* --- Pickers (Class, Size, Difficulty) --- */
