@@ -128,22 +128,21 @@ function showSettings(): void {
 	modal.setText("Please choose the settings for your next round")
 	modal.setSlotContent(settingsForm.innerHTML)
 
-	// Add "Back to Start" button
-	modal.addCustomButton("Back to Start", () => {
-		// save settings before going back
-		gameInstance.saveSettingsFromUI();
+	modal.addCustomButton("", () => {
 		modal.destroyModal();
 		showInitialModal();
-	}, { position: 'start' });
+	}, { classes: ["icon-btn", "back"], position: 'start' });
+
+	// Move the back button to the beginning of the modal content
+	const modalElement = document.querySelector('.settings-modal');
+	if (modalElement) {
+		const controls = document.getElementById("modal-controls") as HTMLElement;
+		modalElement.insertBefore(controls, modalElement.firstChild);
+	}
 
 	modal.setDefaultClass();
 	setupThemeToggle();
 	gameInstance.populateSettingsUIFromGameSettings();
-
-	// just for debugging purposes
-	try {
-		gameInstance.board.setupDebugUI();
-	} catch (e) { }
 }
 
 export function showLeaderboard(status = ""): void {
@@ -152,7 +151,7 @@ export function showLeaderboard(status = ""): void {
 	gameInstance.pauseTimer();
 
 	const modal = new Modal(document.body, {
-		cancelButton: true,
+		cancelButton: false,
 		confirmButton: false,
 		showSubTitle: true,
 		showClass: false,
@@ -169,6 +168,19 @@ export function showLeaderboard(status = ""): void {
 		gameInstance.resumeTimer();
 		toggle(menu);
 	});
+
+	modal.addCustomButton("", () => {
+		modal.destroyModal();
+		gameInstance.resumeTimer();
+		toggle(menu);
+	}, { classes: ["icon-btn", "back"], position: 'start' });
+
+	// Move the back button to the beginning of the modal content
+	const modalElement = document.querySelector('.leaderboard-modal');
+	if (modalElement) {
+		const controls = document.getElementById("modal-controls") as HTMLElement;
+		modalElement.insertBefore(controls, modalElement.firstChild);
+	}
 }
 
 // New function for info modal
@@ -264,11 +276,23 @@ function showTutorial(parentModal: Modal): void {
 		nextButton.innerText = currentStep === steps.length - 1 ? "Finish" : "Next";
 	};
 
-	// add custom button to cancel the tutorial
-	tutorialModal.addCustomButton("Cancel", () => {
+	// // add custom button to cancel the tutorial
+	// tutorialModal.addCustomButton("Cancel", () => {
+	// 	tutorialModal.destroyModal();
+	// 	showInitialModal();
+	// });
+
+	tutorialModal.addCustomButton("", () => {
 		tutorialModal.destroyModal();
 		showInitialModal();
-	});
+	}, { classes: ["icon-btn", "back"], position: 'start' });
+
+	// Move the back button to the beginning of the modal content
+	const modalElement = document.querySelector('.tutorial-modal');
+	if (modalElement) {
+		const controls = document.querySelector(".back") as HTMLElement;
+		modalElement.insertBefore(controls, modalElement.firstChild);
+	}
 
 
 	const prevButton = tutorialModal.addCustomButton("Previous", () => {
