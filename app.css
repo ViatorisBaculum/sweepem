@@ -602,7 +602,6 @@ body {
 .modal button:focus,
 .icon-btn:hover {
 	background: var(--theme-color5);
-	color: var(--theme-color2);
 	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 	transform: translateY(-1px);
 	cursor: pointer;
@@ -659,6 +658,7 @@ body {
 .tutorial-modal .controls {
 	margin-top: auto;
 	flex-shrink: 0;
+	position: relative;
 }
 
 .leaderboard-modal h1 {
@@ -728,6 +728,8 @@ body {
 	mask-repeat: no-repeat;
 	-webkit-mask-position: center;
 	mask-position: center;
+	-webkit-user-select: none;
+	user-select: none;
 }
 
 .icon-btn.info {
@@ -818,7 +820,7 @@ body {
 .arrow {
 	width: 2em;
 	height: 2em;
-	background: var(--theme-color3);
+	background: var(--theme-color0);
 	border: 1px solid var(--theme-color4);
 	border: none;
 	cursor: pointer;
@@ -844,7 +846,7 @@ body {
 	appearance: none;
 	background: var(--theme-color3);
 	color: var(--theme-color0);
-	border: 1px solid var(--theme-color4);
+	border: none;
 	border-radius: 0.5em;
 	padding: 0.4em 0.8em;
 	font-size: 1em;

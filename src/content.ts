@@ -232,31 +232,51 @@ function showTutorial(parentModal: Modal): void {
 	const steps = [
 		{
 			title: "Welcome to DungeonSweeper!",
-			text: "The goal is to kill the boss. A revealed tile shows a number indicating the total strength of all adjacent monsters. \n\n" +
-				"The highlighted 4 indicates, that the sum of the adjacent monsters is 4. So, in this case, the 3 and the 1 are adjacent to the 4.",
+			text: `
+				<p>The goal is to kill the boss. A revealed tile shows a number indicating the total strength of all adjacent monsters.</p>
+				<p>The highlighted <strong>4</strong> indicates that the sum of the adjacent monsters is 4. So, in this case, the <strong>3</strong> and the <strong>1</strong> are adjacent to the 4.</p>
+			`,
 			image: "./res/tutorial1.png",
 		},
 		{
 			title: "Basic Controls",
-			text: "LEFT CLICK to reveal a tile. Be careful! If it's a monster, you'll take damage.\n\nRIGHT CLICK to place a flag on a tile you suspect hides a monster." +
-				"\n\nOn mobile you have to touch and hold on the tile to imitate an right click.",
+			text: `
+				<ul>
+					<li><strong>LEFT CLICK</strong> to reveal a tile. Be careful! If it's a monster, you'll take damage.</li>
+					<li><strong>RIGHT CLICK</strong> to place a flag on a tile you suspect hides a monster.</li>
+				</ul>
+				<p><strong>On mobile</strong> you have to touch and hold on the tile to imitate a right click.</p>
+			`,
 			image: "./res/tutorial1.png",
 		},
 		{
 			title: "Monsters & Leveling",
-			text: "Clicking a monster damages you. \n\nStronger monsters deal more damage. \n\nDefeat monsters and clear tiles to gain experience and level up, making you stronger and recharging your abilities!",
+			text: `
+				<ul>
+					<li>Clicking a monster damages you.</li>
+					<li>Stronger monsters deal more damage.</li>
+					<li>Defeat monsters and clear tiles to gain experience and level up, making you stronger and recharging your abilities!</li>
+				</ul>
+			`,
 			image: "./res/tutorial2.png",
 		},
 		{
 			title: "Classes & Abilities",
-			text:
-				"Warrior\nGains health on level up\n" +
-				"Mage\nHas a fireball ability, which opens a 3x3 area\n" +
-				"Assassin\nHas the ability to execute monsters on his level\n" +
-				"Paladin\nHas high health to begin with\n" +
-				"\n\nEach class has unique powers. The Warrior gains health on level up, the Mage has a fireball, and the Assassin can execute enemies with a right-click. Choose wisely! \n\n" +
-				"To use the fireball, you have to click the fireball button and then click on a tile you want to attack. This opens a 3x3 area." +
-				"\n\nTo use the Assassin's special ability, you have to click on a monster with a right click. If the monster is of the same level as you, you won't take any damage.",
+			text: `
+				<h3>Class Abilities</h3>
+				<ul>
+					<li><strong>Warrior</strong> - Gains health on level up</li>
+					<li><strong>Mage</strong> - Has a fireball ability, which opens a 3x3 area</li>
+					<li><strong>Assassin</strong> - Has the ability to execute monsters on his level</li>
+					<li><strong>Paladin</strong> - Has high health to begin with</li>
+				</ul>
+				<p>Each class has unique powers. The Warrior gains health on level up, the Mage has a fireball, and the Assassin can execute enemies with a right-click. Choose wisely!</p>
+				<h3>Using Abilities</h3>
+				<ul>
+					<li><strong>Fireball (Mage)</strong>: Click the fireball button and then click on a tile you want to attack. This opens a 3x3 area.</li>
+					<li><strong>Execute (Assassin)</strong>: Click on a monster with a right click. If the monster is of the same level as you, you won't take any damage.</li>
+				</ul>
+			`,
 			image: "", // Placeholder for classes image
 		},
 	];
@@ -278,7 +298,7 @@ function showTutorial(parentModal: Modal): void {
 		const step = steps[currentStep];
 		tutorialModal.setTitle(`Tutorial (${currentStep + 1}/${steps.length})`);
 		tutorialModal.setSubTitle(step.title);
-		tutorialModal.setText(step.text);
+		tutorialModal.setTextAsHTML(step.text);
 
 		if (step.image && imageElement) {
 			imageElement.src = step.image;
@@ -468,20 +488,7 @@ function handleKeyDown(event: KeyboardEvent): void {
 	}
 }
 
-// // Prevent double-tap zoom on mobile
-// document.addEventListener('touchstart', function (e) {
-// 	if (e.touches.length > 1) {
-// 		e.preventDefault();
-// 	}
-// }, { passive: false });
-
-// Prevent pull-to-refresh
-//document.body.style.overscrollBehavior = 'none';
-
 function setupFixedMenuOnZoom(): void {
-	// only run this if the device is a mobile device
-
-
 	const updateMenu = () => {
 		const menu = document.getElementById('menu');
 		const viewport = window.visualViewport;

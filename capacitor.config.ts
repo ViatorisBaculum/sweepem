@@ -1,9 +1,10 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.example.sweepem',
+  appId: 'com.sweepem.app',
   appName: 'sweepem',
-  webDir: 'dist'
+  webDir: 'dist',
+  zoomEnabled: true
 };
 
 export default config;
