@@ -89,8 +89,14 @@
 
 /* Invert monster icon colors in dark mode */
 :root.dark #app button.monster {
-	color: var(--theme-color4) !important;
+	color: var(--theme-color0) !important;
 	border-color: var(--theme-color2);
+}
+:root.dark #app button.monster.R,
+:root.dark #app button.monster.Z,
+:root.dark #app button.monster.S,
+:root.dark #app button.monster.B {
+	color: var(--theme-color4) !important;
 }
 
 /*--------------------------------------------------------------
@@ -853,6 +859,10 @@ body {
 	text-align: center;
 	-webkit-user-select: none;
 	user-select: none;
+}
+.picker-select option:disabled {
+	background: var(--theme-color3);
+	color: var(--theme-color0);
 }
 
 /* --- Settings Components (Toggle, Theme Select) --- */
