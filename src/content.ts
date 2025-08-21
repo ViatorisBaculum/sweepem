@@ -501,15 +501,15 @@ function setupFixedMenuOnZoom(): void {
 		const layoutWidth = document.documentElement.clientWidth;
 		const layoutHeight = document.documentElement.clientHeight;
 
-		// Menügröße konstant halten
+		// menu size 
 		menu.style.transform = `scale(${1 / scale})`;
 		menu.style.transformOrigin = 'left bottom';
 
-		// horizontale Position & Breite
+		// horizontal Position
 		menu.style.left = `${viewport.offsetLeft + margin / scale}px`;
 		menu.style.width = `${layoutWidth - 4 * margin}px`;
 
-		// vertikale Position (optional ebenfalls mit Abstand)
+		// vertical Position
 		menu.style.bottom = `${layoutHeight - (viewport.offsetTop + viewport.height)
 			}px`;
 	}
@@ -517,11 +517,6 @@ function setupFixedMenuOnZoom(): void {
 	assert(viewport, "Visual viewport not available");
 	viewport.addEventListener('resize', updateMenu);
 	viewport.addEventListener('scroll', updateMenu);
-
-	// only run this if the device is a mobile device
-	if (viewport.scale !== 1) {
-		updateMenu();
-	}
 }
 
 // Prevent double-tap zoom while allowing pinch-to-zoom

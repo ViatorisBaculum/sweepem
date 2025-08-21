@@ -38,13 +38,13 @@ export class PC_Mage extends Player {
 		}
 	}
 
-        override onPrimaryAction(cell: Cell, e?: MouseEvent): void {
-                if (this.isFireballModeActive) {
-                        this.castFireballOnCell(cell.x, cell.y);
-                } else {
-                        super.onPrimaryAction(cell, e);
-                }
-        }
+	override onPrimaryAction(cell: Cell, e?: MouseEvent): void {
+		if (this.isFireballModeActive) {
+			this.castFireballOnCell(cell.x, cell.y);
+		} else {
+			super.onPrimaryAction(cell, e);
+		}
+	}
 
 	public canCastFireball(): boolean {
 		return this._fireballAvailable;

@@ -12,12 +12,12 @@
 	color-scheme: light dark;
 
 	/* Color Palette */
-	--theme-color0: #012b35;
-	--theme-color1: #03a688;
-	--theme-color2: #026873;
-	--theme-color3: #025e73;
-	--theme-color4: #011f26;
-	--theme-color5: #f2668b;
+	--theme-light: #f7faf9;
+	--theme-colored: #03a688;
+	--theme-dark: #026873;
+	--theme-darker: #025e73;
+	--theme-darkest: #011f26;
+	--theme-highlight: #f2668b;
 
 	/* Button Sizes & Colors */
 	--button-size: 1.5em;
@@ -37,11 +37,11 @@
 	--app-background: #ffffff;
 
 	/* Board Colors */
-	--board-color-level-1: #bfd8b8;
-	--board-color-level-2: #7ea16b;
-	--board-color-level-3: #5c8374;
-	--board-color-level-4: #355c7d;
-	--board-color-level-5: #f67280;
+	--board-color-level-2: #7c9fcc;
+	--board-color-level-3: #8fcc70;
+	--board-color-level-4: #cccb7e;
+	--board-color-level-5: #cc6c9e;
+	--board-color-level-1: #956ecc;
 
 	/* Monster Colors */
 	--monster-r-bg: #04d9d9;
@@ -59,12 +59,12 @@
 }
 
 :root.dark {
-	--theme-color0: #ffffff;
-	--theme-color1: #03a688;
-	--theme-color2: #026873;
-	--theme-color3: #424c5e;
-	--theme-color4: #011f26;
-	--theme-color5: #f2668b;
+	--theme-light: #ffffff;
+	--theme-colored: #03a688;
+	--theme-dark: #026873;
+	--theme-darker: #424c5e;
+	--theme-darkest: #011f26;
+	--theme-highlight: #f2668b;
 
 	--button-color: #5b616b;
 	--button-clicked-color: #2d333b;
@@ -78,6 +78,13 @@
 	--modal-background: #23272f;
 	color: #f5f6fa;
 
+	/* Board Colors dark */
+	--board-color-level-2: #9cc7ff;
+	--board-color-level-3: #b3ff8c;
+	--board-color-level-4: #f7f599;
+	--board-color-level-5: #fc86c2;
+	--board-color-level-1: #ba8aff;
+
 	/* Monster Colors */
 	--monster-r-bg: #04d9d9;
 	--monster-z-bg: #abd904;
@@ -89,14 +96,34 @@
 
 /* Invert monster icon colors in dark mode */
 :root.dark #app button.monster {
-	color: var(--theme-color0) !important;
-	border-color: var(--theme-color2);
+	color: var(--theme-light) !important;
+	border-color: var(--theme-dark);
 }
 :root.dark #app button.monster.R,
 :root.dark #app button.monster.Z,
 :root.dark #app button.monster.S,
 :root.dark #app button.monster.B {
-	color: var(--theme-color4) !important;
+	color: var(--theme-darkest) !important;
+}
+:root.dark .arrow {
+	background: var(--theme-light);
+}
+:root.dark .icon-btn {
+	background: var(--theme-light);
+}
+:root.dark .modal {
+	background-color: var(--modal-background);
+	color: var(--theme-light);
+}
+:root.dark .picker-icons > div {
+	background: var(--theme-light);
+}
+:root.dark #modal-leaderboard li:hover {
+	background: var(--theme-highlight);
+	color: var(--theme-darkest);
+}
+:root.dark #app button.clicked {
+	color: var(--theme-light);
 }
 
 /*--------------------------------------------------------------
@@ -110,9 +137,16 @@ body {
 	height: 100%;
 	min-height: 100vh;
 	background: var(--body-background);
-	color: var(--theme-color4);
+	color: var(--theme-darkest);
 	font-family: "Inter", "Segoe UI", "Roboto", "Helvetica Neue", Arial,
 		sans-serif;
+
+	/* Hide scrollbar for IE, Edge and Firefox */
+	-ms-overflow-style: none; /* IE and Edge */
+	scrollbar-width: none; /* Firefox */
+}
+body::-webkit-scrollbar {
+	display: none;
 }
 
 /* Remove default focus outline */
@@ -153,7 +187,7 @@ body {
 #game .header h1 {
 	font-size: 1.6rem;
 	font-weight: 600;
-	color: var(--theme-color0);
+	color: var(--theme-light);
 	margin: 0;
 }
 
@@ -209,13 +243,13 @@ body {
 /* Cell states */
 #app.highlight button {
 	animation: highlight 1s reverse forwards;
-	background-color: var(--theme-color1);
+	background-color: var(--theme-colored);
 }
 
 #app button.clicked {
 	background-color: var(--button-clicked-color);
 	border: 1px solid var(--button-clicked-border-color);
-	color: var(--theme-color0);
+	color: var(--theme-darkest);
 	transition: transform 1s linear;
 	z-index: 1;
 }
@@ -223,7 +257,7 @@ body {
 #app button.notClicked {
 	background-color: var(--button-notclicked-color);
 	border: 1px solid var(--button-border-color);
-	color: var(--theme-color4);
+	color: var(--theme-darkest);
 }
 
 #app button.flagged {
@@ -280,7 +314,7 @@ body {
 	-webkit-mask-image: url("./res/4.svg");
 	mask-image: url("./res/4.svg");
 	--monster-current-bg: var(--monster-g-bg);
-	padding-right: 0.4rem;
+	padding-right: 8px;
 }
 #app button.monster.W {
 	-webkit-mask-image: url("./res/5.svg");
@@ -308,7 +342,7 @@ body {
 	display: none;
 	justify-content: space-between;
 	align-items: center;
-	background-color: var(--theme-color3);
+	background-color: var(--theme-darker);
 	padding: 0.8em 1em;
 	border-radius: 0.5em;
 	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -327,7 +361,7 @@ body {
 	display: flex;
 	align-items: center;
 	gap: 1em;
-	color: var(--theme-color0);
+	color: var(--theme-light);
 }
 
 #statSheet p {
@@ -343,11 +377,11 @@ body {
 	width: 2.2em;
 	height: 2.2em;
 	border-radius: 50%;
-	border: 1px solid var(--theme-color0);
+	border: 1px solid var(--theme-light);
 	text-align: center;
 	line-height: 2.2em;
-	background: var(--theme-color3);
-	color: var(--theme-color0);
+	background: var(--theme-darker);
+	color: var(--theme-light);
 	font-weight: bold;
 }
 
@@ -373,7 +407,7 @@ body {
 #health .heart {
 	width: 1.2em;
 	height: 1.2em;
-	background-color: var(--theme-color0);
+	background-color: var(--theme-light);
 	-webkit-mask-image: url("./res/heart.svg");
 	mask-image: url("./res/heart.svg");
 	-webkit-mask-repeat: no-repeat;
@@ -393,23 +427,23 @@ body {
 	-moz-appearance: none;
 	width: 4em;
 	height: 0.7em;
-	border: 1px solid var(--theme-color0);
+	border: 1px solid var(--theme-light);
 	border-radius: 4px;
-	background-color: var(--theme-color3);
+	background-color: var(--theme-darker);
 	overflow: hidden;
 }
 
 #experience[value]::-webkit-progress-bar {
-	background-color: var(--theme-color4);
+	background-color: var(--theme-darkest);
 }
 
 #experience[value]::-webkit-progress-value {
-	background-color: var(--theme-color2);
+	background-color: var(--theme-dark);
 }
 
 #experience[value]:hover::after {
-	background: var(--theme-color2);
-	border: 1px solid var(--theme-color1);
+	background: var(--theme-dark);
+	border: 1px solid var(--theme-colored);
 	content: attr(value) "/" attr(max);
 	display: block;
 	transform: translateY(-150%);
@@ -431,7 +465,7 @@ body {
 	padding: 0;
 	margin-left: 0.8em;
 	background: transparent;
-	background-color: var(--theme-color0);
+	background-color: var(--theme-light);
 	border: none;
 	cursor: pointer;
 	transition: filter 0.2s ease;
@@ -522,7 +556,7 @@ body {
 
 .modal {
 	background-color: var(--modal-background);
-	color: var(--theme-color0);
+	color: var(--theme-darkest);
 	border-radius: 1em;
 	padding: 2em 1.5em 1.2em 1.5em;
 	width: 25em;
@@ -546,7 +580,6 @@ body {
 	margin-top: 0;
 	font-weight: 700;
 	letter-spacing: 0.02em;
-	color: var(--theme-color0);
 }
 
 .modal h2 {
@@ -555,7 +588,7 @@ body {
 
 .modal hr {
 	border: none;
-	border-top: 1px solid var(--theme-color2);
+	border-top: 1px solid var(--theme-dark);
 	margin: 1em 0;
 }
 
@@ -593,7 +626,7 @@ body {
 }
 
 .modal button {
-	background: var(--theme-color3);
+	background: var(--theme-darker);
 	color: #fff;
 	border: none;
 	border-radius: 0.4em;
@@ -607,7 +640,7 @@ body {
 .modal button:hover,
 .modal button:focus,
 .icon-btn:hover {
-	background: var(--theme-color5);
+	background: var(--theme-highlight);
 	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 	transform: translateY(-1px);
 	cursor: pointer;
@@ -615,14 +648,14 @@ body {
 
 .modal button.cancel {
 	background: #fff;
-	color: var(--theme-color2);
-	border: 1px solid var(--theme-color2);
+	color: var(--theme-dark);
+	border: 1px solid var(--theme-dark);
 	padding: 0.45em 1.1em;
 }
 
 .modal button.cancel:hover,
 .modal button.cancel:focus {
-	background: var(--theme-color2);
+	background: var(--theme-dark);
 	color: #fff;
 }
 
@@ -631,12 +664,12 @@ body {
 }
 
 #modal-confirm {
-	background: var(--theme-color5);
+	background: var(--theme-highlight);
 }
 
 #modal-confirm:hover,
 #modal-confirm:focus {
-	background: var(--theme-color3);
+	background: var(--theme-darker);
 }
 
 /* Specific Modal Types */
@@ -648,8 +681,7 @@ body {
 }
 
 .tutorial-modal {
-	height: 100vh;
-	max-height: 100vh;
+	height: 100svh;
 	display: flex;
 	flex-direction: column;
 }
@@ -678,8 +710,8 @@ body {
 }
 
 #modal-leaderboard li {
-	background: var(--theme-color1);
-	color: var(--theme-color4);
+	background: var(--theme-darker);
+	color: var(--theme-light);
 	margin: 0.3em 0;
 	padding: 0.6em 1em;
 	border-radius: 0.4em;
@@ -694,9 +726,8 @@ body {
 
 #modal-leaderboard li:hover {
 	transform: translateX(5px) scale(1.02);
-	background: var(--theme-color3);
-	color: var(--theme-color1);
-	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+	background: var(--theme-colored);
+	color: var(--theme-light);
 }
 
 #modal-leaderboard li:hover ~ li {
@@ -722,7 +753,7 @@ body {
 }
 
 .icon-btn {
-	background: var(--theme-color0);
+	background: var(--theme-darker);
 	width: 3em;
 	height: 3em;
 	cursor: pointer;
@@ -751,7 +782,6 @@ body {
 .icon-btn.back {
 	-webkit-mask-image: url("./res/back.svg");
 	mask-image: url("./res/back.svg");
-	background: var(--theme-color0);
 	margin-bottom: 2rem;
 	flex: 0 0 auto; /* Prevent flex sizing */
 }
@@ -786,7 +816,7 @@ body {
 	mask-repeat: no-repeat;
 	-webkit-mask-position: center;
 	mask-position: center;
-	background: var(--theme-color0);
+	background: var(--theme-darkest);
 }
 
 .picker-icons .difficulty {
@@ -826,8 +856,8 @@ body {
 .arrow {
 	width: 2em;
 	height: 2em;
-	background: var(--theme-color0);
-	border: 1px solid var(--theme-color4);
+	background: var(--theme-darker);
+	border: 1px solid var(--theme-darkest);
 	border: none;
 	cursor: pointer;
 	-webkit-mask-size: contain;
@@ -850,8 +880,8 @@ body {
 .picker-select {
 	width: 100%;
 	appearance: none;
-	background: var(--theme-color3);
-	color: var(--theme-color0);
+	background: var(--theme-darker);
+	color: var(--theme-light);
 	border: none;
 	border-radius: 0.5em;
 	padding: 0.4em 0.8em;
@@ -860,9 +890,9 @@ body {
 	-webkit-user-select: none;
 	user-select: none;
 }
-.picker-select option:disabled {
-	background: var(--theme-color3);
-	color: var(--theme-color0);
+.picker-select:disabled {
+	background: var(--theme-darker);
+	color: var(--theme-light);
 }
 
 /* --- Settings Components (Toggle, Theme Select) --- */
@@ -907,7 +937,7 @@ body {
 .toggle-switch:before {
 	content: "";
 	display: block;
-	background: var(--theme-color0);
+	background: var(--theme-light);
 	border-radius: 50%;
 	box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25);
 	width: 26px;
@@ -924,7 +954,7 @@ body {
 }
 
 .toggle-checkbox:checked + .toggle-switch {
-	background: var(--theme-color5);
+	background: var(--theme-highlight);
 }
 
 .toggle-checkbox:checked + .toggle-switch:before {
@@ -939,9 +969,9 @@ body {
 	display: block;
 	margin-top: 0.5em;
 	border: none;
-	background-color: var(--theme-color3);
+	background-color: var(--theme-darker);
 	padding: 0.5em 0.8em;
-	color: var(--theme-color0);
+	color: var(--theme-light);
 	font-weight: 500;
 	border-radius: 0.4em;
 	margin-bottom: 0.8em;
@@ -955,7 +985,7 @@ body {
 		background-color: var(--button-color);
 	}
 	to {
-		background-color: var(--theme-color1);
+		background-color: var(--theme-colored);
 	}
 }
 
@@ -1136,6 +1166,7 @@ body {
 		align-items: center;
 		justify-content: center;
 		transition: background 0.2s ease;
+		background: var(--theme-darker);
 	}
 	#specialAbility:active {
 		background: #ffe066;
