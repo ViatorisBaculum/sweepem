@@ -38,11 +38,28 @@ export class PC_Mage extends Player {
 		}
 	}
 
-	override onPrimaryAction(cell: Cell, e?: MouseEvent): void {
+	private onAnyAction(cell: Cell, e?: MouseEvent): void {
 		if (this.isFireballModeActive) {
 			this.castFireballOnCell(cell.x, cell.y);
+			// Verhindern, dass die normale Aktion ausgeführt wird
+			e?.preventDefault();
+			e?.stopPropagation();
+		}
+	}
+
+	override onPrimaryAction(cell: Cell, e?: MouseEvent): void {
+		if (this.isFireballModeActive) {
+			this.onAnyAction(cell, e);
 		} else {
 			super.onPrimaryAction(cell, e);
+		}
+	}
+
+	override onSecondaryAction(cell: Cell, e: MouseEvent): void {
+		if (this.isFireballModeActive) {
+			this.onAnyAction(cell, e);
+		} else {
+			super.onSecondaryAction(cell, e);
 		}
 	}
 
