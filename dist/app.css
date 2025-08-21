@@ -505,6 +505,11 @@ body::-webkit-scrollbar {
 	transition: background 0.5s ease;
 }
 
+#specialAbility.dagger {
+	-webkit-mask-image: url("./res/dagger.svg");
+	mask-image: url("./res/dagger.svg");
+}
+
 #specialAbility:active,
 #specialAbility:hover {
 	background: #ffe066;
@@ -1168,8 +1173,20 @@ body::-webkit-scrollbar {
 		transition: background 0.2s ease;
 		background: var(--theme-darker);
 	}
+	:root.dark #specialAbility {
+		background: var(--theme-light);
+	}
 	#specialAbility:active {
 		background: #ffe066;
+	}
+
+	.execute-mode-active #app button {
+		cursor: crosshair;
+	}
+
+	.execute-mode-active #app button:not(.clicked):hover {
+		background-color: #ff6b6b !important;
+		transform: scale(1.1);
 	}
 
 	/* Tutorial modal specific styles */
