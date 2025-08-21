@@ -265,16 +265,16 @@ function showTutorial(parentModal: Modal): void {
 			text: `
 				<h3>Class Abilities</h3>
 				<ul>
-					<li><strong>Warrior</strong> - Gains health on level up</li>
-					<li><strong>Mage</strong> - Has a fireball ability, which opens a 3x3 area</li>
-					<li><strong>Assassin</strong> - Has the ability to execute monsters on his level</li>
-					<li><strong>Paladin</strong> - Has high health to begin with</li>
+					<li><strong>⚔️Warrior</strong> - Gains health on level up</li>
+					<li><strong>🔥Mage</strong> - Has a fireball ability, which opens a 3x3 area</li>
+					<li><strong>🗡️Assassin</strong> - Has the ability to execute monsters on his level</li>
+					<li><strong>🛡️Paladin</strong> - Has high health to begin with</li>
 				</ul>
 				<p>Each class has unique powers. The Warrior gains health on level up, the Mage has a fireball, and the Assassin can execute enemies with a right-click. Choose wisely!</p>
 				<h3>Using Abilities</h3>
 				<ul>
-					<li><strong>Fireball (Mage)</strong>: Click the fireball button and then click on a tile you want to attack. This opens a 3x3 area.</li>
-					<li><strong>Execute (Assassin)</strong>: Click on a monster with a right click. If the monster is of the same level as you, you won't take any damage.</li>
+					<li><strong>🔥Fireball (Mage)</strong>: Click the fireball button and then click on a tile you want to attack. This opens a 3x3 area.</li>
+					<li><strong>🗡️Execute (Assassin)</strong>: Click the execute button and then click on a monster of your level to defeat it without taking damage.</li>
 				</ul>
 			`,
 			image: "", // Placeholder for classes image

@@ -1,76 +1,84 @@
-import { Player } from "../player";
+import { Player, SpecialAbility } from "../player";
 import { Board } from "../board";
 import { Cell } from "../cell";
 import { CellType } from "../../util/customTypes";
+import { updateSpecialAbilityButton } from "../../content";
 
 export class PC_Assassin extends Player {
         className = "Assassin";
-        static description = "The assassin is a master of targeted strikes. They can instantly defeat any monster of the same level using a chord tap (touch with second finger while holding).";
-        private readonly CHORD_DELAY = 2000; // Delay in milliseconds for chord tap
+        static description = "The assassin is a master of targeted strikes. They can instantly defeat any monster of the same level using the execute ability.";
+        public isExecuteModeActive: boolean = false;
 
-        private inputState = {
-                cell: null as Cell | null,
-                timer: null as number | null,
-                isWaiting: false
-        };
-
-        constructor(_board?: Board) {
+        constructor(board: Board | undefined) {
                 super();
+                if (!board) {
+                        throw new Error("PC_Assassin requires a Board instance during construction.");
+                }
                 this.health = 2;
                 this.maxHealth = this.health;
-                this.setupInputHandlers();
+                this.updateSpecialAbilityButton();
         }
 
-        private setupInputHandlers() {
-                // Touch Events
-                document.addEventListener('touchstart', (e: TouchEvent) => {
-                        if (e.touches.length === 1) {
-                                this.handleFirstInput(e.target as HTMLElement);
-                        } else if (e.touches.length === 2 && this.inputState.isWaiting) {
-                                this.executeSecondInput(e);
-                        }
-                });
-
-                // Mouse Events
-                document.addEventListener('mousedown', (e: MouseEvent) => {
-                        if (e.button === 0) { // Left click
-                                this.handleFirstInput(e.target as HTMLElement);
-                        } else if (e.button === 2 && this.inputState.isWaiting) { // Right click
-                                this.executeSecondInput(e);
-                        }
-                });
-
-                // Cleanup Events
-                const cleanup = () => {
-                        if (this.inputState.timer) clearTimeout(this.inputState.timer);
-                        this.inputState = { cell: null, timer: null, isWaiting: false };
+        override getSpecialAbility(): SpecialAbility {
+                return {
+                        isReady: !this.isExecuteModeActive,
+                        isWaiting: this.isExecuteModeActive,
                 };
-
-                document.addEventListener('touchend', cleanup);
-                document.addEventListener('mouseup', cleanup);
         }
 
-        private handleFirstInput(target: HTMLElement) {
-                if (!target.dataset.x || !target.dataset.y) return;
-
-                const board = (window as any).gameInstance.board;
-                this.inputState.cell = board.cells[Number(target.dataset.x)][Number(target.dataset.y)];
-                this.inputState.isWaiting = true;
-
-                this.inputState.timer = window.setTimeout(() => {
-                        this.inputState = { cell: null, timer: null, isWaiting: false };
-                }, this.CHORD_DELAY);
-        }
-
-        private executeSecondInput(e: Event) {
-                e.preventDefault();
-                if (this.inputState.timer) {
-                        clearTimeout(this.inputState.timer);
-                        if (this.inputState.cell) {
-                                this.executeAssassinAttack(this.inputState.cell);
-                        }
+        override useSpecialAbility(): void {
+                if (this.isExecuteModeActive) {
+                        this.deactivateExecuteMode();
+                } else {
+                        this.activateExecuteMode();
                 }
-                this.inputState = { cell: null, timer: null, isWaiting: false };
+        }
+
+        private updateSpecialAbilityButton(): void {
+                const specialAbilityButton = document.getElementById("specialAbility");
+                if (specialAbilityButton) {
+                        specialAbilityButton.classList.add("dagger");
+                }
+        }
+
+
+        private onAnyAction(cell: Cell, e?: MouseEvent): void {
+                if (this.isExecuteModeActive) {
+                        this.executeAssassinAttack(cell);
+                        // Verhindern, dass die normale Aktion ausgeführt wird
+                        e?.preventDefault();
+                        e?.stopPropagation();
+                }
+        }
+
+        override onPrimaryAction(cell: Cell, e?: MouseEvent): void {
+                if (this.isExecuteModeActive) {
+                        this.onAnyAction(cell, e);
+                } else {
+                        super.onPrimaryAction(cell, e);
+                }
+        }
+
+        override onSecondaryAction(cell: Cell, e: MouseEvent): void {
+                if (this.isExecuteModeActive) {
+                        this.onAnyAction(cell, e);
+                } else {
+                        super.onSecondaryAction(cell, e);
+                }
+        }
+
+
+        public activateExecuteMode(): boolean {
+                this.isExecuteModeActive = true;
+                document.body.classList.add("execute-mode-active");
+                updateSpecialAbilityButton();
+                return true;
+        }
+
+        public deactivateExecuteMode(): void {
+                this.isExecuteModeActive = false;
+                document.body.classList.remove("execute-mode-active");
+                updateSpecialAbilityButton();
         }
 
         private executeAssassinAttack(cell: Cell): void {
@@ -84,8 +92,16 @@ export class PC_Assassin extends Player {
                         } else {
                                 cell.attackPlayer(1);
                         }
+
+                        this.deactivateExecuteMode();
                 } else {
                         cell.clickNeighbors();
                 }
         }
+
+
+        override onLevelUp(): void {
+                super.onLevelUp();
+        }
 }
+
