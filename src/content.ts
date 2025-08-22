@@ -129,6 +129,8 @@ function showSettings(): void {
 	modal.setSlotContent(settingsForm.innerHTML)
 
 	modal.addCustomButton("", () => {
+		// save the settings
+		gameInstance.saveSettingsFromUI();
 		modal.destroyModal();
 		showInitialModal();
 	}, { classes: ["icon-btn", "back"], position: 'start' });
@@ -211,16 +213,13 @@ function showInfoModal(): void {
 
 	const infoText = `
 		<p><strong>sweepem</strong> is a strategic blend of classic Minesweeper and a captivating RPG.</p>
-		<p>Your goal? Uncover the board and find the boss. But be warned: one wrong move could be your last! Every game is a new, randomly generated adventure. Are you ready to climb the leaderboards? ⚔️</p>
 		<hr>
 		<h4>Crafted with ❤️</h4>
 		<p>Developed and designed by <strong>Waldemar Stab</strong>.</p>
 		<p>This game is a passion project. If you find a bug or have an idea for a new feature, please let me know!</p>
-		<ul style="list-style: none; padding: 0; text-align: left;">
-			<li><strong>Feedback & Bugs:</strong> <a href="https://github.com/wstab/dungeonsweeper" target="_blank" rel="noopener noreferrer">GitHub</a></li>
-		</ul>
+		<p><strong>Feedback & Bugs:</strong> <a href="https://github.com/ViatorisBaculum/sweepem" target="_blank" rel="noopener noreferrer">GitHub</a></p>
 		<hr>
-		<p style="text-align:center; font-size: 0.8em; opacity: 0.7;">Version 1.0.0<br>© 2025 Waldemar Stab. All rights reserved.</p>
+		<p class="copyright">Version 1.0.0<br>© 2025 Waldemar Stab. All rights reserved.</p>
 	`;
 
 	modal.setTextAsHTML(infoText);
@@ -233,7 +232,8 @@ function showTutorial(parentModal: Modal): void {
 		{
 			title: "Welcome to DungeonSweeper!",
 			text: `
-				<p>The goal is to kill the boss. A revealed tile shows a number indicating the total strength of all adjacent monsters.</p>
+				<p>The goal is to kill the boss. Killing the boss doesn't consume a heart.</p>
+				<p>A revealed tile shows a number indicating the total strength of all adjacent monsters.</p>
 				<p>The highlighted <strong>4</strong> indicates that the sum of the adjacent monsters is 4. So, in this case, the <strong>3</strong> and the <strong>1</strong> are adjacent to the 4.</p>
 			`,
 			image: "./res/tutorial1.png",
@@ -242,20 +242,22 @@ function showTutorial(parentModal: Modal): void {
 			title: "Basic Controls",
 			text: `
 				<ul>
-					<li><strong>LEFT CLICK</strong> to reveal a tile. Be careful! If it's a monster, you'll take damage.</li>
-					<li><strong>RIGHT CLICK</strong> to place a flag on a tile you suspect hides a monster.</li>
+					<li><strong>LEFT CLICK or TAP</strong> to reveal a tile. Be careful! If it's a monster, you'll take damage.</li>
+					<li><strong>RIGHT CLICK or HOLD TAP</strong> to place a flag on a tile you suspect hides a monster.</li>
+					<li><strong>INVERTING CLICKS</strong> means, that the logic of the clicking or tapping is reversed.</li>
+					<li>To use your class's <strong>SPECIAL ABILITY</strong> click or tap the button in the bottom right corner or in the menu, than tap on a tile.<div class="dagger"></div><div class="fireball"></div></li>
 				</ul>
-				<p><strong>On mobile</strong> you have to touch and hold on the tile to imitate a right click.</p>
 			`,
-			image: "./res/tutorial1.png",
+			image: "./res/tutorial2.png",
 		},
 		{
 			title: "Monsters & Leveling",
 			text: `
 				<ul>
-					<li>Clicking a monster damages you.</li>
-					<li>Stronger monsters deal more damage.</li>
 					<li>Defeat monsters and clear tiles to gain experience and level up, making you stronger and recharging your abilities!</li>
+					<li>When you attack a monster higher than you, you get damage equal to the difference between your level and the monster's level</li>
+					<li>The hearts show how much health you have left. The bar shows how close you are to the next level</li>
+					<li>The score decreases over time, so try to finish the game quickly!</li>
 				</ul>
 			`,
 			image: "./res/tutorial2.png",
@@ -270,11 +272,10 @@ function showTutorial(parentModal: Modal): void {
 					<li><strong>🗡️Assassin</strong> - Has the ability to execute monsters on his level</li>
 					<li><strong>🛡️Paladin</strong> - Has high health to begin with</li>
 				</ul>
-				<p>Each class has unique powers. The Warrior gains health on level up, the Mage has a fireball, and the Assassin can execute enemies with a right-click. Choose wisely!</p>
 				<h3>Using Abilities</h3>
 				<ul>
-					<li><strong>🔥Fireball (Mage)</strong>: Click the fireball button and then click on a tile you want to attack. This opens a 3x3 area.</li>
-					<li><strong>🗡️Execute (Assassin)</strong>: Click the execute button and then click on a monster of your level to defeat it without taking damage.</li>
+					<li><strong>🔥Fireball (Mage)</strong>: Click or tap the fireball button and then click on a tile you want to attack. This opens a 3x3 area.</li>
+					<li><strong>🗡️Execute (Assassin)</strong>: Click or tap the execute button and then click on a monster of your level to defeat it without taking damage.</li>
 				</ul>
 			`,
 			image: "", // Placeholder for classes image

@@ -362,11 +362,10 @@ body::-webkit-scrollbar {
 	align-items: center;
 	gap: 1em;
 	color: var(--theme-light);
-}
-
-#statSheet p {
-	margin: 0;
-	font-size: 0.95rem;
+	p {
+		margin: 0;
+		font-size: 0.95rem;
+	}
 }
 
 #statSheet p:first-child {
@@ -390,11 +389,6 @@ body::-webkit-scrollbar {
 	align-items: center;
 	gap: 0.5em;
 	margin-left: 0.7em;
-}
-
-#playerClass img {
-	width: 1.5em;
-	height: 1.5em;
 }
 
 /* Health and Experience Bars */
@@ -544,19 +538,12 @@ body::-webkit-scrollbar {
 # Modal Styles
 --------------------------------------------------------------*/
 .modal-bg {
-	position: fixed;
 	inset: 0;
 	width: 100%;
-	background: rgba(0, 0, 0, 0.35);
-	backdrop-filter: blur(2.5px);
-	-webkit-backdrop-filter: blur(2.5px);
-	z-index: 10000;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	overflow-y: auto;
-	padding: 1em;
-	transition: background 0.2s ease;
 }
 
 .modal {
@@ -591,12 +578,6 @@ body::-webkit-scrollbar {
 	margin-top: 1em;
 }
 
-.modal hr {
-	border: none;
-	border-top: 1px solid var(--theme-dark);
-	margin: 1em 0;
-}
-
 #modal-title,
 #modal-subtitle,
 #modal-text,
@@ -604,6 +585,51 @@ body::-webkit-scrollbar {
 #modal-classDescription,
 #modal-slot {
 	padding: 0 1rem;
+
+	ul {
+		list-style: disc;
+		padding-left: 1.5em;
+
+		li {
+			margin: 0.5em 0;
+
+			div {
+				-webkit-mask-size: contain;
+				mask-size: contain;
+				-webkit-mask-repeat: no-repeat;
+				mask-repeat: no-repeat;
+				-webkit-mask-position: center;
+				mask-position: center;
+				width: 2em;
+				height: 2em;
+				background-color: var(--theme-light);
+			}
+			div.dagger {
+				-webkit-mask-image: url("./res/dagger.svg");
+				mask-image: url("./res/dagger.svg");
+			}
+
+			div.fireball {
+				-webkit-mask-image: url("./res/fire.svg");
+				mask-image: url("./res/fire.svg");
+				transform: scaleX(1.5);
+			}
+		}
+	}
+	p.copyright {
+		text-align: center;
+		font-size: 0.8em;
+		opacity: 0.7;
+		margin-top: 1em;
+	}
+	hr {
+		border: none;
+		border-top: 1px solid var(--theme-highlight);
+		width: 60%;
+		text-align: center;
+		margin: auto;
+		filter: opacity(0.5);
+	}
 }
 
 .modal-image {
@@ -618,7 +644,7 @@ body::-webkit-scrollbar {
 	display: flex;
 	justify-content: flex-end;
 	gap: 0.5em;
-	margin-top: 2em;
+	margin: 2em 1em 0em 1em;
 }
 
 .info-modal .controls,
@@ -628,6 +654,10 @@ body::-webkit-scrollbar {
 	justify-content: start;
 	margin-top: 0;
 	margin-left: 1rem;
+}
+
+.info-modal {
+	text-align: center;
 }
 
 .modal button {
@@ -686,7 +716,7 @@ body::-webkit-scrollbar {
 }
 
 .tutorial-modal {
-	height: 100svh;
+	height: calc(100dvh - 4em);
 	display: flex;
 	flex-direction: column;
 }
@@ -696,6 +726,16 @@ body::-webkit-scrollbar {
 	overflow-y: auto;
 	display: flex;
 	flex-direction: column;
+	background: var(--button-color);
+	border-radius: 1em;
+	width: 95%;
+	margin: auto;
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+}
+
+.tutorial-modal #modal-content::-webkit-scrollbar {
+	display: none;
 }
 
 .tutorial-modal .controls {
@@ -1191,7 +1231,7 @@ body::-webkit-scrollbar {
 
 	/* Tutorial modal specific styles */
 	.tutorial-modal {
-		height: 100vh;
+		height: 100dvh;
 		display: flex;
 		flex-direction: column;
 	}

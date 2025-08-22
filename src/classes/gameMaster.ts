@@ -249,6 +249,8 @@ export class GameMaster {
 			}
 
 			localStorage.setItem("instance", JSON.stringify(this._gameSettings));
+			// store the settings in the SaveManager
+			SaveManager.saveGame();
 		} catch (error) {
 			console.error("Error saving settings from UI:", error);
 		}
