@@ -97,6 +97,11 @@ export class SaveManager {
         localStorage.removeItem(STORAGE_KEYS.GAME_STATE);
     }
 
+    // Method to reset the isGameEnded flag
+    resetGameEnded(): void {
+        this.isGameEnded = false;
+    }
+
     hasSave(): boolean {
         return localStorage.getItem(STORAGE_KEYS.GAME_STATE) !== null;
     }
