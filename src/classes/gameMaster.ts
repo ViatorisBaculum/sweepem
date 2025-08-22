@@ -165,6 +165,8 @@ export class GameMaster {
 		if (boardHTML) boardHTML.innerHTML = "";
 
 		this.resetHeartContainer();
+		// Reset the isGameEnded flag in the save manager
+		this.saveManager.resetGameEnded();
 		this.startGame();
 	}
 
@@ -258,11 +260,8 @@ export class GameMaster {
 		this.resetTimer();
 		this._timer = setInterval(() => this.countSeconds(), 1000);
 		this._gameState = GameState.Running;
-		// Reset the game ended flag in the save manager
-		// We need to access this through the saveManager instance
-		// Since isGameEnded is private, we'll need to handle this differently
-		// For now, we'll just ensure we have a fresh saveManager instance
-		this.saveManager = SaveManager.getInstance();
+		// Save the game state immediately after starting a new game
+		this.saveManager.saveGame(this);
 	}
 
 	public winGame() {
