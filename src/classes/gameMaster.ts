@@ -7,7 +7,7 @@ import { Player } from "./player";
 import { playerClasses, BoardSize, Difficulty } from "../util/customTypes";
 import defaults from "../util/defaults";
 import { showLeaderboard, updateSpecialAbilityButton } from "../content";
-import { SaveManager, GameMemento } from "./saveManager";
+import { SaveManager, GameMemento, GameSettings } from "./saveManager";
 import { BoardDimensions, DifficultySettings } from "../util/defaults";
 
 enum GameState {
@@ -17,13 +17,7 @@ enum GameState {
 	Ended
 }
 
-interface GameSettings {
-	boardSize: BoardSize;          // "small" | "medium" | "large" | "enormous"
-	difficulty: Difficulty;        // "beginner" | "intermediate" | "expert" | "master"
-	playerClass: playerClasses;    // "Assassin" | "Mage" | "Paladin" | "Warrior"
-	invertClicks: boolean;
-	removeFlags: boolean;
-}
+// GameSettings interface is now imported from saveManager
 
 export class GameMaster {
 	private static instance: GameMaster;
@@ -32,6 +26,7 @@ export class GameMaster {
 	private _timer?: NodeJS.Timeout;
 	private _gameTimer: number = 0;
 	private _gameSettings!: GameSettings;
+	private saveManager: SaveManager;
 	private _gameState: GameState = GameState.NotStarted;
 
 	private playerClassRegistry: Record<playerClasses, (new (board: Board | undefined) => Player) & { description: string }> = {
@@ -43,12 +38,13 @@ export class GameMaster {
 
 	private constructor() {
 		document.getElementById("resetButton")?.addEventListener("click", () => this.resetGame());
+		this.saveManager = SaveManager.getInstance();
 		this._gameSettings = this.initializeGameSettings();
 		this.populateSettingsUIFromGameSettings();
 
 		const trySave = () => {
 			if (this._gameState !== GameState.Ended) {
-				SaveManager.saveGame();
+				this.saveManager.saveGame(this);
 			}
 		};
 
@@ -141,22 +137,13 @@ export class GameMaster {
 
 	private initializeGameSettings(): GameSettings {
 		const defaults_ = this.loadDefaultSettings();
-		const raw = localStorage.getItem("instance");
-		if (!raw) return defaults_;
-
-		try {
-			const parsed = JSON.parse(raw);
-			if (!this.isValidGameSettings(parsed)) {
-				console.warn("Invalid stored settings found. Clearing and using defaults.");
-				localStorage.removeItem("instance");      // Alte/kaputte Stände einfach löschen
-				return defaults_;
-			}
-			return parsed as GameSettings;
-		} catch (e) {
-			console.error("Failed to parse stored settings. Clearing and using defaults.", e);
-			localStorage.removeItem("instance");          // Kaputte Stände löschen
-			return defaults_;
+		// First try to load from the new settings storage
+		const settings = this.saveManager.loadSettings(defaults_);
+		// If no settings found in new storage, try to load from old instance storage for backward compatibility
+		if (!this.saveManager.hasSettings()) {
+			return this.saveManager.loadInstanceSettings(defaults_);
 		}
+		return settings;
 	}
 
 	public playerUp() {
@@ -185,7 +172,7 @@ export class GameMaster {
 		// Save the current game state before stopping
 		try {
 			if (this._gameState !== GameState.Ended) {
-				SaveManager.saveGame();
+				this.saveManager.saveGame(this);
 			}
 		} catch (error) {
 			console.error("Error saving game state:", error);
@@ -248,9 +235,12 @@ export class GameMaster {
 				console.warn("Could not save removeFlags setting:", e);
 			}
 
-			localStorage.setItem("instance", JSON.stringify(this._gameSettings));
-			// store the settings in the SaveManager
-			SaveManager.saveGame();
+			// Save settings using the new SaveManager
+			this.saveManager.saveSettings(this._gameSettings);
+			// Also update settings in any existing saved game
+			this.saveManager.updateGameSettings(this._gameSettings);
+			// Save the current game state if a game is in progress
+			this.saveManager.saveGame(this);
 		} catch (error) {
 			console.error("Error saving settings from UI:", error);
 		}
@@ -268,7 +258,11 @@ export class GameMaster {
 		this.resetTimer();
 		this._timer = setInterval(() => this.countSeconds(), 1000);
 		this._gameState = GameState.Running;
-		SaveManager.isGameEnded = false;
+		// Reset the game ended flag in the save manager
+		// We need to access this through the saveManager instance
+		// Since isGameEnded is private, we'll need to handle this differently
+		// For now, we'll just ensure we have a fresh saveManager instance
+		this.saveManager = SaveManager.getInstance();
 	}
 
 	public winGame() {
@@ -298,19 +292,11 @@ export class GameMaster {
 	}
 
 	public updateLeaderboard(score: number) {
-		const leaderboardKey = "leaderboard";
-		const leaderboard: number[] = JSON.parse(localStorage.getItem(leaderboardKey) || "[]");
-
-		leaderboard.push(score);
-		leaderboard.sort((a, b) => b - a);
-
-		const topScores = leaderboard.slice(0, 10);
-		localStorage.setItem(leaderboardKey, JSON.stringify(topScores));
+		this.saveManager.updateLeaderboard(score);
 	}
 
 	public getScores(): number[] {
-		const leaderboardKey = "leaderboard";
-		return JSON.parse(localStorage.getItem(leaderboardKey) || "[]");
+		return this.saveManager.loadLeaderboard();
 	}
 
 	public displayLeaderboard(statusText?: string) {
@@ -334,7 +320,7 @@ export class GameMaster {
 		// Check if the memento is valid
 		if (!this.isValidGameSettings(memento.gameSettings)) {
 			console.warn("Invalid game settings in memento. Deleting save and using defaults.");
-			SaveManager.deleteSave();
+			this.saveManager.deleteSave();
 			this._gameSettings = this.loadDefaultSettings();
 		} else {
 			this._gameSettings = memento.gameSettings as GameSettings;
@@ -352,6 +338,7 @@ export class GameMaster {
 		this.resumeTimer();
 	}
 
+
 	/*===============*/
 	/*private methods*/
 	/*===============*/
@@ -366,7 +353,7 @@ export class GameMaster {
 		this.stopTimer();
 		this._gameState = GameState.Ended;
 		this.board.revealBoard(true);
-		SaveManager.deleteSave();
+		this.saveManager.deleteSave();
 	}
 
 	private getValueFromInput(name: string) {

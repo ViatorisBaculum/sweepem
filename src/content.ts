@@ -6,6 +6,7 @@ import { SaveManager } from "./classes/saveManager";
 type Nullable<T> = T | null;
 
 const gameInstance = GameMaster.getInstance();
+const saveManager = SaveManager.getInstance();
 const startScreen = document.getElementById("template-startScreen") as Nullable<HTMLTemplateElement>;
 const settingsForm = document.getElementById("template-settings") as Nullable<HTMLTemplateElement>;
 const menu = document.getElementById("menu") as Nullable<HTMLElement>;
@@ -67,17 +68,17 @@ function showInitialModal(): void {
 	modal.addCustomButton("How to Play", () => showTutorial(modal), { classes: ["tutorial-button"], position: 'start' });
 
 	// If savegame exists, add Continue button
-	if (SaveManager.hasSave()) {
+	if (saveManager.hasSave()) {
 		modal.setConfirmButtonText("New Game"); // Isnt this redundant?
 		modal.setConfirmAction((): void => {
-			SaveManager.deleteSave();
+			saveManager.deleteSave();
 			showMenu();
 			gameInstance.resetGame();
 		});
 
 		modal.setSecondaryConfirmButtonText("Continue");
 		modal.setSecondaryConfirmAction(() => {
-			const memento = SaveManager.loadGame();
+			const memento = saveManager.loadGame();
 			if (memento) {
 				gameInstance.restoreFromMemento(memento);
 				gameInstance.player.updateStatsheet();
@@ -165,7 +166,7 @@ export function showLeaderboard(status = ""): void {
 	modal.setTitle("Leaderboard")
 	modal.setSubTitle(status)
 	modal.setText("These are your best scores")
-	modal.setLeaderboardContent(gameInstance.getScores())
+	modal.setLeaderboardContent(saveManager.loadLeaderboard())
 	modal.setCancelAction((): void => {
 		gameInstance.resumeTimer();
 		toggle(menu);
