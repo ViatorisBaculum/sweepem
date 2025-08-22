@@ -32,7 +32,7 @@
 	--button-radius: 4px;
 
 	/* Backgrounds */
-	--modal-background: #f7faf9;
+	--modal-background: #dae1e1;
 	--body-background: #f7faf9;
 	--app-background: #ffffff;
 
@@ -564,6 +564,7 @@ body::-webkit-scrollbar {
 	gap: 0.6em;
 	margin-top: 0.5em;
 	padding-top: 2em; /* Default padding-top, can be overridden */
+	z-index: 1001;
 }
 
 .modal h1,
@@ -742,6 +743,15 @@ body::-webkit-scrollbar {
 	margin-top: auto;
 	flex-shrink: 0;
 	position: relative;
+}
+
+@media only screen and (min-width: 601px) {
+	.leaderboard-modal {
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		margin: 0;
+	}
 }
 
 .leaderboard-modal h1 {
@@ -1191,6 +1201,7 @@ body::-webkit-scrollbar {
 		position: fixed;
 		overflow-y: auto;
 		height: 100dvh;
+		z-index: 999;
 	}
 	.modal #modal-content {
 		padding-bottom: 0em;
