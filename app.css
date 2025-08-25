@@ -21,7 +21,7 @@
 
 	/* Button Sizes & Colors */
 	--button-size: 1.5em;
-	--button-font-size: 1rem;
+	--button-font-size: 1.5rem;
 	--button-color: #d1d1d1;
 	--button-clicked-color: #fafafa;
 	--button-notclicked-color: #7c7c7c;
@@ -140,13 +140,6 @@ body {
 	color: var(--theme-darkest);
 	font-family: "Inter", "Segoe UI", "Roboto", "Helvetica Neue", Arial,
 		sans-serif;
-
-	/* Hide scrollbar for IE, Edge and Firefox */
-	-ms-overflow-style: none; /* IE and Edge */
-	scrollbar-width: none; /* Firefox */
-}
-body::-webkit-scrollbar {
-	display: none;
 }
 
 /* Remove default focus outline */
@@ -165,6 +158,7 @@ body::-webkit-scrollbar {
 	overflow: auto;
 	-webkit-overflow-scrolling: touch;
 	scroll-behavior: smooth;
+	transform-origin: center center;
 }
 
 #game {
@@ -778,7 +772,7 @@ body::-webkit-scrollbar {
 .logo {
 	width: 100%;
 	height: 10em;
-	margin-top: 5em;
+	margin-top: 1em;
 	background: url("./res/logo.svg") no-repeat center center;
 	background-size: contain;
 }
@@ -933,10 +927,11 @@ body::-webkit-scrollbar {
 }
 
 /* --- Settings Components (Toggle, Theme Select) --- */
-.settings-modal #modal-slot {
+#modal-slot {
 	display: flex;
 	flex-direction: column;
-	align-items: center;
+	height: 100%;
+	justify-content: space-between;
 }
 
 .settings-modal {
@@ -1119,6 +1114,14 @@ body::-webkit-scrollbar {
 # - Mobile-responsive adjustments
 --------------------------------------------------------------*/
 @media only screen and (max-width: 600px) {
+	body {
+		/* Hide scrollbar for IE, Edge and Firefox */
+		-ms-overflow-style: none; /* IE and Edge */
+		scrollbar-width: none; /* Firefox */
+	}
+	body::-webkit-scrollbar {
+		display: none;
+	}
 	#game-container {
 		padding: 10em;
 	}
@@ -1191,7 +1194,7 @@ body::-webkit-scrollbar {
 		flex-grow: 1;
 	}
 	.modal .controls {
-		margin-top: 0;
+		margin-top: 2em;
 	}
 	#specialAbility {
 		position: fixed;

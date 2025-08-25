@@ -4,7 +4,7 @@
 		<meta charset="UTF-8" />
 		<meta
 			name="viewport"
-			content="viewport-fit=cover, width=device-width, initial-scale=1.5, minimum-scale=0.2, maximum-scale=3, user-scalable=yes"
+			content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=0.2, maximum-scale=3, user-scalable=yes"
 		/>
 		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
 		<title></title>
@@ -33,90 +33,94 @@
 			</div>
 		</div>
 	</body>
-	<template id="template-modal">
-		<div id="modal-bg" class="modal-bg">
-			<div id="modal" class="modal">
-				<h1 id="modal-title"></h1>
-				<div id="modal-content">
-					<h2 id="modal-subtitle"></h2>
-					<div id="modal-text"></div>
-					<img
-						id="modal-image"
-						class="modal-image"
-						src=""
-						alt="Tutorial Image"
-						style="display: none"
-					/>
-					<h2 id="modal-class"></h2>
-					<div id="modal-classDescription"></div>
-					<div id="modal-slot"></div>
-					<div id="modal-leaderboard"></div>
-				</div>
-				<div id="modal-controls" class="controls">
-					<button id="modal-cancel" class="cancel">Cancel</button>
-					<button id="modal-confirm" class="confirm">Confirm</button>
-					<button id="modal-secondary-confirm" class="confirm"></button>
+	<div id="modals-container">
+		<template id="template-modal">
+			<div id="modal-bg" class="modal-bg">
+				<div id="modal" class="modal">
+					<h1 id="modal-title"></h1>
+					<div id="modal-content">
+						<h2 id="modal-subtitle"></h2>
+						<div id="modal-text"></div>
+						<img
+							id="modal-image"
+							class="modal-image"
+							src=""
+							alt="Tutorial Image"
+							style="display: none"
+						/>
+						<h2 id="modal-class"></h2>
+						<div id="modal-classDescription"></div>
+						<div id="modal-slot"></div>
+						<div id="modal-leaderboard"></div>
+					</div>
+					<div id="modal-controls" class="controls">
+						<button id="modal-cancel" class="cancel">Cancel</button>
+						<button id="modal-confirm" class="confirm">Confirm</button>
+						<button id="modal-secondary-confirm" class="confirm"></button>
+					</div>
 				</div>
 			</div>
-		</div>
-	</template>
+		</template>
+	</div>
 	<template id="template-startScreen">
 		<div class="topbar">
 			<div class="icon-btn info" aria-label="Info"></div>
 			<div class="icon-btn settings" aria-label="settings"></div>
 		</div>
 
-		<div class="logo"></div>
+		<div class="logo-pickers-container">
+			<div class="logo"></div>
 
-		<section class="pickers">
-			<div class="picker" data-loop="true">
-				<div class="picker-icons">
-					<div class="classes"></div>
+			<section class="pickers">
+				<div class="picker" data-loop="true">
+					<div class="picker-icons">
+						<div class="classes"></div>
+					</div>
+					<div class="picker-row">
+						<div class="arrow left" aria-label="previous class"></div>
+						<select disabled id="selectClass" class="picker-select">
+							<option value="Warrior">Warrior</option>
+							<option value="Assassin">Assassin</option>
+							<option value="Paladin">Paladin</option>
+							<option value="Mage">Mage</option>
+						</select>
+						<div class="arrow right" aria-label="next class"></div>
+					</div>
 				</div>
-				<div class="picker-row">
-					<div class="arrow left" aria-label="previous class"></div>
-					<select disabled id="selectClass" class="picker-select">
-						<option value="Warrior">Warrior</option>
-						<option value="Assassin">Assassin</option>
-						<option value="Paladin">Paladin</option>
-						<option value="Mage">Mage</option>
-					</select>
-					<div class="arrow right" aria-label="next class"></div>
-				</div>
-			</div>
 
-			<div class="picker" data-loop="true">
-				<div class="picker-icons">
-					<div class="dimension"></div>
+				<div class="picker" data-loop="true">
+					<div class="picker-icons">
+						<div class="dimension"></div>
+					</div>
+					<div class="picker-row">
+						<div class="arrow left" aria-label="previous class"></div>
+						<select disabled id="boardSize" class="picker-select">
+							<option value="small">Small</option>
+							<option value="medium" selected>Medium</option>
+							<option value="large">Large</option>
+							<option value="enormous">Enormous</option>
+						</select>
+						<div class="arrow right" aria-label="next class"></div>
+					</div>
 				</div>
-				<div class="picker-row">
-					<div class="arrow left" aria-label="previous class"></div>
-					<select disabled id="boardSize" class="picker-select">
-						<option value="small">Small</option>
-						<option value="medium" selected>Medium</option>
-						<option value="large">Large</option>
-						<option value="enormous">Enormous</option>
-					</select>
-					<div class="arrow right" aria-label="next class"></div>
-				</div>
-			</div>
 
-			<div class="picker" data-loop="true">
-				<div class="picker-icons">
-					<div class="difficulty"></div>
+				<div class="picker" data-loop="true">
+					<div class="picker-icons">
+						<div class="difficulty"></div>
+					</div>
+					<div class="picker-row">
+						<div class="arrow left" aria-label="previous class"></div>
+						<select disabled id="difficulty" class="picker-select">
+							<option value="beginner" selected>Beginner</option>
+							<option value="intermediate">Intermediate</option>
+							<option value="expert">Expert</option>
+							<option value="master">Spicy</option>
+						</select>
+						<div class="arrow right" aria-label="next class"></div>
+					</div>
 				</div>
-				<div class="picker-row">
-					<div class="arrow left" aria-label="previous class"></div>
-					<select disabled id="difficulty" class="picker-select">
-						<option value="beginner" selected>Beginner</option>
-						<option value="intermediate">Intermediate</option>
-						<option value="expert">Expert</option>
-						<option value="master">Spicy</option>
-					</select>
-					<div class="arrow right" aria-label="next class"></div>
-				</div>
-			</div>
-		</section>
+			</section>
+		</div>
 	</template>
 	<template id="template-settings">
 		<label class="toggle">

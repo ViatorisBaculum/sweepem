@@ -52,6 +52,14 @@ export function showMenu(): void {
 	show(menu);
 }
 
+// export function setViewportScale(scale: number): void {
+// 	const gameContainer = document.getElementById('game-container');
+// 	if (gameContainer) {
+// 		gameContainer.style.transform = `scale(${scale})`;
+// 	}
+// 	// Note: updateMenuPosition() is called elsewhere if needed
+// }
+
 function showInitialModal(): void {
 	assert(settingsForm, "No settings template found");
 	assert(startScreen, "No game initials template found");
