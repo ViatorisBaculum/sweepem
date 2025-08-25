@@ -1006,7 +1006,9 @@ body {
 	color: var(--theme-light);
 	font-weight: 500;
 	border-radius: 0.4em;
-	margin-bottom: 0.8em;
+	margin: auto;
+	margin-bottom: 0.5em;
+	margin-top: 0.5em;
 }
 
 /*--------------------------------------------------------------
