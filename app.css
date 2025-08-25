@@ -21,7 +21,7 @@
 
 	/* Button Sizes & Colors */
 	--button-size: 1.5em;
-	--button-font-size: 1.5rem;
+	--button-font-size: 1rem;
 	--button-color: #d1d1d1;
 	--button-clicked-color: #fafafa;
 	--button-notclicked-color: #7c7c7c;
@@ -231,8 +231,6 @@ body::-webkit-scrollbar {
 	border-radius: var(--button-radius);
 	transition: background 1s ease, transform 1s ease;
 	position: relative;
-	min-width: 44px; /* Minimum touch target size */
-	min-height: 44px;
 	touch-action: manipulation;
 }
 
@@ -515,22 +513,6 @@ body::-webkit-scrollbar {
 }
 
 #specialAbility.ability-waiting {
-	background: #ffe066;
-}
-
-/* Debug button (for development purposes only) */
-#debugLevelUp {
-	background: #ffd700;
-	color: #333;
-	font-weight: bold;
-	border: 1px solid #aaa;
-	border-radius: 0.5em;
-	padding: 0.2em 0.7em;
-	cursor: pointer;
-	transition: background 0.2s;
-}
-
-#debugLevelUp:hover {
 	background: #ffe066;
 }
 

@@ -94,7 +94,6 @@ export abstract class Player {
 
 	gainExperience(exp: CellType): void {
 		this.experience += exp;
-		console.log("exp", this.experience); // Debugging line, can be removed later
 	}
 
 	debugSetExperience(exp: number): void {
