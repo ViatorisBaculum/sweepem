@@ -931,7 +931,11 @@ body {
 	display: flex;
 	flex-direction: column;
 	height: 100%;
-	justify-content: space-between;
+	/* justify-content: space-between; */
+}
+
+.logo-pickers-container {
+	margin: auto 0;
 }
 
 .settings-modal {
@@ -1244,5 +1248,9 @@ body {
 	.tutorial-modal .controls {
 		margin-top: 0;
 		flex-shrink: 0;
+	}
+
+	.settings-modal #modal-slot {
+		height: auto;
 	}
 }

@@ -1,0 +1,344 @@
+## Capacitor Plugins
+
+- 🟩 [@capacitor/preferences@7.0.2](https://github.com/ionic-team/capacitor-plugins.git)
+## Cordova Plugins
+
+## Dependencies
+
+- 🟩 [@capacitor/android@7.4.3](https://github.com/ionic-team/capacitor.git)
+- 🟧 [@capacitor/assets@3.0.5](https://github.com/ionic-team/capacitor-assets.git) - May be unmaintained (1.4 years since last release)
+- 🟩 [@capacitor/cli@7.4.3](https://github.com/ionic-team/capacitor.git)
+- 🟩 [@capacitor/core@7.4.3](https://github.com/ionic-team/capacitor.git)
+- 🟧 [@types/bonjour@3.5.13](https://github.com/DefinitelyTyped/DefinitelyTyped.git) - May be unmaintained (1.8 years since last release)
+- 🟩 [accepts@1.3.8](https://github.com/jshttp/accepts.git)
+- 🟩 [acorn@8.15.0](https://github.com/acornjs/acorn.git)
+- 🟧 [ajv@8.17.1](https://github.com/ajv-validator/ajv.git) - May be unmaintained (1.1 years since last release)
+- 🟧 [ajv-formats@2.1.1](https://github.com/ajv-validator/ajv-formats.git) - (Latest 3.0.1) - Is behind 1 major version.
+- 🟥 [ajv-keywords@5.1.0](https://github.com/epoberezkin/ajv-keywords.git) - Unmaintained (3.8 years since last release)
+- 🟥 [ansi-html-community@0.0.8](https://github.com/mahdyar/ansi-html-community.git) - Unmaintained (3.4 years since last release)
+- 🟧 [ansi-regex@5.0.1](https://github.com/chalk/ansi-regex.git) - (Latest 6.2.0) - Is behind 1 major version.
+- 🟧 [ansi-styles@4.3.0](https://github.com/chalk/ansi-styles.git) - (Latest 6.2.1) - Is behind 2 major versions.
+- 🟥 [anymatch@3.1.3](https://github.com/micromatch/anymatch.git) - Unmaintained (2.8 years since last release)
+- 🟧 [array-flatten@1.1.1](https://github.com/blakeembrey/array-flatten.git) - (Latest 3.0.0) - Is behind 2 major versions.
+- 🟧 [array-union@1.0.2](https://github.com/sindresorhus/array-union.git) - (Latest 3.0.1) - Is behind 2 major versions.
+- 🟧 [array-uniq@1.0.3](https://github.com/sindresorhus/array-uniq.git) - (Latest 3.0.0) - Is behind 2 major versions.
+- 🟧 [async@2.6.4](https://github.com/caolan/async.git) - (Latest 3.2.6) - Is behind 1 major version.
+- 🟧 [async-each-series@0.1.1](https://github.com/jb55/async-each-series.git) - (Latest 1.1.0) - Is behind 1 major version.
+- 🟩 [axios@1.11.0](https://github.com/axios/axios.git)
+- 🟧 [balanced-match@1.0.2](https://github.com/juliangruber/balanced-match.git) - (Latest 3.0.1) - Is behind 2 major versions.
+- 🟥 [base64id@2.0.0](https://github.com/faeldt/base64id.git) - Unmaintained (6.3 years since last release)
+- 🟥 [batch@0.6.1](https://github.com/visionmedia/batch.git) - Unmaintained (8.3 years since last release)
+- 🟧 [binary-extensions@2.3.0](https://github.com/sindresorhus/binary-extensions.git) - (Latest 3.1.0) - Is behind 1 major version.
+- 🟧 [body-parser@1.20.3](https://github.com/expressjs/body-parser.git) - (Latest 2.2.0) - Is behind 1 major version.
+- 🟩 [bonjour-service@1.3.0](https://github.com/onlxltd/bonjour-service.git)
+- 🟧 [brace-expansion@1.1.12](https://github.com/juliangruber/brace-expansion.git) - (Latest 4.0.1) - Is behind 3 major versions.
+- 🟧 [braces@3.0.3](https://github.com/micromatch/braces.git) - May be unmaintained (1.3 years since last release)
+- 🟧 [browser-sync@2.29.3](https://github.com/BrowserSync/browser-sync.git) - (Latest 3.0.4) - Is behind 1 major version.
+- 🟧 [browser-sync-client@2.29.3](https://github.com/shakyshane/browser-sync-client.git) - (Latest 3.0.4) - Is behind 1 major version.
+- 🟧 [browser-sync-ui@2.29.3](https://github.com/BrowserSync/UI.git) - (Latest 3.0.4) - Is behind 1 major version.
+- 🟩 [browserslist@4.25.4](https://github.com/browserslist/browserslist.git)
+- 🟥 [bs-recipes@1.3.4](https://github.com/browsersync/recipes.git) - Unmaintained (8.7 years since last release)
+- 🟥 [buffer-from@1.1.2](https://github.com/LinusU/buffer-from.git) - Unmaintained (4.1 years since last release)
+- 🟧 [bundle-name@4.1.0](https://github.com/sindresorhus/bundle-name.git) - May be unmaintained (1.7 years since last release)
+- 🟥 [bytes@3.1.2](https://github.com/visionmedia/bytes.js.git) - Unmaintained (3.6 years since last release)
+- 🟩 [call-bind-apply-helpers@1.0.2](https://github.com/ljharb/call-bind-apply-helpers.git)
+- 🟩 [call-bound@1.0.4](https://github.com/ljharb/call-bound.git)
+- 🟩 [caniuse-lite@1.0.30001739](https://github.com/browserslist/caniuse-lite.git)
+- 🟧 [chalk@4.1.2](https://github.com/chalk/chalk.git) - (Latest 5.6.0) - Is behind 1 major version.
+- 🟧 [chokidar@3.6.0](https://github.com/paulmillr/chokidar.git) - (Latest 4.0.3) - Is behind 1 major version.
+- 🟧 [chrome-trace-event@1.0.4](https://github.com/samccone/chrome-trace-event.git) - May be unmaintained (1.3 years since last release)
+- 🟥 [clean-webpack-plugin@4.0.0](https://github.com/johnagan/clean-webpack-plugin.git) - Unmaintained (4 years since last release)
+- 🟧 [cliui@8.0.1](https://github.com/yargs/cliui.git) - (Latest 9.0.1) - Is behind 1 major version.
+- 🟥 [clone-deep@4.0.1](https://github.com/jonschlinkert/clone-deep.git) - Unmaintained (6.8 years since last release)
+- 🟧 [color-convert@2.0.1](https://github.com/Qix-/color-convert.git) - (Latest 3.1.0) - Is behind 1 major version.
+- 🟧 [color-name@1.1.4](https://github.com/colorjs/color-name.git) - (Latest 2.0.0) - Is behind 1 major version.
+- 🟥 [colorette@2.0.20](https://github.com/jorgebucaran/colorette.git) - Unmaintained (2.4 years since last release)
+- 🟧 [commander@2.20.3](https://github.com/tj/commander.js.git) - (Latest 14.0.0) - Is behind 12 major versions.
+- 🟥 [compressible@2.0.18](https://github.com/jshttp/compressible.git) - Unmaintained (5.7 years since last release)
+- 🟩 [compression@1.8.1](https://github.com/expressjs/compression.git)
+- 🟥 [concat-map@0.0.1](https://github.com/ljharb/concat-map.git) - (Latest 0.0.2) - Unmaintained (2.9 years since last release)
+- 🟥 [connect@3.7.0](https://github.com/senchalabs/connect.git) - Unmaintained (6.3 years since last release)
+- 🟧 [connect-history-api-fallback@1.6.0](https://github.com/bripkens/connect-history-api-fallback.git) - (Latest 2.0.0) - Is behind 1 major version.
+- 🟥 [connect-logger@0.0.1](https://github.com/geta6/connect-logger.git) - Unmaintained (12.2 years since last release)
+- 🟩 [content-disposition@0.5.4](https://github.com/jshttp/content-disposition.git)
+- 🟥 [content-type@1.0.5](https://github.com/jshttp/content-type.git) - Unmaintained (2.6 years since last release)
+- 🟧 [cookie@0.7.2](https://github.com/jshttp/cookie.git) - (Latest 1.0.2) - Is behind 1 major version.
+- 🟩 [cookie-signature@1.2.2](https://github.com/visionmedia/node-cookie-signature.git)
+- 🟩 [copy-webpack-plugin@13.0.1](https://github.com/webpack-contrib/copy-webpack-plugin.git)
+- 🟥 [core-util-is@1.0.3](https://github.com/isaacs/core-util-is.git) - Unmaintained (4 years since last release)
+- 🟥 [cors@2.8.5](https://github.com/expressjs/cors.git) - Unmaintained (6.8 years since last release)
+- 🟩 [cross-spawn@7.0.6](https://github.com/moxystudio/node-cross-spawn.git)
+- 🟩 [date-fns@4.1.0](https://github.com/date-fns/date-fns.git)
+- 🟩 [debug@4.4.1](https://github.com/debug-js/debug.git)
+- 🟧 [default-browser@5.2.1](https://github.com/sindresorhus/default-browser.git) - May be unmaintained (1.7 years since last release)
+- 🟧 [default-browser-id@5.0.0](https://github.com/sindresorhus/default-browser-id.git) - May be unmaintained (1.7 years since last release)
+- 🟥 [define-lazy-prop@3.0.0](https://github.com/sindresorhus/define-lazy-prop.git) - Unmaintained (4.4 years since last release)
+- 🟧 [del@4.1.1](https://github.com/sindresorhus/del.git) - (Latest 8.0.0) - Is behind 4 major versions.
+- 🟥 [depd@2.0.0](https://github.com/dougwilson/nodejs-depd.git) - Unmaintained (6.9 years since last release)
+- 🟥 [destroy@1.2.0](https://github.com/stream-utils/destroy.git) - Unmaintained (3.5 years since last release)
+- 🟥 [detect-node@2.1.0](https://github.com/iliakan/detect-node.git) - Unmaintained (4.3 years since last release)
+- 🟥 [dev-ip@1.0.1](https://github.com/shakyshane/dev-ip.git) - Unmaintained (10.7 years since last release)
+- 🟥 [dns-packet@5.6.1](https://github.com/mafintosh/dns-packet.git) - Unmaintained (2 years since last release)
+- 🟩 [dunder-proto@1.0.1](https://github.com/es-shims/dunder-proto.git)
+- 🟥 [easy-extender@2.3.4](https://github.com/shakyshane/easy-extender.git) - Unmaintained (7 years since last release)
+- 🟩 [eazy-logger@4.1.0](https://github.com/shakyshane/easy-logger.git)
+- 🟥 [ee-first@1.1.1](https://github.com/jonathanong/ee-first) - Unmaintained (10.3 years since last release)
+- 🟩 [electron-to-chromium@1.5.211](https://github.com/kilian/electron-to-chromium.git)
+- 🟧 [emoji-regex@8.0.0](https://github.com/mathiasbynens/emoji-regex.git) - (Latest 10.5.0) - Is behind 2 major versions.
+- 🟧 [encodeurl@1.0.2](https://github.com/pillarjs/encodeurl.git) - (Latest 2.0.0) - Is behind 1 major version.
+- 🟩 [engine.io@6.6.4](https://github.com/socketio/socket.io.git)
+- 🟩 [engine.io-client@6.6.3](https://github.com/socketio/socket.io.git)
+- 🟧 [engine.io-parser@5.2.3](https://github.com/socketio/socket.io.git) - May be unmaintained (1.1 years since last release)
+- 🟩 [enhanced-resolve@5.18.3](https://github.com/webpack/enhanced-resolve.git)
+- 🟩 [envinfo@7.14.0](https://github.com/tabrindle/envinfo.git)
+- 🟩 [es-define-property@1.0.1](https://github.com/ljharb/es-define-property.git)
+- 🟧 [es-errors@1.3.0](https://github.com/ljharb/es-errors.git) - May be unmaintained (1.6 years since last release)
+- 🟩 [es-module-lexer@1.7.0](https://github.com/guybedford/es-module-lexer.git)
+- 🟩 [es-object-atoms@1.1.1](https://github.com/ljharb/es-object-atoms.git)
+- 🟧 [escalade@3.2.0](https://github.com/lukeed/escalade.git) - May be unmaintained (1 years since last release)
+- 🟥 [escape-html@1.0.3](https://github.com/component/escape-html) - Unmaintained (10 years since last release)
+- 🟧 [eslint-scope@5.1.1](https://github.com/eslint/js.git) - (Latest 8.4.0) - Is behind 3 major versions.
+- 🟥 [esrecurse@4.3.0](https://github.com/estools/esrecurse.git) - Unmaintained (5 years since last release)
+- 🟧 [estraverse@4.3.0](https://github.com/estools/estraverse.git) - (Latest 5.3.0) - Is behind 1 major version.
+- 🟥 [etag@1.8.1](https://github.com/jshttp/etag.git) - Unmaintained (8 years since last release)
+- 🟧 [eventemitter3@4.0.7](https://github.com/primus/eventemitter3.git) - (Latest 5.0.1) - Is behind 1 major version.
+- 🟥 [events@3.3.0](https://github.com/Gozala/events.git) - Unmaintained (4.5 years since last release)
+- 🟧 [express@4.21.2](https://github.com/expressjs/express.git) - (Latest 5.1.0) - Is behind 1 major version.
+- 🟥 [fast-deep-equal@3.1.3](https://github.com/epoberezkin/fast-deep-equal.git) - Unmaintained (5.2 years since last release)
+- 🟩 [fast-uri@3.1.0](https://github.com/fastify/fast-uri.git)
+- 🟥 [fastest-levenshtein@1.0.16](https://github.com/ka-weihe/fastest-levenshtein.git) - Unmaintained (3.1 years since last release)
+- 🟥 [faye-websocket@0.11.4](https://github.com/faye/faye-websocket-node.git) - Unmaintained (4.3 years since last release)
+- 🟧 [fill-range@7.1.1](https://github.com/jonschlinkert/fill-range.git) - May be unmaintained (1.3 years since last release)
+- 🟧 [finalhandler@1.3.1](https://github.com/pillarjs/finalhandler.git) - (Latest 2.1.0) - Is behind 1 major version.
+- 🟧 [find-up@4.1.0](https://github.com/sindresorhus/find-up.git) - (Latest 7.0.0) - Is behind 3 major versions.
+- 🟧 [flat@5.0.2](https://github.com/hughsk/flat.git) - (Latest 6.0.1) - Is behind 1 major version.
+- 🟩 [follow-redirects@1.15.11](https://github.com/follow-redirects/follow-redirects.git)
+- 🟥 [forwarded@0.2.0](https://github.com/jshttp/forwarded.git) - Unmaintained (4.3 years since last release)
+- 🟩 [fresh@0.5.2](https://github.com/jshttp/fresh.git)
+- 🟧 [fs-extra@3.0.1](https://github.com/jprichardson/node-fs-extra.git) - (Latest 11.3.1) - Is behind 8 major versions.
+- 🟥 [fs.realpath@1.0.0](https://github.com/isaacs/fs.realpath.git) - Unmaintained (9.2 years since last release)
+- 🟧 [function-bind@1.1.2](https://github.com/Raynos/function-bind.git) - May be unmaintained (1.9 years since last release)
+- 🟥 [get-caller-file@2.0.5](https://github.com/stefanpenner/get-caller-file.git) - Unmaintained (6.5 years since last release)
+- 🟩 [get-intrinsic@1.3.0](https://github.com/ljharb/get-intrinsic.git)
+- 🟩 [get-proto@1.0.1](https://github.com/ljharb/get-proto.git)
+- 🟧 [glob-parent@5.1.2](https://github.com/gulpjs/glob-parent.git) - (Latest 6.0.2) - Is behind 1 major version.
+- 🟥 [glob-to-regexp@0.4.1](https://github.com/fitzgen/glob-to-regexp.git) - Unmaintained (6.4 years since last release)
+- 🟧 [globby@6.1.0](https://github.com/sindresorhus/globby.git) - (Latest 14.1.0) - Is behind 8 major versions.
+- 🟩 [gopd@1.2.0](https://github.com/ljharb/gopd.git)
+- 🟥 [graceful-fs@4.2.11](https://github.com/isaacs/node-graceful-fs.git) - Unmaintained (2.5 years since last release)
+- 🟥 [handle-thing@2.0.1](https://github.com/indutny/handle-thing.git) - Unmaintained (5.4 years since last release)
+- 🟧 [has-flag@4.0.0](https://github.com/sindresorhus/has-flag.git) - (Latest 5.0.1) - Is behind 1 major version.
+- 🟩 [has-symbols@1.1.0](https://github.com/inspect-js/has-symbols.git)
+- 🟧 [hasown@2.0.2](https://github.com/inspect-js/hasOwn.git) - May be unmaintained (1.5 years since last release)
+- 🟥 [hpack.js@2.1.6](https://github.com/indutny/hpack.js.git) - Unmaintained (9 years since last release)
+- 🟥 [http-deceiver@1.2.7](https://github.com/indutny/http-deceiver.git) - Unmaintained (9.3 years since last release)
+- 🟥 [http-errors@2.0.0](https://github.com/jshttp/http-errors.git) - Unmaintained (3.7 years since last release)
+- 🟩 [http-parser-js@0.5.10](https://github.com/creationix/http-parser-js.git)
+- 🟥 [http-proxy@1.18.1](https://github.com/http-party/node-http-proxy.git) - Unmaintained (5.3 years since last release)
+- 🟧 [http-proxy-middleware@2.0.9](https://github.com/chimurai/http-proxy-middleware.git) - (Latest 3.0.5) - Is behind 1 major version.
+- 🟥 [hyperdyperid@1.2.0](https://github.com/streamich/hyperdyperid.git) - Unmaintained (3.4 years since last release)
+- 🟩 [iconv-lite@0.4.24](https://github.com/pillarjs/iconv-lite.git) - (Latest 0.7.0)
+- 🟧 [ignore-by-default@1.0.1](https://github.com/novemberborn/ignore-by-default.git) - (Latest 2.1.0) - Is behind 1 major version.
+- 🟧 [immutable@3.8.2](https://github.com/immutable-js/immutable-js.git) - (Latest 5.1.3) - Is behind 2 major versions.
+- 🟧 [import-local@3.2.0](https://github.com/sindresorhus/import-local.git) - May be unmaintained (1.1 years since last release)
+- 🟥 [inherits@2.0.4](https://github.com/isaacs/inherits.git) - Unmaintained (6.2 years since last release)
+- 🟥 [interpret@3.1.1](https://github.com/gulpjs/interpret.git) - Unmaintained (3.2 years since last release)
+- 🟧 [ipaddr.js@2.2.0](https://github.com/whitequark/ipaddr.js.git) - May be unmaintained (1.4 years since last release)
+- 🟧 [is-binary-path@2.1.0](https://github.com/sindresorhus/is-binary-path.git) - (Latest 3.0.0) - Is behind 1 major version.
+- 🟩 [is-core-module@2.16.1](https://github.com/inspect-js/is-core-module.git)
+- 🟥 [is-docker@3.0.0](https://github.com/sindresorhus/is-docker.git) - Unmaintained (4 years since last release)
+- 🟥 [is-extglob@2.1.1](https://github.com/jonschlinkert/is-extglob.git) - Unmaintained (8.7 years since last release)
+- 🟧 [is-fullwidth-code-point@3.0.0](https://github.com/sindresorhus/is-fullwidth-code-point.git) - (Latest 5.1.0) - Is behind 2 major versions.
+- 🟥 [is-glob@4.0.3](https://github.com/micromatch/is-glob.git) - Unmaintained (3.9 years since last release)
+- 🟥 [is-inside-container@1.0.0](https://github.com/sindresorhus/is-inside-container.git) - Unmaintained (2.5 years since last release)
+- 🟧 [is-network-error@1.1.0](https://github.com/sindresorhus/is-network-error.git) - May be unmaintained (1.5 years since last release)
+- 🟥 [is-number@7.0.0](https://github.com/jonschlinkert/is-number.git) - Unmaintained (7.2 years since last release)
+- 🟥 [is-number-like@1.0.8](https://github.com/vigour-io/is-number-like.git) - Unmaintained (8.2 years since last release)
+- 🟧 [is-path-cwd@2.2.0](https://github.com/sindresorhus/is-path-cwd.git) - (Latest 4.0.1) - Is behind 2 major versions.
+- 🟧 [is-path-in-cwd@2.1.0](https://github.com/sindresorhus/is-path-in-cwd.git) - (Latest 4.0.0) - Is behind 2 major versions.
+- 🟧 [is-path-inside@2.1.0](https://github.com/sindresorhus/is-path-inside.git) - (Latest 4.0.0) - Is behind 2 major versions.
+- 🟧 [is-plain-obj@3.0.0](https://github.com/sindresorhus/is-plain-obj.git) - (Latest 4.1.0) - Is behind 1 major version.
+- 🟧 [is-plain-object@2.0.4](https://github.com/jonschlinkert/is-plain-object.git) - (Latest 5.0.0) - Is behind 3 major versions.
+- 🟧 [is-wsl@1.1.0](https://github.com/sindresorhus/is-wsl.git) - (Latest 3.1.0) - Is behind 2 major versions.
+- 🟧 [isarray@1.0.0](https://github.com/juliangruber/isarray.git) - (Latest 2.0.5) - Is behind 1 major version.
+- 🟧 [isexe@2.0.0](https://github.com/isaacs/isexe.git) - (Latest 3.1.1) - Is behind 1 major version.
+- 🟧 [isobject@3.0.1](https://github.com/jonschlinkert/isobject.git) - (Latest 4.0.0) - Is behind 1 major version.
+- 🟧 [jest-worker@27.5.1](https://github.com/jestjs/jest.git) - (Latest 30.1.0) - Is behind 3 major versions.
+- 🟧 [json-parse-even-better-errors@2.3.1](https://github.com/npm/json-parse-even-better-errors.git) - (Latest 4.0.0) - Is behind 2 major versions.
+- 🟥 [json-schema-traverse@1.0.0](https://github.com/epoberezkin/json-schema-traverse.git) - Unmaintained (4.7 years since last release)
+- 🟧 [jsonfile@3.0.1](https://github.com/jprichardson/node-jsonfile.git) - (Latest 6.2.0) - Is behind 3 major versions.
+- 🟥 [kind-of@6.0.3](https://github.com/jonschlinkert/kind-of.git) - Unmaintained (5.6 years since last release)
+- 🟩 [launch-editor@2.11.1](https://github.com/yyx990803/launch-editor.git)
+- 🟧 [limiter@1.1.5](https://github.com/jhurliman/node-rate-limiter.git) - (Latest 3.0.0) - Is behind 2 major versions.
+- 🟥 [loader-runner@4.3.0](https://github.com/webpack/loader-runner.git) - Unmaintained (3.4 years since last release)
+- 🟥 [localtunnel@2.0.2](https://github.com/localtunnel/localtunnel.git) - Unmaintained (4 years since last release)
+- 🟧 [locate-path@5.0.0](https://github.com/sindresorhus/locate-path.git) - (Latest 7.2.0) - Is behind 2 major versions.
+- 🟥 [lodash@4.17.21](https://github.com/lodash/lodash.git) - Unmaintained (4.5 years since last release)
+- 🟥 [lodash.isfinite@3.3.2](https://github.com/lodash/lodash.git) - Unmaintained (9.1 years since last release)
+- 🟩 [math-intrinsics@1.1.0](https://github.com/es-shims/math-intrinsics.git)
+- 🟧 [media-typer@0.3.0](https://github.com/jshttp/media-typer.git) - (Latest 1.1.0) - Is behind 1 major version.
+- 🟩 [memfs@4.38.2](https://github.com/streamich/memfs.git)
+- 🟧 [merge-descriptors@1.0.3](https://github.com/sindresorhus/merge-descriptors.git) - (Latest 2.0.0) - Is behind 1 major version.
+- 🟥 [merge-stream@2.0.0](https://github.com/grncdr/merge-stream.git) - Unmaintained (6.3 years since last release)
+- 🟥 [methods@1.1.2](https://github.com/jshttp/methods) - Unmaintained (9.6 years since last release)
+- 🟧 [micromatch@4.0.8](https://github.com/micromatch/micromatch.git) - May be unmaintained (1 years since last release)
+- 🟧 [mime@3.0.0](https://github.com/broofa/mime.git) - (Latest 4.0.7) - Is behind 1 major version.
+- 🟩 [mime-db@1.54.0](https://github.com/jshttp/mime-db.git)
+- 🟧 [mime-types@2.1.35](https://github.com/jshttp/mime-types.git) - (Latest 3.0.1) - Is behind 1 major version.
+- 🟥 [minimalistic-assert@1.0.1](https://github.com/calvinmetcalf/minimalistic-assert.git) - Unmaintained (7.4 years since last release)
+- 🟧 [minimatch@3.1.2](https://github.com/isaacs/minimatch.git) - (Latest 10.0.3) - Is behind 7 major versions.
+- 🟥 [minimist@1.2.8](https://github.com/minimistjs/minimist.git) - Unmaintained (2.5 years since last release)
+- 🟧 [mitt@1.2.0](https://github.com/developit/mitt.git) - (Latest 3.0.1) - Is behind 2 major versions.
+- 🟩 [ms@2.1.3](https://github.com/vercel/ms.git)
+- 🟥 [multicast-dns@7.2.5](https://github.com/mafintosh/multicast-dns.git) - Unmaintained (3.3 years since last release)
+- 🟧 [negotiator@0.6.4](https://github.com/jshttp/negotiator.git) - (Latest 1.0.0) - Is behind 1 major version.
+- 🟥 [neo-async@2.6.2](https://github.com/suguru03/neo-async.git) - Unmaintained (5.1 years since last release)
+- 🟥 [node-forge@1.3.1](https://github.com/digitalbazaar/forge.git) - Unmaintained (3.4 years since last release)
+- 🟩 [node-releases@2.0.19](https://github.com/chicoxyzzy/node-releases.git)
+- 🟩 [nodemon@3.1.10](https://github.com/remy/nodemon.git)
+- 🟥 [normalize-path@3.0.0](https://github.com/jonschlinkert/normalize-path.git) - Unmaintained (7.4 years since last release)
+- 🟧 [npm-watch@0.13.0](https://github.com/M-Zuber/npm-watch.git) - May be unmaintained (1.3 years since last release)
+- 🟥 [object-assign@4.1.1](https://github.com/sindresorhus/object-assign.git) - Unmaintained (8.6 years since last release)
+- 🟩 [object-inspect@1.13.4](https://github.com/inspect-js/object-inspect.git)
+- 🟥 [obuf@1.1.2](https://github.com/indutny/offset-buffer.git) - Unmaintained (7.5 years since last release)
+- 🟥 [on-finished@2.4.1](https://github.com/jshttp/on-finished.git) - Unmaintained (3.5 years since last release)
+- 🟩 [on-headers@1.1.0](https://github.com/jshttp/on-headers.git)
+- 🟥 [once@1.4.0](https://github.com/isaacs/once.git) - Unmaintained (9 years since last release)
+- 🟩 [open@10.2.0](https://github.com/sindresorhus/open.git)
+- 🟥 [openurl@1.1.1](https://github.com/rauschma/openurl.git) - Unmaintained (9.6 years since last release)
+- 🟥 [opn@5.5.0](https://github.com/sindresorhus/open.git) - Unmaintained (6.4 years since last release)
+- 🟧 [p-limit@2.3.0](https://github.com/sindresorhus/p-limit.git) - (Latest 7.1.1) - Is behind 5 major versions.
+- 🟧 [p-locate@4.1.0](https://github.com/sindresorhus/p-locate.git) - (Latest 6.0.0) - Is behind 2 major versions.
+- 🟧 [p-map@2.1.0](https://github.com/sindresorhus/p-map.git) - (Latest 7.0.3) - Is behind 5 major versions.
+- 🟧 [p-retry@6.2.1](https://github.com/sindresorhus/p-retry.git) - (Latest 7.0.0) - Is behind 1 major version.
+- 🟧 [p-try@2.2.0](https://github.com/sindresorhus/p-try.git) - (Latest 3.0.0) - Is behind 1 major version.
+- 🟥 [parseurl@1.3.3](https://github.com/pillarjs/parseurl.git) - Unmaintained (6.4 years since last release)
+- 🟧 [path-exists@4.0.0](https://github.com/sindresorhus/path-exists.git) - (Latest 5.0.0) - Is behind 1 major version.
+- 🟥 [path-is-absolute@1.0.1](https://github.com/sindresorhus/path-is-absolute.git) - Unmaintained (6.8 years since last release)
+- 🟥 [path-is-inside@1.0.2](https://github.com/domenic/path-is-inside.git) - Unmaintained (9 years since last release)
+- 🟧 [path-key@3.1.1](https://github.com/sindresorhus/path-key.git) - (Latest 4.0.0) - Is behind 1 major version.
+- 🟥 [path-parse@1.0.7](https://github.com/jbgutierrez/path-parse.git) - Unmaintained (4.3 years since last release)
+- 🟧 [path-to-regexp@0.1.12](https://github.com/pillarjs/path-to-regexp.git) - (Latest 8.2.0) - Is behind 8 major versions.
+- 🟩 [picocolors@1.1.1](https://github.com/alexeyraspopov/picocolors.git)
+- 🟧 [picomatch@2.3.1](https://github.com/micromatch/picomatch.git) - (Latest 4.0.3) - Is behind 2 major versions.
+- 🟧 [pify@4.0.1](https://github.com/sindresorhus/pify.git) - (Latest 6.1.0) - Is behind 2 major versions.
+- 🟥 pinkie@2.0.4 - Unmaintained (7.7 years since last release)
+- 🟥 [pinkie-promise@2.0.1](https://github.com/floatdrop/pinkie-promise) - Unmaintained (9.4 years since last release)
+- 🟧 [pkg-dir@4.2.0](https://github.com/sindresorhus/pkg-dir.git) - (Latest 8.0.0) - Is behind 4 major versions.
+- 🟥 [portscanner@2.2.0](https://github.com/baalexander/node-portscanner.git) - Unmaintained (7.3 years since last release)
+- 🟥 [process-nextick-args@2.0.1](https://github.com/calvinmetcalf/process-nextick-args.git) - Unmaintained (6.2 years since last release)
+- 🟥 [proxy-addr@2.0.7](https://github.com/jshttp/proxy-addr.git) - Unmaintained (4.3 years since last release)
+- 🟥 [pstree.remy@1.1.8](https://github.com/remy/pstree.git) - Unmaintained (5.3 years since last release)
+- 🟩 [qs@6.14.0](https://github.com/ljharb/qs.git)
+- 🟥 [randombytes@2.1.0](https://github.com/crypto-browserify/randombytes.git) - Unmaintained (6.5 years since last release)
+- 🟥 [range-parser@1.2.1](https://github.com/jshttp/range-parser.git) - Unmaintained (6.3 years since last release)
+- 🟧 [raw-body@2.5.2](https://github.com/stream-utils/raw-body.git) - (Latest 3.0.0) - Is behind 1 major version.
+- 🟧 [readable-stream@3.6.2](https://github.com/nodejs/readable-stream.git) - (Latest 4.7.0) - Is behind 1 major version.
+- 🟧 [readdirp@3.6.0](https://github.com/paulmillr/readdirp.git) - (Latest 4.1.2) - Is behind 1 major version.
+- 🟥 [rechoir@0.8.0](https://github.com/gulpjs/rechoir.git) - Unmaintained (4.1 years since last release)
+- 🟥 [require-directory@2.1.1](https://github.com/troygoode/node-require-directory.git) - Unmaintained (10.3 years since last release)
+- 🟥 [require-from-string@2.0.2](https://github.com/floatdrop/require-from-string.git) - Unmaintained (7.4 years since last release)
+- 🟥 [requires-port@1.0.0](https://github.com/unshiftio/requires-port.git) - Unmaintained (9.8 years since last release)
+- 🟩 [resolve@1.22.10](https://github.com/browserify/resolve.git)
+- 🟥 [resolve-cwd@3.0.0](https://github.com/sindresorhus/resolve-cwd.git) - Unmaintained (6.3 years since last release)
+- 🟥 [resolve-from@5.0.0](https://github.com/sindresorhus/resolve-from.git) - Unmaintained (6.4 years since last release)
+- 🟥 [resp-modifier@6.0.2](https://github.com/shakyshane/resp-modifier.git) - Unmaintained (9.2 years since last release)
+- 🟥 [retry@0.13.1](https://github.com/tim-kos/node-retry.git) - Unmaintained (4.2 years since last release)
+- 🟧 [run-applescript@7.0.0](https://github.com/sindresorhus/run-applescript.git) - May be unmaintained (1.7 years since last release)
+- 🟥 [rx@4.1.0](https://github.com/Reactive-Extensions/RxJS.git) - Unmaintained (9.5 years since last release)
+- 🟥 [safe-buffer@5.2.1](https://github.com/feross/safe-buffer.git) - Unmaintained (5.3 years since last release)
+- 🟥 [safer-buffer@2.1.2](https://github.com/ChALkeR/safer-buffer.git) - Unmaintained (7.4 years since last release)
+- 🟩 [schema-utils@4.3.2](https://github.com/webpack/schema-utils.git)
+- 🟥 [select-hose@2.0.0](https://github.com/indutny/select-hose.git) - Unmaintained (10.1 years since last release)
+- 🟧 [selfsigned@2.4.1](https://github.com/jfromaniello/selfsigned.git) - (Latest 3.0.1) - Is behind 1 major version.
+- 🟩 [semver@7.7.2](https://github.com/npm/node-semver.git)
+- 🟧 [send@0.19.1](https://github.com/pillarjs/send.git) - (Latest 1.2.0) - Is behind 1 major version.
+- 🟧 [serialize-javascript@6.0.2](https://github.com/yahoo/serialize-javascript.git) - May be unmaintained (1.6 years since last release)
+- 🟥 [serve-index@1.9.1](https://github.com/expressjs/serve-index.git) - Unmaintained (7.9 years since last release)
+- 🟧 [serve-static@1.16.2](https://github.com/expressjs/serve-static.git) - (Latest 2.2.0) - Is behind 1 major version.
+- 🟥 [server-destroy@1.0.1](https://github.com/isaacs/server-destroy.git) - Unmaintained (10.3 years since last release)
+- 🟥 [setprototypeof@1.2.0](https://github.com/wesleytodd/setprototypeof.git) - Unmaintained (6.1 years since last release)
+- 🟥 [shallow-clone@3.0.1](https://github.com/jonschlinkert/shallow-clone.git) - Unmaintained (6.4 years since last release)
+- 🟥 [shebang-command@2.0.0](https://github.com/kevva/shebang-command.git) - Unmaintained (6 years since last release)
+- 🟧 [shebang-regex@3.0.0](https://github.com/sindresorhus/shebang-regex.git) - (Latest 4.0.0) - Is behind 1 major version.
+- 🟩 [shell-quote@1.8.3](https://github.com/ljharb/shell-quote.git)
+- 🟩 [side-channel@1.1.0](https://github.com/ljharb/side-channel.git)
+- 🟩 [side-channel-list@1.0.0](https://github.com/ljharb/side-channel-list.git)
+- 🟩 [side-channel-map@1.0.1](https://github.com/ljharb/side-channel-map.git)
+- 🟩 [side-channel-weakmap@1.0.2](https://github.com/ljharb/side-channel-weakmap.git)
+- 🟥 [simple-update-notifier@2.0.0](https://github.com/alexbrazier/simple-update-notifier.git) - Unmaintained (2.2 years since last release)
+- 🟩 [socket.io@4.8.1](https://github.com/socketio/socket.io.git)
+- 🟧 [socket.io-adapter@2.5.5](https://github.com/socketio/socket.io-adapter.git) - May be unmaintained (1.2 years since last release)
+- 🟩 [socket.io-client@4.8.1](https://github.com/socketio/socket.io.git)
+- 🟧 [socket.io-parser@4.2.4](https://github.com/Automattic/socket.io-parser.git) - (Latest 3.3.4) - May be unmaintained (1.1 years since last release)
+- 🟥 [sockjs@0.3.24](https://github.com/sockjs/sockjs-node.git) - Unmaintained (3.7 years since last release)
+- 🟩 [source-map@0.7.6](https://github.com/mozilla/source-map.git)
+- 🟥 [source-map-support@0.5.21](https://github.com/evanw/node-source-map-support.git) - Unmaintained (3.8 years since last release)
+- 🟥 [spdy@4.0.2](https://github.com/indutny/node-spdy.git) - Unmaintained (5.4 years since last release)
+- 🟥 [spdy-transport@3.0.0](https://github.com/spdy-http2/spdy-transport.git) - Unmaintained (6.8 years since last release)
+- 🟧 [statuses@1.5.0](https://github.com/jshttp/statuses.git) - (Latest 2.0.2) - Is behind 1 major version.
+- 🟥 [stream-throttle@0.1.3](http://github.com/tjgq/node-stream-throttle.git) - Unmaintained (11.4 years since last release)
+- 🟧 [string-width@4.2.3](https://github.com/sindresorhus/string-width.git) - (Latest 8.0.0) - Is behind 4 major versions.
+- 🟥 [string_decoder@1.3.0](https://github.com/nodejs/string_decoder.git) - Unmaintained (6.1 years since last release)
+- 🟧 [strip-ansi@6.0.1](https://github.com/chalk/strip-ansi.git) - (Latest 7.1.0) - Is behind 1 major version.
+- 🟧 [supports-color@7.2.0](https://github.com/chalk/supports-color.git) - (Latest 10.2.0) - Is behind 3 major versions.
+- 🟥 [supports-preserve-symlinks-flag@1.0.0](https://github.com/inspect-js/node-supports-preserve-symlinks-flag.git) - Unmaintained (3.3 years since last release)
+- 🟩 [tapable@2.2.3](https://github.com/webpack/tapable.git)
+- 🟩 [terser@5.43.1](https://github.com/terser/terser.git)
+- 🟩 [terser-webpack-plugin@5.3.14](https://github.com/webpack-contrib/terser-webpack-plugin.git)
+- 🟧 [thingies@1.21.0](https://github.com/streamich/thingies.git) - (Latest 2.5.0) - Is behind 1 major version.
+- 🟥 [through2@4.0.2](https://github.com/rvagg/through2.git) - Unmaintained (5.2 years since last release)
+- 🟥 [thunky@1.1.0](https://github.com/mafintosh/thunky.git) - Unmaintained (5.9 years since last release)
+- 🟥 [to-regex-range@5.0.1](https://github.com/micromatch/to-regex-range.git) - Unmaintained (6.4 years since last release)
+- 🟥 [toidentifier@1.0.1](https://github.com/component/toidentifier.git) - Unmaintained (3.8 years since last release)
+- 🟧 [touch@3.1.1](https://github.com/isaacs/node-touch.git) - May be unmaintained (1.3 years since last release)
+- 🟩 [tree-dump@1.0.3](https://github.com/streamich/tree-dump.git)
+- 🟩 [ts-loader@9.5.4](https://github.com/TypeStrong/ts-loader.git)
+- 🟩 [tslib@2.8.1](https://github.com/Microsoft/tslib.git)
+- 🟧 [type-is@1.6.18](https://github.com/jshttp/type-is.git) - (Latest 2.0.1) - Is behind 1 major version.
+- 🟩 [typescript@5.9.2](https://github.com/microsoft/TypeScript.git)
+- 🟧 [ua-parser-js@1.0.41](https://github.com/faisalman/ua-parser-js.git) - (Latest 2.0.4) - Is behind 1 major version.
+- 🟥 [undefsafe@2.0.5](https://github.com/remy/undefsafe.git) - Unmaintained (3.9 years since last release)
+- 🟧 [undici-types@6.21.0](https://github.com/nodejs/undici.git) - (Latest 7.15.0) - Is behind 1 major version.
+- 🟧 [universalify@0.1.2](https://github.com/RyanZim/universalify.git) - (Latest 2.0.1) - Is behind 2 major versions.
+- 🟥 [unpipe@1.0.0](https://github.com/stream-utils/unpipe) - Unmaintained (10.2 years since last release)
+- 🟩 [update-browserslist-db@1.1.3](https://github.com/browserslist/update-db.git)
+- 🟥 [util-deprecate@1.0.2](https://github.com/TooTallNate/util-deprecate.git) - Unmaintained (9.9 years since last release)
+- 🟥 [utils-merge@1.0.1](https://github.com/jaredhanson/utils-merge.git) - Unmaintained (8 years since last release)
+- 🟧 [uuid@8.3.2](https://github.com/uuidjs/uuid.git) - (Latest 11.1.0) - Is behind 3 major versions.
+- 🟥 [vary@1.1.2](https://github.com/jshttp/vary.git) - Unmaintained (7.9 years since last release)
+- 🟩 [watchpack@2.4.4](https://github.com/webpack/watchpack.git)
+- 🟥 [wbuf@1.7.3](https://github.com/indutny/wbuf.git) - Unmaintained (7.5 years since last release)
+- 🟩 [webpack@5.101.3](https://github.com/webpack/webpack.git)
+- 🟩 [webpack-cli@6.0.1](https://github.com/webpack/webpack-cli.git)
+- 🟧 [webpack-dev-middleware@7.4.2](https://github.com/webpack/webpack-dev-middleware.git) - May be unmaintained (1 years since last release)
+- 🟩 [webpack-dev-server@5.2.2](https://github.com/webpack/webpack-dev-server.git)
+- 🟧 [webpack-merge@5.10.0](https://github.com/survivejs/webpack-merge.git) - (Latest 6.0.1) - Is behind 1 major version.
+- 🟩 [webpack-sources@3.3.3](https://github.com/webpack/webpack-sources.git)
+- 🟥 [websocket-driver@0.7.4](https://github.com/faye/websocket-driver-node.git) - Unmaintained (5.3 years since last release)
+- 🟥 [websocket-extensions@0.1.4](https://github.com/faye/websocket-extensions-node.git) - Unmaintained (5.2 years since last release)
+- 🟧 [which@2.0.2](https://github.com/npm/node-which.git) - (Latest 5.0.0) - Is behind 3 major versions.
+- 🟥 [wildcard@2.0.1](https://github.com/DamonOehlman/wildcard.git) - Unmaintained (2.4 years since last release)
+- 🟧 [wrap-ansi@7.0.0](https://github.com/chalk/wrap-ansi.git) - (Latest 9.0.0) - Is behind 2 major versions.
+- 🟥 [wrappy@1.0.2](https://github.com/npm/wrappy.git) - Unmaintained (4.4 years since last release)
+- 🟩 [ws@8.18.3](https://github.com/websockets/ws.git)
+- 🟧 [xmlhttprequest-ssl@2.1.2](https://github.com/mjwwit/node-XMLHttpRequest.git) - (Latest 4.0.0) - Is behind 2 major versions.
+- 🟥 [y18n@5.0.8](https://github.com/yargs/y18n.git) - Unmaintained (4.4 years since last release)
+- 🟧 [yargs@17.7.2](https://github.com/yargs/yargs.git) - (Latest 18.0.0) - Is behind 1 major version.
+- 🟧 [yargs-parser@21.1.1](https://github.com/yargs/yargs-parser.git) - (Latest 22.0.0) - Is behind 1 major version.
+### Maintenance Score
+76 out of 322 dependencies were up to date without issues.
+
+
+
+## Nonstandard naming
+The following files and folders do not follow the standard naming convention:
+
+- \classes\gameMaster.ts
+- \classes\PlayerClasses\PC_Assassin.ts
+- \classes\PlayerClasses\PC_Mage.ts
+- \classes\PlayerClasses\PC_Paladin.ts
+- \classes\PlayerClasses\PC_Warrior.ts
+- \classes\saveManager.ts
+- \util\capacitorUtils.ts
+- \util\customTypes.ts
