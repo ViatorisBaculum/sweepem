@@ -1,5 +1,5 @@
 /*
-  Dungeonsweeper - Main Stylesheet
+  sweepem - Main Stylesheet
 */
 
 /*--------------------------------------------------------------
@@ -581,6 +581,17 @@ body {
 				height: 2em;
 				background-color: var(--theme-light);
 			}
+
+			.icon-container {
+				display: flex;
+				gap: 0.5em;
+				align-items: center;
+				margin-top: 0.5em;
+				background-color: transparent;
+				width: auto;
+				height: auto;
+			}
+
 			div.dagger {
 				-webkit-mask-image: url("./res/dagger.svg");
 				mask-image: url("./res/dagger.svg");
@@ -610,7 +621,7 @@ body {
 }
 
 .modal-image {
-	max-width: 90%;
+	max-width: 94%;
 	margin: 1em auto 1rem;
 	border-radius: 8px;
 	object-fit: contain;
@@ -635,6 +646,16 @@ body {
 
 .info-modal {
 	text-align: center;
+}
+
+.tutorial-modal {
+	#modal-content {
+		#modal-text {
+			p {
+				margin-bottom: 0;
+			}
+		}
+	}
 }
 
 .modal button {

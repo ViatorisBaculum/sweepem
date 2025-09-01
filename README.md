@@ -1,1 +1,1 @@
-Try it on https://viatorisbaculum.github.io/Dungeonsweeper/
+Try it on https://viatorisbaculum.github.io/sweepem/

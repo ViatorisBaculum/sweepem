@@ -239,7 +239,7 @@ function showTutorial(parentModal: Modal): void {
 
 	const steps = [
 		{
-			title: "Welcome to DungeonSweeper!",
+			title: "Welcome to sweepem!",
 			text: `
 				<p>The goal is to kill the boss. Killing the boss doesn't consume a heart.</p>
 				<p>A revealed tile shows a number indicating the total strength of all adjacent monsters.</p>
@@ -254,8 +254,9 @@ function showTutorial(parentModal: Modal): void {
 					<li><strong>LEFT CLICK or TAP</strong> to reveal a tile. Be careful! If it's a monster, you'll take damage.</li>
 					<li><strong>RIGHT CLICK or HOLD TAP</strong> to place a flag on a tile you suspect hides a monster.</li>
 					<li><strong>INVERTING CLICKS</strong> means, that the logic of the clicking or tapping is reversed.</li>
-					<li>To use your class's <strong>SPECIAL ABILITY</strong> click or tap the button in the bottom right corner or in the menu, than tap on a tile.<div class="dagger"></div><div class="fireball"></div></li>
+					<li>To use your class's <strong>SPECIAL ABILITY</strong> click or tap the button in the bottom right corner or in the menu, than tap on a tile.<div class="icon-container"><div class="dagger"></div><div class="fireball"></div></div></li>
 				</ul>
+				<p>The menu shows your current level in a circle. The progress bar shows the required experience to the next level. The hearts show your current health.</p>
 			`,
 			image: "./res/tutorial2.png",
 		},
@@ -265,11 +266,10 @@ function showTutorial(parentModal: Modal): void {
 				<ul>
 					<li>Defeat monsters and clear tiles to gain experience and level up, making you stronger and recharging your abilities!</li>
 					<li>When you attack a monster higher than you, you get damage equal to the difference between your level and the monster's level</li>
-					<li>The hearts show how much health you have left. The bar shows how close you are to the next level</li>
 					<li>The score decreases over time, so try to finish the game quickly!</li>
 				</ul>
 			`,
-			image: "./res/tutorial2.png",
+			image: "",
 		},
 		{
 			title: "Classes & Abilities",

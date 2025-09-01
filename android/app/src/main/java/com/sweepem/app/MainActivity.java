@@ -1,4 +1,4 @@
-package com.example.dungeonsweeper;
+package com.sweepem.app;
 
 import com.getcapacitor.BridgeActivity;
 

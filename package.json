@@ -1,14 +1,14 @@
 {
-	"name": "dungeonsweeper",
+	"name": "sweepem",
 	"version": "0.0.0",
 	"description": "a minesweeper with rpg elements",
-	"homepage": "https://github.com/ViatorisBaculum/Dungeonsweeper#readme",
+	"homepage": "https://github.com/ViatorisBaculum/sweepem#readme",
 	"bugs": {
-		"url": "https://github.com/ViatorisBaculum/Dungeonsweeper/issues"
+		"url": "https://github.com/ViatorisBaculum/sweepem/issues"
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/ViatorisBaculum/Dungeonsweeper.git"
+		"url": "git+https://github.com/ViatorisBaculum/sweepem.git"
 	},
 	"license": "ISC",
 	"author": "Waldemar Stab",
