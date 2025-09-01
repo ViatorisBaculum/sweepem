@@ -332,6 +332,8 @@ export class GameMaster {
 		this.board.restoreFromMemento(memento.board);
 		this.board.centerOnOpenedCell();
 		this.player.restoreFromMemento(memento.player);
+		// Apply the level class to the board after restoring the player state
+		this.board.indicateLevelGain(this.player.level);
 		this._gameTimer = memento.gameTimer;
 		this._gameState = GameState.Paused; // set to paused, because resumeTimer will set it to running
 		this.resumeTimer();

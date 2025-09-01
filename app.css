@@ -498,7 +498,7 @@ body {
 
 #specialAbility:active,
 #specialAbility:hover {
-	background: #ffe066;
+	background: var(--theme-highlight);
 }
 
 #specialAbility.ability-ready,
@@ -507,7 +507,7 @@ body {
 }
 
 #specialAbility.ability-waiting {
-	background: #ffe066;
+	background: var(--theme-highlight);
 }
 
 /*--------------------------------------------------------------
@@ -690,6 +690,8 @@ body {
 	padding: 1em;
 	display: flex;
 	flex-direction: column;
+	transform: translateY(-50%);
+	top: 50%;
 }
 
 .tutorial-modal {
@@ -1202,6 +1204,15 @@ body {
 	.modal .controls {
 		margin-top: 2em;
 	}
+	.start-modal {
+		margin: auto;
+		padding: 1em;
+		display: flex;
+		flex-direction: column;
+		transform: translateY(0);
+		top: 0;
+	}
+
 	#specialAbility {
 		position: fixed;
 		right: 1.5em;
@@ -1218,8 +1229,8 @@ body {
 	:root.dark #specialAbility {
 		background: var(--theme-light);
 	}
-	#specialAbility:active {
-		background: #ffe066;
+	#specialAbility.ability-waiting {
+		background: var(--theme-highlight) !important;
 	}
 
 	.execute-mode-active #app button {
