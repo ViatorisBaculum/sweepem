@@ -34,6 +34,14 @@ export const DifficultySettings = {
 	[Difficulty.Master]: { minesFrequency: 0.3, evolutionRate: 0.4 }
 };
 
+// export const exp gain for each difficulty level
+export const expGain = {
+	[Difficulty.Beginner]: 1,
+	[Difficulty.Intermediate]: 1.25,
+	[Difficulty.Expert]: 1.5,
+	[Difficulty.Master]: 1.75
+};
+
 const monsterKeys = {
 	0: "E",
 	1: "R¹",
@@ -53,4 +61,4 @@ const playerClass: playerClasses = "Warrior";
 
 export const revealDelayPerCell = 40;
 
-export default { typeDistribution, expToNextLevel, boardDefaults, playerClass, monsterKeys, experienceGain, revealDelayPerCell } as const;
+export default { typeDistribution, expToNextLevel, boardDefaults, playerClass, monsterKeys, experienceGain, revealDelayPerCell, expGain } as const;

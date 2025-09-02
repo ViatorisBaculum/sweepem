@@ -104,6 +104,9 @@ export class GameMaster {
 	public get removeFlags(): boolean {
 		return this._gameSettings.removeFlags;
 	}
+	public get gameDifficulty(): Difficulty {
+		return this._gameSettings.difficulty;
+	}
 
 	/*==============*/
 	/*public methods*/

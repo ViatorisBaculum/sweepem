@@ -1,5 +1,5 @@
 import { CellType } from "../util/customTypes";
-import defaults from "../util/defaults";
+import defaults, { expGain } from "../util/defaults";
 import { GameMaster } from "./gameMaster";
 import { PlayerMemento } from "./saveManager";
 import { Cell } from "./cell";
@@ -93,7 +93,23 @@ export abstract class Player {
 	}
 
 	gainExperience(exp: CellType): void {
-		this.experience += exp;
+		// gain experience based on game difficulty
+		switch (GameMaster.getInstance().gameDifficulty) {
+			case "beginner":
+				this.experience += exp * expGain.beginner;
+				break;
+			case "intermediate":
+				this.experience += exp * expGain.intermediate;
+				break;
+			case "expert":
+				this.experience += exp * expGain.expert;
+				break;
+			case "master":
+				this.experience += exp * expGain.master;
+				break;
+			default:
+				this.experience += exp;
+		}
 	}
 
 	debugSetExperience(exp: number): void {
