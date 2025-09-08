@@ -243,7 +243,18 @@ function showTutorial(parentModal: Modal): void {
 			text: `
 				<p>The goal is to kill the boss. Killing the boss doesn't consume a heart.</p>
 				<p>A revealed tile shows a number indicating the total strength of all adjacent monsters.</p>
-				<p>The highlighted <strong>4</strong> indicates that the sum of the adjacent monsters is 4. So, in this case, the <strong>3</strong> and the <strong>1</strong> are adjacent to the 4.</p>
+				<p>🔢 Each number shows the <strong>total strength</strong> of all adjacent monsters.</p>
+				<p>💀 A pink skull marks a monster you have already identified.</p>
+
+				<p><strong>Example 1️⃣ (below):</strong><br>
+				The highlighted <strong>4</strong> has only one adjacent monster. <br> 
+				→ That means this monster has strength <strong>4</strong>.</p>
+
+				<p><strong>Example 2️⃣ (below):</strong><br>
+				Another <strong>4</strong> also touches just one monster <br>
+				→ this skull is also strength <strong>4</strong>.<br>
+				Below, a <strong>6</strong> is connected to two marked enemies (💀4 and 💀2).  
+				✅ Since 4 + 2 = 6, all adjacent strength is already accounted for → the remaining tiles are <strong>safe to reveal</strong>.</p>
 			`,
 			image: "./res/tutorial1.png",
 		},

@@ -1,7 +1,7 @@
 {
 	"name": "sweepem",
-	"version": "0.0.0",
-	"description": "a minesweeper with rpg elements",
+	"version": "1.0.0",
+	"description": "minesweeper meets rpg",
 	"homepage": "https://github.com/ViatorisBaculum/sweepem#readme",
 	"bugs": {
 		"url": "https://github.com/ViatorisBaculum/sweepem/issues"
@@ -10,7 +10,7 @@
 		"type": "git",
 		"url": "git+https://github.com/ViatorisBaculum/sweepem.git"
 	},
-	"license": "ISC",
+	"license": "MIT",
 	"author": "Waldemar Stab",
 	"type": "commonjs",
 	"main": "app.js",
